@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V1.9</title>
+  <title>Mon carnet de cuisine — V2.0</title>
   <style>
     :root {
       --ink: #17211e;
@@ -270,6 +270,24 @@
     .next-meal-content h3 { margin: 8px 0 6px; font-family: Georgia, "Times New Roman", serif; font-size: 24px; line-height: 1.08; font-weight: 500; }
     .next-meal-content p { margin: 0; color: var(--muted); font-size: 13px; }
     .next-meal-open { margin-top: 12px; color: var(--forest); font-size: 13px; font-weight: 800; }
+    .servings-panel {
+      margin: 18px 0 4px; padding: 16px; border: 1px solid rgba(21,60,53,.13); border-radius: 20px;
+      background: linear-gradient(135deg, rgba(21,60,53,.07), rgba(182,119,69,.08));
+    }
+    .servings-head { display: flex; align-items: start; justify-content: space-between; gap: 14px; }
+    .servings-copy strong { display: block; color: var(--forest); font-family: Georgia, "Times New Roman", serif; font-size: 20px; font-weight: 500; }
+    .servings-copy span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .servings-stepper { display: grid; grid-template-columns: 46px 60px 46px; align-items: center; gap: 7px; }
+    .servings-stepper button { width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 14px; background: var(--card-solid); color: var(--forest); font-size: 24px; font-weight: 800; cursor: pointer; }
+    .servings-stepper input { width: 60px; height: 46px; padding: 0 4px; border: 1px solid var(--line); border-radius: 14px; background: #fff; color: var(--ink); text-align: center; font-size: 19px; font-weight: 850; -moz-appearance: textfield; }
+    .servings-stepper input::-webkit-inner-spin-button, .servings-stepper input::-webkit-outer-spin-button { margin: 0; -webkit-appearance: none; }
+    .servings-shortcuts { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 7px; margin-top: 12px; }
+    .servings-shortcut { min-height: 40px; padding: 6px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,253,248,.9); color: var(--forest); font-weight: 850; cursor: pointer; }
+    .servings-shortcut.active { border-color: var(--forest); background: var(--forest); color: #fff; }
+    .servings-note { margin: 11px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .servings-note strong { color: var(--forest); }
+    .ingredient-heading { padding-top: 18px !important; border-bottom: 0 !important; color: var(--copper); font-weight: 850; text-transform: uppercase; letter-spacing: .055em; font-size: 11px; }
+    .cooking-ingredients .ingredient-heading { margin-top: 12px; color: var(--copper); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .05em; list-style: none; }
     .cooked-card {
       margin: 18px 0 4px; padding: 16px; border-radius: 18px; background: linear-gradient(135deg, rgba(21,60,53,.07), rgba(182,119,69,.10));
       border: 1px solid rgba(21,60,53,.10); display: flex; align-items: center; justify-content: space-between; gap: 14px;
@@ -393,6 +411,11 @@
       .next-meal-visual, .next-meal-visual .recipe-placeholder { min-height: 128px; }
       .next-meal-content { padding: 14px; }
       .next-meal-content h3 { font-size: 20px; }
+      .servings-head { align-items: stretch; flex-direction: column; }
+      .servings-stepper { grid-template-columns: 52px minmax(70px,1fr) 52px; }
+      .servings-stepper button { width: 52px; }
+      .servings-stepper input { width: 100%; }
+      .servings-shortcuts { grid-template-columns: repeat(3, minmax(0,1fr)); }
       .cooked-card { align-items: stretch; flex-direction: column; }
       .cooked-card .btn { width: 100%; }
       .cook-choice-grid { grid-template-columns: 1fr; }
@@ -422,7 +445,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V1.9</small>
+          <small>Collection personnelle · V2.0</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -759,7 +782,7 @@
       </header>
       <div class="cooking-progress" aria-hidden="true"><span id="cookingProgressBar"></span></div>
       <details class="cooking-ingredients" id="cookingIngredientsPanel">
-        <summary>Voir les ingrédients</summary>
+        <summary id="cookingIngredientsSummary">Voir les ingrédients</summary>
         <ul id="cookingIngredients"></ul>
       </details>
       <section class="cooking-step-card" aria-live="polite">
@@ -801,12 +824,16 @@
       let suggestionId = null;
       let quickPlanTarget = null;
       let scheduleChoiceRecipeId = null;
+      let scheduleChoicePersons = 0;
       let scheduleAfterSave = false;
+      const servingSelections = new Map();
       let cookedRecipeId = null;
       let cookedRating = '';
+      let cookedPersons = 0;
       let wakeLockSentinel = null;
       let keepAwakeEnabled = false;
       let cookingRecipeId = null;
+      let cookingPersons = 0;
       let cookingStepIndex = 0;
       let cookingWakeManaged = false;
       let cookingTimerInterval = null;
@@ -1068,13 +1095,15 @@
         resetCookingTimer(detectStepDurationSeconds(steps[cookingStepIndex]));
       }
 
-      async function openCookingMode(recipe) {
+      async function openCookingMode(recipe, persons = selectedPersonsFor(recipe)) {
         const steps = lines(recipe?.steps);
         if (!recipe || !steps.length) { showToast('Cette recette ne contient pas encore d’étapes'); return; }
         cookingRecipeId = recipe.id;
+        cookingPersons = clampPersons(persons, recipe.persons || 1);
         cookingStepIndex = 0;
         cookingWakeManaged = false;
-        $('#cookingIngredients').innerHTML = lines(recipe.ingredients).map(item => `<li>${esc(item)}</li>`).join('');
+        $('#cookingIngredients').innerHTML = ingredientListHtml(recipe, cookingPersons);
+        $('#cookingIngredientsSummary').textContent = `Voir les ingrédients · ${cookingPersons} personne${cookingPersons > 1 ? 's' : ''}`;
         $('#cookingIngredientsPanel').open = false;
         $('#cookingMode').hidden = false;
         document.body.classList.add('cooking-open');
@@ -1089,6 +1118,7 @@
         $('#cookingMode').hidden = true;
         document.body.classList.remove('cooking-open');
         cookingRecipeId = null;
+        cookingPersons = 0;
         cookingStepIndex = 0;
         if (cookingWakeManaged && keepAwakeEnabled) releaseKeepAwake(true);
         cookingWakeManaged = false;
@@ -1097,8 +1127,9 @@
 
       async function finishCookingMode() {
         const recipe = currentCookingRecipe();
+        const persons = cookingPersons || selectedPersonsFor(recipe);
         closeCookingMode(true);
-        if (recipe) openCookedModal(recipe);
+        if (recipe) openCookedModal(recipe, persons);
       }
 
       function previousCookingStep() {
@@ -1218,7 +1249,7 @@
         const history = Array.isArray(r.cookHistory) ? r.cookHistory : [];
         const lastCook = history[0] || null;
         const lastCookText = lastCook
-          ? `Dernière fois : ${new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(`${lastCook.date}T12:00:00`))} · ${esc(cookedLabels[lastCook.rating] || 'Cuisinée')}`
+          ? `Dernière fois : ${new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(`${lastCook.date}T12:00:00`))} · ${esc(cookedLabels[lastCook.rating] || 'Cuisinée')}${lastCook.persons ? ` · ${lastCook.persons} pers.` : ''}`
           : 'Aucune préparation enregistrée pour le moment.';
         $('#detailContent').innerHTML = `
           <div class="detail-hero">
@@ -1229,7 +1260,21 @@
           <article class="detail-sheet">
             <p class="eyebrow" style="color:var(--copper);opacity:1">${esc(r.source || 'Recette personnelle')}</p>
             <h2>${esc(r.title)}</h2>
-            <div class="detail-meta"><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.type)}</span><span class="tag">${esc(r.device)}</span><span class="tag">${r.persons} personne${r.persons > 1 ? 's' : ''}</span>${durationDetailTags(r)}</div>
+            <div class="detail-meta"><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.type)}</span><span class="tag">${esc(r.device)}</span><span class="tag" id="detailPersonsTag">${selectedPersonsFor(r)} personne${selectedPersonsFor(r) > 1 ? 's' : ''}</span>${durationDetailTags(r)}</div>
+            <section class="servings-panel" aria-label="Adapter le nombre de convives">
+              <div class="servings-head">
+                <div class="servings-copy"><strong>Je cuisine pour combien&nbsp;?</strong><span>Recette d’origine prévue pour ${r.persons} personne${r.persons > 1 ? 's' : ''}.</span></div>
+                <div class="servings-stepper">
+                  <button type="button" id="detailPersonsMinus" aria-label="Retirer une personne">−</button>
+                  <input id="detailPersonsInput" type="number" min="1" max="20" value="${selectedPersonsFor(r)}" aria-label="Nombre de personnes">
+                  <button type="button" id="detailPersonsPlus" aria-label="Ajouter une personne">＋</button>
+                </div>
+              </div>
+              <div class="servings-shortcuts" aria-label="Choix rapide du nombre de personnes">
+                ${[1,2,3,4,5,6].map(value => `<button class="servings-shortcut${selectedPersonsFor(r) === value ? ' active' : ''}" type="button" data-serving-shortcut="${value}">${value}</button>`).join('')}
+              </div>
+              <p class="servings-note" id="detailScalingNote"></p>
+            </section>
             <div class="detail-actions">
               <button class="btn btn-primary" type="button" id="detailCookModeBtn">👨‍🍳 Je cuisine</button>
               <button class="btn btn-light" type="button" id="detailPlanBtn">Prévoir ce repas</button>
@@ -1244,30 +1289,37 @@
               <button class="btn btn-light" type="button" id="detailCookedBtn">✓ Cuisinée aujourd’hui</button>
             </section>
             <div class="content-grid">
-              <section class="content-block"><h3>Ingrédients</h3><ul class="ingredient-list">${ingredients.map(x => `<li>${esc(x)}</li>`).join('')}</ul></section>
+              <section class="content-block"><h3>Ingrédients</h3><ul class="ingredient-list" id="detailIngredientList">${ingredientListHtml(r, selectedPersonsFor(r))}</ul></section>
               <section class="content-block"><h3>Préparation</h3><ol class="step-list">${steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note-box"><strong>Notes personnelles</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section>
             </div>
           </article>`;
         $('#detailBackBtn').addEventListener('click', () => navigate(previousView === 'detail' ? 'recipes' : previousView));
         $('#detailFavBtn').addEventListener('click', async () => { r.favorite = !r.favorite; r.updatedAt = new Date().toISOString(); await put('recipes', r); sortRecipes(); renderDetail(r.id); showToast(r.favorite ? 'Ajoutée aux favorites' : 'Retirée des favorites'); });
-        $('#detailCookModeBtn').addEventListener('click', () => openCookingMode(r));
-        $('#detailPlanBtn').addEventListener('click', () => openScheduleChoice(r));
-        $('#detailClairBtn').addEventListener('click', () => sendRecipeToClairCourses(r));
+        const changeDetailPersons = delta => setSelectedPersons(r, selectedPersonsFor(r) + delta);
+        $('#detailPersonsMinus').addEventListener('click', () => changeDetailPersons(-1));
+        $('#detailPersonsPlus').addEventListener('click', () => changeDetailPersons(1));
+        $('#detailPersonsInput').addEventListener('change', event => setSelectedPersons(r, event.target.value));
+        $$('[data-serving-shortcut]').forEach(button => button.addEventListener('click', () => setSelectedPersons(r, button.dataset.servingShortcut)));
+        setSelectedPersons(r, selectedPersonsFor(r), false);
+        $('#detailCookModeBtn').addEventListener('click', () => openCookingMode(r, selectedPersonsFor(r)));
+        $('#detailPlanBtn').addEventListener('click', () => openScheduleChoice(r, selectedPersonsFor(r)));
+        $('#detailClairBtn').addEventListener('click', () => sendRecipeToClairCourses(r, selectedPersonsFor(r)));
         $('#detailWakeBtn').addEventListener('click', toggleKeepAwake);
         updateKeepAwakeButton();
-        $('#detailPrintBtn').addEventListener('click', () => printRecipe(r));
+        $('#detailPrintBtn').addEventListener('click', () => printRecipe(r, selectedPersonsFor(r)));
         $('#detailEditBtn').addEventListener('click', () => editRecipe(r));
         $('#detailDeleteBtn').addEventListener('click', () => deleteRecipe(r));
-        $('#detailCookedBtn').addEventListener('click', () => openCookedModal(r));
+        $('#detailCookedBtn').addEventListener('click', () => openCookedModal(r, selectedPersonsFor(r)));
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      function openCookedModal(recipe) {
+      function openCookedModal(recipe, persons = selectedPersonsFor(recipe)) {
         cookedRecipeId = recipe.id;
+        cookedPersons = clampPersons(persons, recipe?.persons || 1);
         const history = Array.isArray(recipe.cookHistory) ? recipe.cookHistory : [];
         const todayEntry = history.find(entry => entry.date === todayISO());
         cookedRating = todayEntry?.rating || '';
-        $('#cookedRecipeName').textContent = recipe.title;
+        $('#cookedRecipeName').textContent = `${recipe.title} · pour ${cookedPersons} personne${cookedPersons > 1 ? 's' : ''}`;
         $('#cookedNote').value = todayEntry?.note || '';
         updateCookedChoices();
         $('#cookedModal').classList.add('open');
@@ -1277,6 +1329,7 @@
         $('#cookedModal').classList.remove('open');
         cookedRecipeId = null;
         cookedRating = '';
+        cookedPersons = 0;
       }
 
       function updateCookedChoices() {
@@ -1287,7 +1340,7 @@
         const recipe = recipes.find(r => r.id === cookedRecipeId);
         if (!recipe) return closeCookedModal();
         if (!cookedRating) { showToast('Choisissez une appréciation'); return; }
-        const entry = { date: todayISO(), rating: cookedRating, note: $('#cookedNote').value.trim(), createdAt: new Date().toISOString() };
+        const entry = { date: todayISO(), rating: cookedRating, persons: cookedPersons || recipe.persons || 1, note: $('#cookedNote').value.trim(), createdAt: new Date().toISOString() };
         const history = Array.isArray(recipe.cookHistory) ? [...recipe.cookHistory] : [];
         const existingIndex = history.findIndex(item => item.date === entry.date);
         if (existingIndex >= 0) history[existingIndex] = entry; else history.unshift(entry);
@@ -1303,6 +1356,147 @@
       }
 
       function lines(text = '') { return text.split(/\r?\n/).map(x => x.trim()).filter(Boolean); }
+
+      function clampPersons(value, fallback = 1) {
+        return Math.min(20, Math.max(1, Math.round(Number(value) || Number(fallback) || 1)));
+      }
+
+      function selectedPersonsFor(recipe) {
+        if (!recipe) return 1;
+        return clampPersons(servingSelections.get(recipe.id) ?? recipe.lastPersons ?? recipe.persons, recipe.persons || 1);
+      }
+
+      function parseQuantityToken(token = '') {
+        const fractions = { '½': .5, '⅓': 1/3, '⅔': 2/3, '¼': .25, '¾': .75, '⅛': .125, '⅜': .375, '⅝': .625, '⅞': .875 };
+        const clean = String(token).trim().replace(',', '.');
+        if (fractions[clean] != null) return fractions[clean];
+        if (/^\d+\s*\/\s*\d+$/.test(clean)) {
+          const [a,b] = clean.split('/').map(Number);
+          return b ? a / b : NaN;
+        }
+        return Number(clean);
+      }
+
+      function formatScaledQuantity(value, kind = 'measure', unit = '') {
+        let number = Math.max(0, Number(value) || 0);
+        if (kind === 'count') number = Math.max(1, Math.round(number));
+        else if (/^(g|ml)$/i.test(unit)) number = Math.round(number / 5) * 5;
+        else if (/^(cl)$/i.test(unit)) number = Math.round(number * 2) / 2;
+        else if (/^(kg|l)$/i.test(unit)) number = Math.round(number * 100) / 100;
+        else number = Math.round(number * 4) / 4;
+        if (number === .25) return '¼';
+        if (number === .5) return '½';
+        if (number === .75) return '¾';
+        if (Number.isInteger(number)) return String(number);
+        return String(Math.round(number * 100) / 100).replace('.', ',');
+      }
+
+      function ingredientQuantityKind(rest = '', originalValue = 0) {
+        const normalized = foldText(rest).replace(/^de\s+|^d\s+/, '');
+        const unitMatch = normalized.match(/^(kg|g|mg|l|cl|ml|c\.?\s*a\s*soupe|c\.?\s*a\s*cafe|cuilleres?\s+a\s+soupe|cuilleres?\s+a\s+cafe)\b/);
+        if (unitMatch) return { kind: 'measure', unit: unitMatch[1].replace(/\s+/g,' ') };
+        if (!Number.isInteger(originalValue)) return { kind: 'measure', unit: '' };
+        if (originalValue === 1 && /^(bouquet garni|bouquet|branche|feuille de laurier|pincee)\b/.test(normalized)) return { kind: 'fixed', unit: '' };
+        return { kind: 'count', unit: '' };
+      }
+
+      function adjustCountLabel(rest = '', amount = 1) {
+        const plural = Number(amount) > 1;
+        const pairs = [
+          ['poulet entier','poulets entiers'], ['oignon nouveau','oignons nouveaux'],
+          ['gros navet','gros navets'], ['haut de cuisse','hauts de cuisse'], ['œuf','œufs'], ['oeuf','oeufs'],
+          ['steak haché','steaks hachés'], ['steak','steaks'], ['poulet','poulets'], ['saucisse','saucisses'],
+          ['filet','filets'], ['escalope','escalopes'], ['tranche','tranches'], ['carotte','carottes'],
+          ['navet','navets'], ['oignon','oignons'], ['échalote','échalotes'], ['echalote','echalotes'],
+          ['courgette','courgettes'], ['tomate','tomates'], ['pomme de terre','pommes de terre'],
+          ['gousse','gousses'], ['tête','têtes'], ['tete','tetes'], ['branche','branches'], ['feuille','feuilles'],
+          ['bouquet garni','bouquets garnis'], ['bouquet','bouquets'], ['pincée','pincées'], ['pincee','pincees'],
+          ['cuisse','cuisses'], ['morceau','morceaux'], ['portion','portions'], ['barquette','barquettes']
+        ];
+        const source = String(rest).trim();
+        for (const [singular, pluralForm] of pairs) {
+          const alternatives = [singular, pluralForm]
+            .sort((a,b) => b.length - a.length)
+            .map(value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+          const regex = new RegExp(`^(${alternatives.join('|')})(?=\\s|$)`, 'i');
+          if (regex.test(source)) return source.replace(regex, plural ? pluralForm : singular);
+        }
+        return source;
+      }
+
+      function ingredientMergeKey(rest = '') {
+        return foldText(adjustCountLabel(rest, 1)).replace(/[^a-z0-9]+/g, ' ').trim();
+      }
+
+      function isIngredientHeading(line = '') {
+        const normalized = foldText(line).replace(/[:：]$/, '').trim();
+        if (!normalized) return false;
+        return /^(pour\s+(le|la|les|l)\b|ingredients?\b|farce\b|sauce\b|garniture\b|accompagnement\b|legumes? rotis?\b|pour le service\b)/.test(normalized);
+      }
+
+      function scaleIngredientLine(line, factor = 1) {
+        const original = String(line || '').trim();
+        if (!original || factor === 1 || isIngredientHeading(original)) return original;
+        const token = '(?:\\d+(?:[.,]\\d+)?|[½⅓⅔¼¾⅛⅜⅝⅞]|\\d+\\s*\\/\\s*\\d+)';
+        const range = original.match(new RegExp(`^(${token})\\s*(?:à|a|–|—|-)\\s*(${token})\\s+(.+)$`, 'i'));
+        if (range) {
+          const first = parseQuantityToken(range[1]), second = parseQuantityToken(range[2]);
+          if (Number.isFinite(first) && Number.isFinite(second)) {
+            const info = ingredientQuantityKind(range[3], first);
+            const unit = foldText(range[3]).split(' ')[0] || '';
+            const effectiveKind = info.kind === 'fixed' ? 'count' : info.kind;
+            const a = formatScaledQuantity(first * factor, effectiveKind, unit);
+            const b = formatScaledQuantity(second * factor, effectiveKind, unit);
+            const rest = effectiveKind === 'count' ? adjustCountLabel(range[3], Math.max(first, second) * factor) : range[3];
+            return `${a} à ${b} ${rest}`;
+          }
+        }
+        const match = original.match(new RegExp(`^(${token})\\s+(.+)$`, 'i'));
+        if (!match) return original;
+        const value = parseQuantityToken(match[1]);
+        if (!Number.isFinite(value)) return original;
+        const info = ingredientQuantityKind(match[2], value);
+        if (info.kind === 'fixed' && factor >= .45 && factor <= 1.75) return original;
+        const unit = foldText(match[2]).split(' ')[0] || '';
+        const effectiveKind = info.kind === 'fixed' ? 'count' : info.kind;
+        const display = formatScaledQuantity(value * factor, effectiveKind, unit);
+        const rest = effectiveKind === 'count' ? adjustCountLabel(match[2], value * factor) : match[2];
+        return `${display} ${rest}`.trim();
+      }
+
+      function scaledIngredientLines(recipe, persons = selectedPersonsFor(recipe)) {
+        if (!recipe) return [];
+        const base = clampPersons(recipe.persons, 1);
+        const chosen = clampPersons(persons, base);
+        const factor = chosen / base;
+        return lines(recipe.ingredients).map(line => scaleIngredientLine(line, factor));
+      }
+
+      function ingredientListHtml(recipe, persons = selectedPersonsFor(recipe)) {
+        return scaledIngredientLines(recipe, persons).map(item => `<li${isIngredientHeading(item) ? ' class="ingredient-heading"' : ''}>${esc(item)}</li>`).join('');
+      }
+
+      async function setSelectedPersons(recipe, persons, persist = true) {
+        if (!recipe) return;
+        const chosen = clampPersons(persons, recipe.persons || 1);
+        servingSelections.set(recipe.id, chosen);
+        if (persist && recipe.lastPersons !== chosen) {
+          recipe.lastPersons = chosen;
+          recipe.updatedAt = new Date().toISOString();
+          try { await put('recipes', recipe); } catch (_) {}
+        }
+        const input = $('#detailPersonsInput');
+        if (input) input.value = chosen;
+        const tag = $('#detailPersonsTag');
+        if (tag) tag.textContent = `${chosen} personne${chosen > 1 ? 's' : ''}`;
+        const list = $('#detailIngredientList');
+        if (list) list.innerHTML = ingredientListHtml(recipe, chosen);
+        const note = $('#detailScalingNote');
+        if (note) note.innerHTML = chosen === recipe.persons
+          ? `Quantités originales pour <strong>${chosen} personne${chosen > 1 ? 's' : ''}</strong>.`
+          : `Quantités adaptées de ${recipe.persons} à <strong>${chosen} personne${chosen > 1 ? 's' : ''}</strong>. La recette originale reste intacte.`;
+        $$('[data-serving-shortcut]').forEach(button => button.classList.toggle('active', Number(button.dataset.servingShortcut) === chosen));
+      }
 
       function formatDuration(minutes = 0) {
         const total = Math.max(0, Math.round(Number(minutes) || 0));
@@ -1651,6 +1845,7 @@
           cookHistory: existing && Array.isArray(existing.cookHistory) ? existing.cookHistory : [],
           lastCookedAt: existing ? (existing.lastCookedAt || '') : '',
           lastCookedRating: existing ? (existing.lastCookedRating || '') : '',
+          lastPersons: existing ? clampPersons(existing.lastPersons || existing.persons, existing.persons || 1) : Math.max(1, Number($('#recipePersons').value) || 1),
           createdAt: existing ? existing.createdAt : now,
           updatedAt: now
         };
@@ -1844,10 +2039,11 @@
         showToast('Planning vidé');
       }
 
-      function openScheduleChoice(recipe) {
+      function openScheduleChoice(recipe, persons = selectedPersonsFor(recipe)) {
         if (!recipe) return;
         scheduleChoiceRecipeId = recipe.id;
-        $('#scheduleChoiceRecipeName').textContent = recipe.title;
+        scheduleChoicePersons = clampPersons(persons, recipe.persons || 1);
+        $('#scheduleChoiceRecipeName').textContent = `${recipe.title} · ${scheduleChoicePersons} personne${scheduleChoicePersons > 1 ? 's' : ''}`;
         $('#customSchedulePanel').classList.remove('open');
         $('#customScheduleDate').min = todayISO();
         $('#customScheduleDate').value = addDays(todayISO(), 3);
@@ -1859,6 +2055,7 @@
         $('#scheduleChoiceModal').classList.remove('open');
         $('#customSchedulePanel').classList.remove('open');
         scheduleChoiceRecipeId = null;
+        scheduleChoicePersons = 0;
       }
 
       function slotToDateMeal(slot) {
@@ -1882,7 +2079,7 @@
         }
         const p = existing || { id: `${date}-${meal}`, date, meal };
         p.recipeId = recipe.id;
-        p.persons = recipe.persons || 1;
+        p.persons = scheduleChoicePersons || recipe.persons || 1;
         await put('plans', p);
         const idx = plans.findIndex(x => x.id === p.id);
         if (idx >= 0) plans[idx] = p; else plans.push(p);
@@ -1898,21 +2095,15 @@
         await scheduleRecipeAt(target.date, target.meal);
       }
 
-      function parseIngredientLine(line, factor) {
-        const cleaned = line.trim();
-        const fractionMap = { '½': .5, '⅓': 1/3, '⅔': 2/3, '¼': .25, '¾': .75, '⅛': .125 };
-        const match = cleaned.match(/^((?:\d+[\.,]?\d*|[½⅓⅔¼¾⅛])(?:\s*\/\s*\d+)?)\s*(.*)$/);
-        if (!match) return { text: cleaned, numeric: false };
-        let raw = match[1].replace(',', '.');
-        let value;
-        if (fractionMap[raw] != null) value = fractionMap[raw];
-        else if (raw.includes('/')) { const [a,b] = raw.split('/').map(Number); value = b ? a / b : Number(raw); }
-        else value = Number(raw);
-        if (!Number.isFinite(value)) return { text: cleaned, numeric: false };
-        const scaled = value * factor;
-        const rounded = Math.round(scaled * 100) / 100;
-        const display = Number.isInteger(rounded) ? String(rounded) : String(rounded).replace('.', ',');
-        return { text: `${display} ${match[2]}`.trim(), numeric: true, value: rounded, rest: match[2].trim() };
+      function parseIngredientLine(line, factor = 1) {
+        const scaledText = scaleIngredientLine(String(line || '').trim(), factor);
+        if (!scaledText || isIngredientHeading(scaledText)) return { text: scaledText, numeric: false, skip: isIngredientHeading(scaledText) };
+        const match = scaledText.match(/^((?:\d+(?:[.,]\d+)?|[½⅓⅔¼¾⅛⅜⅝⅞]|\d+\s*\/\s*\d+))\s+(.+)$/);
+        if (!match || /\s(?:à|–|—|-)\s/.test(scaledText)) return { text: scaledText, numeric: false };
+        const value = parseQuantityToken(match[1]);
+        if (!Number.isFinite(value)) return { text: scaledText, numeric: false };
+        const info = ingredientQuantityKind(match[2], value);
+        return { text: scaledText, numeric: true, value, rest: match[2].trim(), kind: info.kind === 'fixed' ? 'count' : info.kind };
       }
 
       function buildClairListFromPlans(chosen) {
@@ -1921,13 +2112,15 @@
         for (const plan of chosen) {
           const recipe = recipes.find(r => r.id === plan.recipeId);
           if (!recipe) continue;
-          const factor = (plan.persons || recipe.persons || 1) / (recipe.persons || 1);
-          for (const line of lines(recipe.ingredients)) {
-            const parsed = parseIngredientLine(line, factor);
+          const chosenPersons = clampPersons(plan.persons || recipe.persons || 1, recipe.persons || 1);
+          for (const line of scaledIngredientLines(recipe, chosenPersons)) {
+            const parsed = parseIngredientLine(line, 1);
+            if (parsed.skip) continue;
             if (parsed.numeric) {
-              const key = parsed.rest.toLowerCase();
-              const previous = numeric.get(key) || { value: 0, rest: parsed.rest };
+              const key = ingredientMergeKey(parsed.rest);
+              const previous = numeric.get(key) || { value: 0, rest: parsed.rest, kind: parsed.kind };
               previous.value += parsed.value;
+              if (!previous.kind) previous.kind = parsed.kind;
               numeric.set(key, previous);
             } else {
               const key = parsed.text.toLowerCase();
@@ -1939,7 +2132,8 @@
         for (const item of numeric.values()) {
           const rounded = Math.round(item.value * 100) / 100;
           const display = Number.isInteger(rounded) ? String(rounded) : String(rounded).replace('.', ',');
-          output.push(`${display} ${item.rest}`.trim());
+          const rest = item.kind === 'count' ? adjustCountLabel(item.rest, rounded) : item.rest;
+          output.push(`${display} ${rest}`.trim());
         }
         output.push(...plain.values());
         return output.join('\n');
@@ -1957,14 +2151,15 @@
           { date: today, meal: 'soir' },
           { date: addDays(today, 1), meal: 'midi' },
           { date: addDays(today, 1), meal: 'soir' },
-          { date: addDays(today, 2), meal: 'midi' }
+          { date: addDays(today, 2), meal: 'midi' },
+          { date: addDays(today, 2), meal: 'soir' }
         ];
         return slots.map(slot => getPlan(slot.date, slot.meal)).filter(p => p?.recipeId);
       }
 
       function recipeClairText(recipe, persons = recipe?.persons || 1) {
         if (!recipe) return '';
-        return buildClairListFromPlans([{ recipeId: recipe.id, persons }]);
+        return buildClairListFromPlans([{ recipeId: recipe.id, persons: clampPersons(persons, recipe.persons || 1) }]);
       }
 
       function openClairModal(text = buildClairList()) {
@@ -2003,8 +2198,8 @@
         await copyAndOpenClair(buildClairListFromPlans(homeMealPlans()), 'Aucun repas n’est prévu ce soir ou demain');
       }
 
-      async function sendRecipeToClairCourses(recipe) {
-        await copyAndOpenClair(recipeClairText(recipe), 'Cette recette ne contient aucun ingrédient');
+      async function sendRecipeToClairCourses(recipe, persons = selectedPersonsFor(recipe)) {
+        await copyAndOpenClair(recipeClairText(recipe, persons), 'Cette recette ne contient aucun ingrédient');
       }
 
       async function copyText(text) {
@@ -2035,8 +2230,9 @@
         w.document.close();
       }
 
-      function printRecipe(r) {
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.9</p>`);
+      function printRecipe(r, persons = selectedPersonsFor(r)) {
+        const chosen = clampPersons(persons, r.persons || 1);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0</p>`);
       }
 
       function printPlan() {
@@ -2049,7 +2245,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.9</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0</p>`);
       }
 
       function renderSettings() {
@@ -2065,7 +2261,7 @@
       }
 
       function exportBackup() {
-        const payload = { app: 'Mon carnet de cuisine', version: '1.8.1', exportedAt: new Date().toISOString(), recipes, plans, settings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.0', exportedAt: new Date().toISOString(), recipes, plans, settings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
