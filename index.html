@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.1</title>
+  <title>Mon carnet de cuisine — V2.0.2</title>
   <style>
     :root {
       --ink: #17211e;
@@ -320,6 +320,14 @@
     .modal-head h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 25px; font-weight: 500; }
     .modal-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
     .modal textarea { width: 100%; min-height: 270px; border: 1px solid var(--line); border-radius: 16px; padding: 14px; resize: vertical; line-height: 1.55; background: #fbf8f2; }
+    #clairText { display: none; }
+    .clair-review-summary { margin: 0 0 10px; padding: 11px 13px; border-radius: 14px; background: #f4eee4; color: var(--forest); font-size: 14px; font-weight: 750; }
+    .clair-review-tools { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .clair-review-list { display: grid; gap: 8px; max-height: 46vh; overflow: auto; padding: 2px; }
+    .clair-review-item { display: flex; align-items: flex-start; gap: 11px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 14px; background: #fbf8f2; transition: opacity .15s ease, background .15s ease; }
+    .clair-review-item.is-skipped { opacity: .66; background: #f0ece5; }
+    .clair-review-item input { flex: 0 0 auto; width: 21px; height: 21px; margin: 0; accent-color: var(--forest); }
+    .clair-review-item span { line-height: 1.35; }
     .modal-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
     .toast { position: fixed; left: 50%; transform: translateX(-50%) translateY(20px); bottom: calc(102px + var(--safe-bottom)); z-index: 6000; background: #17211e; color: #fff; padding: 12px 16px; border-radius: 999px; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .25s ease; max-width: calc(100% - 32px); text-align: center; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -445,7 +453,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.1</small>
+          <small>Collection personnelle · V2.0.2</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -760,8 +768,14 @@
         <div><h3 id="clairTitle">Liste pour Clair Courses</h3><p>Un article par ligne, prêt à être transmis directement.</p></div>
         <button class="icon-btn" type="button" data-close-modal aria-label="Fermer">×</button>
       </div>
-      <textarea id="clairText"></textarea>
-      <p class="subtle" id="scalingNote">Les quantités numériques placées au début des ingrédients ont été adaptées au nombre de personnes.</p>
+      <div class="clair-review-summary" id="clairReviewSummary">Vérifiez les articles avant l’envoi.</div>
+      <div class="clair-review-tools">
+        <button class="btn btn-light" id="clairEssentialsBtn" type="button">Courses utiles</button>
+        <button class="btn btn-light" id="clairSelectAllBtn" type="button">Tout cocher</button>
+      </div>
+      <div class="clair-review-list" id="clairReviewList" aria-label="Ingrédients à envoyer"></div>
+      <textarea id="clairText" aria-hidden="true" tabindex="-1"></textarea>
+      <p class="subtle" id="scalingNote">Les petites quantités, épices, herbes et produits courants sont décochés par défaut. Vous pouvez les recocher lorsqu’il vous en manque.</p>
       <div class="modal-actions">
         <button class="btn btn-primary" id="copyClairBtn" type="button">Copier la liste</button>
         <button class="btn btn-copper" id="openClairBtn" type="button">Envoyer à Clair Courses</button>
@@ -841,6 +855,7 @@
       let cookingTimerTotal = 0;
       let cookingTimerRunning = false;
       let cookingTimerEndAt = 0;
+      let clairReviewItems = [];
 
       const $ = (sel, root = document) => root.querySelector(sel);
       const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -2140,9 +2155,10 @@
         }
         const output = [];
         for (const item of numeric.values()) {
-          const rounded = Math.round(item.value * 100) / 100;
-          const display = Number.isInteger(rounded) ? String(rounded) : String(rounded).replace('.', ',');
-          const rest = item.kind === 'count' ? adjustCountLabel(item.rest, rounded) : item.rest;
+          const unit = foldText(item.rest).split(' ')[0] || '';
+          const display = formatScaledQuantity(item.value, item.kind, unit);
+          const displayAmount = parseQuantityToken(display);
+          const rest = item.kind === 'count' ? adjustCountLabel(item.rest, displayAmount) : item.rest;
           output.push(`${display} ${rest}`.trim());
         }
         output.push(...plain.values());
@@ -2172,9 +2188,71 @@
         return buildClairListFromPlans([{ recipeId: recipe.id, persons: clampPersons(persons, recipe.persons || 1) }]);
       }
 
+      function shoppingLineInfo(line = '') {
+        const text = String(line || '').trim();
+        const normalized = foldText(text);
+        const match = text.match(/^((?:\d+(?:[.,]\d+)?|[½⅓⅔¼¾⅛⅜⅝⅞]|\d+\s*\/\s*\d+))\s+(.+)$/);
+        const amount = match ? parseQuantityToken(match[1]) : NaN;
+        const rest = match ? foldText(match[2]) : normalized;
+        return { text, normalized, amount, rest };
+      }
+
+      function shouldIncludeInShopping(line = '') {
+        const info = shoppingLineInfo(line);
+        const text = info.normalized;
+        const rest = info.rest;
+        if (!text) return false;
+
+        // Fonds de placard courants : visibles, mais décochés par défaut.
+        if (/^(sel(?:\s+fin|\s+gros)?|poivre|sel\s+et\s+poivre|eau)(?:\b|$)/.test(text)) return false;
+        if (/^(un peu de|quelques|une pincee|1 pincee|½ pincee|¼ pincee)\b/.test(text)) return false;
+        if (/\b(?:huile|vinaigre)\b/.test(text)) return false;
+
+        // Une très petite mesure d'épice, de condiment ou d'herbe ne mérite pas
+        // automatiquement une ligne de courses.
+        const tinyMeasure = Number.isFinite(info.amount) && info.amount <= .5 &&
+          /^(?:c\.?\s*a\s*(?:cafe|soupe)|cuillere(?:s)?\s+a\s+(?:cafe|soupe)|de\s+cuillere)/.test(rest);
+        if (tinyMeasure) return false;
+
+        const herbWords = /\b(?:basilic|thym|laurier|persil|coriandre|origan|romarin|ciboulette|estragon|menthe|herbes? de provence)\b/;
+        const smallHerbForm = /\b(?:feuille|feuilles|branche|branches|brin|brins|pincee|pincees)\b/.test(rest);
+        const packagedHerb = /\b(?:bouquet|pot|barquette|sachet)\b/.test(rest);
+        if (herbWords.test(rest) && !packagedHerb && (smallHerbForm || !Number.isFinite(info.amount) || info.amount <= 2)) return false;
+
+        if (/\b(?:paprika|cumin|curry|muscade|piment|cannelle|curcuma|gingembre en poudre|epices?)\b/.test(rest) &&
+            (!Number.isFinite(info.amount) || info.amount <= 1)) return false;
+        return true;
+      }
+
+      function updateClairReviewText() {
+        const selected = clairReviewItems.filter(item => item.included).map(item => item.text);
+        $('#clairText').value = selected.join('\n');
+        const skipped = clairReviewItems.length - selected.length;
+        $('#clairReviewSummary').textContent = `${selected.length} article${selected.length > 1 ? 's' : ''} à envoyer${skipped ? ` · ${skipped} décoché${skipped > 1 ? 's' : ''}` : ''}`;
+      }
+
+      function renderClairReview() {
+        $('#clairReviewList').innerHTML = clairReviewItems.map((item, index) => `
+          <label class="clair-review-item${item.included ? '' : ' is-skipped'}">
+            <input type="checkbox" data-clair-review-index="${index}" ${item.included ? 'checked' : ''}>
+            <span>${esc(item.text)}</span>
+          </label>
+        `).join('');
+        updateClairReviewText();
+      }
+
+      function setClairReviewMode(mode = 'essential') {
+        clairReviewItems.forEach(item => { item.included = mode === 'all' ? true : item.recommended; });
+        renderClairReview();
+      }
+
       function openClairModal(text = buildClairList()) {
         if (!text) { showToast('Aucun repas n’est planifié dans la période'); return; }
-        $('#clairText').value = text;
+        clairReviewItems = lines(text).map(item => {
+          const recommended = shouldIncludeInShopping(item);
+          return { text: item, recommended, included: recommended };
+        });
+        renderClairReview();
         $('#clairModal').classList.add('open');
       }
 
@@ -2201,15 +2279,21 @@
       }
 
       async function sendToClairCourses() {
-        await copyAndOpenClair(buildClairList(), 'Aucun repas n’est planifié dans la période');
+        const text = buildClairList();
+        if (!text) { showToast('Aucun repas n’est planifié dans la période'); return; }
+        openClairModal(text);
       }
 
       async function sendHomeMealsToClairCourses() {
-        await copyAndOpenClair(buildClairListFromPlans(homeMealPlans()), 'Aucun repas n’est prévu ce soir ou demain');
+        const text = buildClairListFromPlans(homeMealPlans());
+        if (!text) { showToast('Aucun repas n’est prévu ce soir ou demain'); return; }
+        openClairModal(text);
       }
 
       async function sendRecipeToClairCourses(recipe, persons = selectedPersonsFor(recipe)) {
-        await copyAndOpenClair(recipeClairText(recipe, persons), 'Cette recette ne contient aucun ingrédient');
+        const text = recipeClairText(recipe, persons);
+        if (!text) { showToast('Cette recette ne contient aucun ingrédient'); return; }
+        openClairModal(text);
       }
 
       async function copyText(text) {
@@ -2222,7 +2306,7 @@
 
       async function copyClair(openAfter = false) {
         const text = $('#clairText').value.trim();
-        if (!text) return;
+        if (!text) { showToast('Cochez au moins un article'); return; }
         if (openAfter) {
           await copyAndOpenClair(text, 'La liste est vide');
           return;
@@ -2242,7 +2326,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.1</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.2</p>`);
       }
 
       function printPlan() {
@@ -2255,7 +2339,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.1</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.2</p>`);
       }
 
       function renderSettings() {
@@ -2271,7 +2355,7 @@
       }
 
       function exportBackup() {
-        const payload = { app: 'Mon carnet de cuisine', version: '2.0.1', exportedAt: new Date().toISOString(), recipes, plans, settings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.0.2', exportedAt: new Date().toISOString(), recipes, plans, settings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -2392,6 +2476,17 @@
         $('#clearPlanBtn').addEventListener('click', clearVisiblePlan);
         $('#prepareClairBtn').addEventListener('click', sendToClairCourses);
         $('#printPlanBtn').addEventListener('click', printPlan);
+        $('#clairReviewList').addEventListener('change', event => {
+          const input = event.target.closest('[data-clair-review-index]');
+          if (!input) return;
+          const index = Number(input.dataset.clairReviewIndex);
+          if (!clairReviewItems[index]) return;
+          clairReviewItems[index].included = input.checked;
+          input.closest('.clair-review-item')?.classList.toggle('is-skipped', !input.checked);
+          updateClairReviewText();
+        });
+        $('#clairEssentialsBtn').addEventListener('click', () => setClairReviewMode('essential'));
+        $('#clairSelectAllBtn').addEventListener('click', () => setClairReviewMode('all'));
         $('#copyClairBtn').addEventListener('click', () => copyClair(false));
         $('#openClairBtn').addEventListener('click', () => copyClair(true));
         $('#saveSettingsBtn').addEventListener('click', saveSettings);
