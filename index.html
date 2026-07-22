@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Mon carnet">
-  <title>Mon carnet de cuisine — V1.0</title>
+  <title>Mon carnet de cuisine — V1.1</title>
   <style>
     :root {
       --ink: #17211e;
@@ -135,6 +135,30 @@
     .chip.active { background: var(--forest); color: #fff; border-color: var(--forest); }
     .empty-state { background: rgba(255,255,255,.58); border: 1px dashed rgba(23,33,30,.2); border-radius: 22px; padding: 34px 20px; text-align: center; color: var(--muted); }
     .empty-state strong { display: block; color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 22px; margin-bottom: 8px; font-weight: 500; }
+    .quick-import {
+      background: linear-gradient(145deg, rgba(21,60,53,.98), rgba(34,87,78,.96));
+      color: #fff; border-radius: 26px; padding: 20px; margin-bottom: 14px;
+      box-shadow: 0 18px 42px rgba(21,60,53,.18); position: relative; overflow: hidden;
+    }
+    .quick-import::after {
+      content: ""; position: absolute; width: 170px; height: 170px; border-radius: 50%;
+      right: -75px; top: -85px; border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 0 0 28px rgba(255,255,255,.025), 0 0 0 56px rgba(255,255,255,.018);
+      pointer-events: none;
+    }
+    .quick-import h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 25px; font-weight: 500; position: relative; z-index: 1; }
+    .quick-import p { margin: 7px 0 14px; color: rgba(255,255,255,.76); line-height: 1.45; font-size: 14px; position: relative; z-index: 1; }
+    .quick-import textarea {
+      width: 100%; min-height: 185px; resize: vertical; border: 1px solid rgba(255,255,255,.22);
+      border-radius: 17px; padding: 14px; background: rgba(255,255,255,.96); color: var(--ink);
+      line-height: 1.5; outline: none; position: relative; z-index: 1;
+    }
+    .quick-import textarea:focus { box-shadow: 0 0 0 4px rgba(255,255,255,.14); }
+    .quick-import-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 11px; position: relative; z-index: 1; }
+    .quick-import .btn-primary { background: #fff; color: var(--forest); box-shadow: none; }
+    .quick-import .btn-secondary { background: rgba(255,255,255,.11); }
+    .manual-divider { display: flex; align-items: center; gap: 12px; margin: 17px 2px; color: var(--muted); font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    .manual-divider::before, .manual-divider::after { content: ""; height: 1px; flex: 1; background: var(--line); }
     .form-card { background: var(--card-solid); border-radius: 26px; border: 1px solid var(--line); padding: 20px; box-shadow: var(--shadow-soft); }
     .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .field { min-width: 0; }
@@ -183,8 +207,35 @@
       min-height: calc(54dvh + 26px); margin-top: -26px; border-radius: 28px 28px 0 0;
       border: 0; box-shadow: none; padding-bottom: calc(34px + var(--safe-bottom));
     }
-    body.recipe-open .detail-back,
-    body.recipe-open .detail-fav { top: calc(12px + var(--safe-top)); }
+    body.recipe-open .detail-back {
+      position: fixed;
+      top: calc(12px + var(--safe-top));
+      left: 12px;
+      z-index: 1000;
+      width: auto;
+      min-width: 112px;
+      height: 46px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border: 1px solid rgba(21,60,53,.14);
+      background: rgba(255,253,248,.96);
+      color: var(--forest);
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    body.recipe-open .detail-fav {
+      position: fixed;
+      top: calc(12px + var(--safe-top));
+      right: 12px;
+      z-index: 1000;
+    }
     .content-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 22px; margin-top: 24px; }
     .content-block h3 { font-family: Georgia, "Times New Roman", serif; font-size: 23px; font-weight: 500; margin: 0 0 12px; }
     .ingredient-list, .step-list { margin: 0; padding: 0; list-style: none; }
@@ -274,7 +325,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V1.0</small>
+          <small>Collection personnelle · V1.1</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -335,6 +386,16 @@
       <div class="section-head">
         <div><h2 id="formTitle">Ajouter une recette</h2><p>Une fiche claire, sans contrainte inutile</p></div>
       </div>
+      <section class="quick-import" aria-labelledby="quickImportTitle">
+        <h3 id="quickImportTitle">Ajout express</h3>
+        <p>Copiez toute la recette en une seule fois. Le carnet reconnaît le titre, les personnes, les ingrédients, la préparation et les principales informations.</p>
+        <textarea id="quickRecipeText" placeholder="Collez ici la recette complète reçue de Chat, copiée depuis une fiche ou saisie sous forme de texte…"></textarea>
+        <div class="quick-import-actions">
+          <button class="btn btn-primary" id="quickSaveRecipeBtn" type="button">Ajouter au carnet</button>
+          <button class="btn btn-secondary" id="quickFillRecipeBtn" type="button">Vérifier la fiche</button>
+        </div>
+      </section>
+      <div class="manual-divider">ou compléter manuellement</div>
       <form class="form-card" id="recipeForm">
         <input type="hidden" id="recipeId">
         <div class="form-grid">
@@ -690,7 +751,7 @@
         $('#detailContent').innerHTML = `
           <div class="detail-hero">
             ${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}
-            <button class="icon-btn detail-back" type="button" id="detailBackBtn" aria-label="Retour">‹</button>
+            <button class="icon-btn detail-back" type="button" id="detailBackBtn" aria-label="Retour à la liste des recettes">← <span>Retour</span></button>
             <button class="icon-btn detail-fav" type="button" id="detailFavBtn" aria-label="Favori">${r.favorite ? '♥' : '♡'}</button>
           </div>
           <article class="detail-sheet">
@@ -719,7 +780,8 @@
 
       function lines(text = '') { return text.split(/\r?\n/).map(x => x.trim()).filter(Boolean); }
 
-      function resetForm() {
+      function resetForm(options = {}) {
+        const quickText = options.keepQuick ? ($('#quickRecipeText')?.value || '') : '';
         $('#recipeForm').reset();
         $('#recipeId').value = '';
         $('#recipePersons').value = 2;
@@ -729,8 +791,213 @@
         $('#recipeDevice').value = 'Sans cuisson';
         $('#formTitle').textContent = 'Ajouter une recette';
         $('#cancelEditBtn').classList.add('hidden');
+        if ($('#quickRecipeText')) $('#quickRecipeText').value = quickText;
         currentPhoto = '';
         updatePhotoPreview();
+      }
+
+      function foldText(value = '') {
+        return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+      }
+
+      function cleanRecipeLine(value = '') {
+        return String(value)
+          .replace(/\u00a0/g, ' ')
+          .replace(/^\s{0,3}#{1,6}\s*/, '')
+          .replace(/^\s*>\s?/, '')
+          .replace(/\*\*/g, '')
+          .replace(/__/g, '')
+          .trim();
+      }
+
+      function cleanListPrefix(value = '') {
+        return cleanRecipeLine(value).replace(/^\s*(?:[-–—•▪◦*]\s+|\d{1,3}[.)]\s+)/, '').trim();
+      }
+
+      function sectionFromLine(value = '') {
+        const key = foldText(cleanRecipeLine(value).replace(/[:：]\s*$/, ''));
+        if (/^(nom|titre|nom de la recette)$/.test(key)) return 'title';
+        if (/^(informations?|details?|fiche|caracteristiques?)$/.test(key)) return 'meta';
+        if (/^(ingredients?|liste des ingredients?)$/.test(key)) return 'ingredients';
+        if (/^(preparation|etapes?|instructions?|realisation|methode)$/.test(key)) return 'steps';
+        if (/^(notes?|conseils?|astuces?|remarques?)$/.test(key)) return 'notes';
+        return '';
+      }
+
+      function optionValue(selectId, wanted, fallback) {
+        const select = $(selectId);
+        const target = foldText(wanted || '');
+        const exact = [...select.options].find(o => foldText(o.value) === target);
+        if (exact) return exact.value;
+        const partial = [...select.options].find(o => target && (foldText(o.value).includes(target) || target.includes(foldText(o.value))));
+        return partial ? partial.value : fallback;
+      }
+
+      function parseDurationMinutes(value = '') {
+        const text = foldText(value);
+        let total = 0;
+        const hours = text.match(/(\d+)\s*h(?:eures?)?/);
+        const minutes = text.match(/(\d+)\s*(?:min(?:utes?)?)/);
+        if (hours) total += Number(hours[1]) * 60;
+        if (minutes) total += Number(minutes[1]);
+        if (!total) {
+          const plain = text.match(/(?:duree|temps total)[^\d]{0,12}(\d+)/);
+          if (plain) total = Number(plain[1]);
+        }
+        return total;
+      }
+
+      function parseMetaLine(value, parsed) {
+        const line = cleanListPrefix(value);
+        const match = line.match(/^([^:：]{2,45})\s*[:：]\s*(.+)$/);
+        const key = foldText(match ? match[1] : line);
+        const val = (match ? match[2] : line).trim();
+        let handled = false;
+
+        if (/^(titre|nom|nom de la recette|recette)$/.test(key) && match) { parsed.title = val; return true; }
+        if (/^(origine|source)$/.test(key) && match) { parsed.source = val; return true; }
+        if (/^(saison)$/.test(key) && match) { parsed.season = val; return true; }
+        if (/^(type|type de plat|categorie)$/.test(key) && match) { parsed.type = val; return true; }
+        if (/^(appareil|cuisson|mode de cuisson|cuisson appareil)$/.test(key) && match) { parsed.device = val; return true; }
+        if (/^(notes?|conseils?|remarques?)$/.test(key) && match) { parsed.notes.push(val); return true; }
+
+        if (/personnes?|pers\.?|portions?/.test(key) || /personnes?|pers\.?|portions?/.test(foldText(val))) {
+          const persons = line.match(/(\d+)\s*(?:personnes?|pers\.?|portions?)/i)
+            || line.match(/(?:pour|prevue? pour)\s*(\d+)/i)
+            || ((/personnes?|pers\.?|portions?/.test(key) && match) ? val.match(/(\d+)/) : null);
+          if (persons) { parsed.persons = Number(persons[1]); handled = true; }
+        }
+        if (/duree|temps total/.test(key)) {
+          const duration = parseDurationMinutes(line);
+          if (duration) { parsed.duration = duration; handled = true; }
+        }
+        return handled;
+      }
+
+      function inferRecipeValues(parsed, fullText) {
+        const haystack = foldText(`${parsed.title} ${fullText}`);
+        if (!parsed.device) {
+          if (/air\s*fryer|airfryer/.test(haystack)) parsed.device = 'Airfryer';
+          else if (/plancha/.test(haystack)) parsed.device = 'Plancha';
+          else if (/barbecue|weber/.test(haystack)) parsed.device = 'Barbecue';
+          else if (/cocotte|mijot/.test(haystack)) parsed.device = 'Cocotte';
+          else if (/micro[- ]?ondes?/.test(haystack)) parsed.device = 'Micro-ondes';
+          else if (/four/.test(haystack)) parsed.device = 'Four';
+          else if (/poele|casserole|plaque/.test(haystack)) parsed.device = 'Plaque';
+        }
+        if (!parsed.type) {
+          if (/dessert|gateau|tarte|creme brulee|mousse/.test(haystack)) parsed.type = 'Dessert';
+          else if (/salade/.test(haystack)) parsed.type = 'Salade';
+          else if (/cabillaud|saumon|thon|sardine|maquereau|poisson|crevette|moule/.test(haystack)) parsed.type = 'Poisson';
+          else if (/mijot|bourguignon|blanquette|saute de veau/.test(haystack)) parsed.type = 'Mijoté';
+          else if (/poulet|porc|boeuf|veau|agneau|canard|saucisse|andouillette|filet mignon/.test(haystack)) parsed.type = 'Viande';
+          else if (/vegetar|halloumi|tofu/.test(haystack)) parsed.type = 'Végétarien';
+        }
+        if (!parsed.season) {
+          if (/ete|courgette|tomate|aubergine|poivron/.test(haystack)) parsed.season = 'Été';
+          else if (/hiver|chou|potimarron|raclette/.test(haystack)) parsed.season = 'Hiver';
+          else if (/automne|champignon|courge/.test(haystack)) parsed.season = 'Automne';
+          else if (/printemps|asperge|petits pois/.test(haystack)) parsed.season = 'Printemps';
+        }
+      }
+
+      function parseRecipeText(rawText) {
+        const raw = String(rawText || '').replace(/\r\n?/g, '\n').replace(/\u00a0/g, ' ').trim();
+        const sourceLines = raw.split('\n').map(cleanRecipeLine).filter(Boolean);
+        const parsed = { title: '', source: '', persons: 0, duration: 0, season: '', type: '', device: '', ingredients: [], steps: [], notes: [] };
+        const candidates = [];
+        let section = '';
+
+        for (const original of sourceLines) {
+          const inlineHeading = original.match(/^([^:：]{2,30})\s*[:：]\s*(.+)$/);
+          const inlineSection = inlineHeading ? sectionFromLine(inlineHeading[1]) : '';
+          if (inlineSection) {
+            section = inlineSection;
+            const content = cleanListPrefix(inlineHeading[2]);
+            if (content) {
+              if (section === 'title') parsed.title = content;
+              else if (section === 'ingredients') parsed.ingredients.push(content);
+              else if (section === 'steps') parsed.steps.push(content);
+              else if (section === 'notes') parsed.notes.push(content);
+              else parseMetaLine(content, parsed);
+            }
+            continue;
+          }
+
+          const detectedSection = sectionFromLine(original);
+          if (detectedSection) { section = detectedSection; continue; }
+
+          const line = cleanListPrefix(original);
+          if (!line) continue;
+          if (section === 'title') { if (!parsed.title) parsed.title = line; section = ''; continue; }
+          if (section === 'ingredients') { parsed.ingredients.push(line); continue; }
+          if (section === 'steps') { parsed.steps.push(line); continue; }
+          if (section === 'notes') { parsed.notes.push(line); continue; }
+          if (section === 'meta') { if (!parseMetaLine(line, parsed)) candidates.push(line); continue; }
+          if (parseMetaLine(line, parsed)) continue;
+          candidates.push(line);
+        }
+
+        if (!parsed.title) {
+          const generic = /^(recette|recette de test|fiche recette|informations?|bon appetit)$/;
+          parsed.title = candidates.find(line => !generic.test(foldText(line)) && line.length <= 110) || candidates[0] || '';
+        }
+
+        if (!parsed.ingredients.length || !parsed.steps.length) {
+          const remaining = candidates.filter(line => line !== parsed.title && !/^(recette|recette de test|fiche recette)$/i.test(line));
+          if (!parsed.ingredients.length && parsed.steps.length) parsed.ingredients = remaining;
+          else if (parsed.ingredients.length && !parsed.steps.length) parsed.steps = remaining;
+        }
+
+        inferRecipeValues(parsed, raw);
+        return {
+          title: parsed.title.trim(),
+          source: parsed.source || 'ChatGPT',
+          persons: parsed.persons || 2,
+          duration: parsed.duration || 0,
+          season: parsed.season || 'Toute l’année',
+          type: parsed.type || 'Plat principal',
+          device: parsed.device || 'Sans cuisson',
+          ingredients: parsed.ingredients.join('\n').trim(),
+          steps: parsed.steps.join('\n').trim(),
+          notes: parsed.notes.join('\n').trim()
+        };
+      }
+
+      function fillFormFromParsed(parsed, keepQuick = true) {
+        resetForm({ keepQuick });
+        $('#recipeTitle').value = parsed.title || '';
+        $('#recipeSource').value = optionValue('#recipeSource', parsed.source, 'ChatGPT');
+        $('#recipePersons').value = Math.max(1, Number(parsed.persons) || 2);
+        $('#recipeDuration').value = Number(parsed.duration) || '';
+        $('#recipeSeason').value = optionValue('#recipeSeason', parsed.season, 'Toute l’année');
+        $('#recipeType').value = optionValue('#recipeType', parsed.type, 'Plat principal');
+        $('#recipeDevice').value = optionValue('#recipeDevice', parsed.device, 'Sans cuisson');
+        $('#recipeIngredients').value = parsed.ingredients || '';
+        $('#recipeSteps').value = parsed.steps || '';
+        $('#recipeNotes').value = parsed.notes || '';
+      }
+
+      function importQuickRecipe(saveNow = false) {
+        const raw = $('#quickRecipeText').value.trim();
+        if (!raw) { showToast('Collez d’abord une recette complète'); $('#quickRecipeText').focus(); return; }
+        const parsed = parseRecipeText(raw);
+        fillFormFromParsed(parsed, true);
+        const missing = [];
+        if (!parsed.title) missing.push('le titre');
+        if (!parsed.ingredients) missing.push('les ingrédients');
+        if (!parsed.steps) missing.push('la préparation');
+        if (missing.length) {
+          showToast(`À compléter : ${missing.join(', ')}`);
+          $('#recipeForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+        if (saveNow) {
+          $('#recipeForm').requestSubmit();
+        } else {
+          showToast('Fiche remplie automatiquement');
+          $('#recipeForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
 
       function editRecipe(r) {
@@ -989,7 +1256,7 @@
       }
 
       function printRecipe(r) {
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.0</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.1</p>`);
       }
 
       function printPlan() {
@@ -1002,7 +1269,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.0</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.1</p>`);
       }
 
       function renderSettings() {
@@ -1077,6 +1344,8 @@
           renderRecipes();
         });
         $('#recipeForm').addEventListener('submit', saveRecipe);
+        $('#quickSaveRecipeBtn').addEventListener('click', () => importQuickRecipe(true));
+        $('#quickFillRecipeBtn').addEventListener('click', () => importQuickRecipe(false));
         $('#cancelEditBtn').addEventListener('click', () => { resetForm(); navigate('recipes'); });
         $('#photoInput').addEventListener('change', async event => {
           const file = event.target.files?.[0]; if (!file) return;
