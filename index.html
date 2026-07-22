@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V1.8.2</title>
+  <title>Mon carnet de cuisine — V1.9</title>
   <style>
     :root {
       --ink: #17211e;
@@ -303,7 +303,7 @@
     .modal-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
     .modal textarea { width: 100%; min-height: 270px; border: 1px solid var(--line); border-radius: 16px; padding: 14px; resize: vertical; line-height: 1.55; background: #fbf8f2; }
     .modal-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
-    .toast { position: fixed; left: 50%; transform: translateX(-50%) translateY(20px); bottom: calc(102px + var(--safe-bottom)); z-index: 100; background: #17211e; color: #fff; padding: 12px 16px; border-radius: 999px; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .25s ease; max-width: calc(100% - 32px); text-align: center; }
+    .toast { position: fixed; left: 50%; transform: translateX(-50%) translateY(20px); bottom: calc(102px + var(--safe-bottom)); z-index: 6000; background: #17211e; color: #fff; padding: 12px 16px; border-radius: 999px; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .25s ease; max-width: calc(100% - 32px); text-align: center; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .subtle { color: var(--muted); font-size: 13px; }
     .hidden { display: none !important; }
@@ -328,6 +328,45 @@
     .custom-schedule select { margin-top: 6px; }
     @media (max-width: 390px) { .custom-schedule-grid { grid-template-columns: 1fr; } }
 
+    .cooking-mode[hidden] { display: none !important; }
+    .cooking-mode {
+      position: fixed; inset: 0; z-index: 5000; display: grid; background: var(--card-solid);
+      color: var(--ink); overflow: hidden;
+    }
+    body.cooking-open { overflow: hidden; }
+    .cooking-shell {
+      width: min(820px, 100%); height: 100dvh; margin: 0 auto; display: grid;
+      grid-template-rows: auto auto auto minmax(0,1fr) auto;
+      padding: calc(14px + var(--safe-top)) max(16px, env(safe-area-inset-right, 0px)) calc(14px + var(--safe-bottom)) max(16px, env(safe-area-inset-left, 0px));
+      background: var(--card-solid);
+    }
+    .cooking-head { display: grid; grid-template-columns: 48px minmax(0,1fr) 48px; gap: 12px; align-items: center; }
+    .cooking-head-copy { min-width: 0; text-align: center; }
+    .cooking-head-copy small { display: block; margin-bottom: 3px; color: var(--copper); font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+    .cooking-head-copy h2 { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: Georgia, "Times New Roman", serif; font-size: clamp(21px, 4vw, 29px); font-weight: 500; }
+    .cooking-head-spacer { width: 48px; height: 48px; }
+    .cooking-progress { height: 8px; margin: 15px 0 12px; overflow: hidden; border-radius: 999px; background: var(--paper-2); }
+    .cooking-progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--copper); transition: width .22s ease; }
+    .cooking-ingredients { margin-bottom: 12px; border: 1px solid var(--line); border-radius: 16px; background: #f7f1e8; overflow: hidden; }
+    .cooking-ingredients summary { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 14px; cursor: pointer; color: var(--forest); font-weight: 800; }
+    .cooking-ingredients summary::after { content: "⌄"; color: var(--muted); font-size: 20px; transition: transform .18s ease; }
+    .cooking-ingredients[open] summary::after { transform: rotate(180deg); }
+    .cooking-ingredients ul { max-height: 30dvh; margin: 0; padding: 0 16px 14px 34px; overflow: auto; }
+    .cooking-ingredients li { margin: 7px 0; line-height: 1.35; }
+    .cooking-step-card { min-height: 0; display: grid; align-content: center; overflow: auto; padding: 22px 8px; }
+    .cooking-step-number { display: grid; width: 48px; height: 48px; margin: 0 auto 18px; place-items: center; border-radius: 50%; color: #fff; background: var(--forest); font-size: 18px; font-weight: 900; }
+    .cooking-step-text { max-width: 720px; margin: 0 auto; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: clamp(25px, 5.2vw, 38px); line-height: 1.35; }
+    .cooking-timer { width: min(390px, 100%); margin: 24px auto 0; padding: 14px; border: 1px solid rgba(182,119,69,.28); border-radius: 18px; background: #f8eee4; text-align: center; }
+    .cooking-timer strong { display: block; margin-bottom: 10px; color: var(--forest); font-size: clamp(30px, 7vw, 44px); font-variant-numeric: tabular-nums; }
+    .cooking-timer-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cooking-nav { display: grid; grid-template-columns: 1fr 1.25fr; gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .cooking-nav .btn { min-height: 56px; font-size: 16px; }
+    .cooking-nav .btn:disabled { opacity: .38; }
+    @media (max-width: 650px) {
+      .cooking-shell { padding-left: 14px; padding-right: 14px; }
+      .cooking-step-card { padding-top: 16px; padding-bottom: 16px; }
+      .cooking-step-text { font-size: clamp(24px, 7vw, 33px); }
+    }
     @media (max-width: 650px) {
       .app { padding-left: 14px; padding-right: 14px; }
       .hero { padding: 24px 20px; border-radius: 25px; }
@@ -383,7 +422,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V1.8.2</small>
+          <small>Collection personnelle · V1.9</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -708,6 +747,39 @@
     </div>
   </div>
 
+  <div class="cooking-mode" id="cookingMode" role="dialog" aria-modal="true" aria-labelledby="cookingTitle" hidden>
+    <div class="cooking-shell">
+      <header class="cooking-head">
+        <button class="icon-btn" id="cookingCloseBtn" type="button" aria-label="Quitter le mode cuisine">×</button>
+        <div class="cooking-head-copy">
+          <small id="cookingProgressLabel">Étape 1 sur 1</small>
+          <h2 id="cookingTitle">Je cuisine</h2>
+        </div>
+        <span class="cooking-head-spacer" aria-hidden="true"></span>
+      </header>
+      <div class="cooking-progress" aria-hidden="true"><span id="cookingProgressBar"></span></div>
+      <details class="cooking-ingredients" id="cookingIngredientsPanel">
+        <summary>Voir les ingrédients</summary>
+        <ul id="cookingIngredients"></ul>
+      </details>
+      <section class="cooking-step-card" aria-live="polite">
+        <span class="cooking-step-number" id="cookingStepNumber">1</span>
+        <p class="cooking-step-text" id="cookingStepText"></p>
+        <div class="cooking-timer" id="cookingTimer" hidden>
+          <strong id="cookingTimerDisplay">00:00</strong>
+          <div class="cooking-timer-actions">
+            <button class="btn btn-primary" id="cookingTimerToggle" type="button">Lancer le minuteur</button>
+            <button class="btn btn-light" id="cookingTimerReset" type="button">Réinitialiser</button>
+          </div>
+        </div>
+      </section>
+      <footer class="cooking-nav">
+        <button class="btn btn-light" id="cookingPrevBtn" type="button">← Étape précédente</button>
+        <button class="btn btn-primary" id="cookingNextBtn" type="button">Étape suivante →</button>
+      </footer>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
@@ -734,6 +806,14 @@
       let cookedRating = '';
       let wakeLockSentinel = null;
       let keepAwakeEnabled = false;
+      let cookingRecipeId = null;
+      let cookingStepIndex = 0;
+      let cookingWakeManaged = false;
+      let cookingTimerInterval = null;
+      let cookingTimerRemaining = 0;
+      let cookingTimerTotal = 0;
+      let cookingTimerRunning = false;
+      let cookingTimerEndAt = 0;
 
       const $ = (sel, root = document) => root.querySelector(sel);
       const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -895,7 +975,149 @@
         else await requestKeepAwake();
       }
 
+      function clearCookingTimerInterval() {
+        if (cookingTimerInterval) clearInterval(cookingTimerInterval);
+        cookingTimerInterval = null;
+      }
+
+      function detectStepDurationSeconds(text = '') {
+        const source = String(text).toLowerCase().replace(/,/g, '.');
+        const values = [];
+        for (const match of source.matchAll(/(\d+(?:\.\d+)?)\s*(?:h|heure|heures)\b(?:\s*(?:et\s*)?(\d+)\s*(?:min|minute|minutes)?)?/g)) {
+          values.push(Math.round(Number(match[1]) * 3600 + Number(match[2] || 0) * 60));
+        }
+        for (const match of source.matchAll(/(\d+(?:\.\d+)?)\s*(?:min|minute|minutes)\b/g)) values.push(Math.round(Number(match[1]) * 60));
+        for (const match of source.matchAll(/(\d+(?:\.\d+)?)\s*(?:sec|seconde|secondes)\b/g)) values.push(Math.round(Number(match[1])));
+        return values.filter(value => Number.isFinite(value) && value > 0).sort((a,b) => b-a)[0] || 0;
+      }
+
+      function formatCookingTimer(seconds) {
+        const value = Math.max(0, Math.round(Number(seconds) || 0));
+        const hours = Math.floor(value / 3600);
+        const minutes = Math.floor((value % 3600) / 60);
+        const secs = value % 60;
+        return hours ? `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}` : `${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+      }
+
+      function updateCookingTimerUi() {
+        const timer = $('#cookingTimer');
+        if (!timer) return;
+        timer.hidden = !cookingTimerTotal;
+        $('#cookingTimerDisplay').textContent = formatCookingTimer(cookingTimerRemaining);
+        $('#cookingTimerToggle').textContent = cookingTimerRunning ? 'Pause' : (cookingTimerRemaining < cookingTimerTotal ? 'Reprendre' : 'Lancer le minuteur');
+        $('#cookingTimerReset').disabled = !cookingTimerTotal || cookingTimerRemaining === cookingTimerTotal;
+      }
+
+      function syncRunningCookingTimer() {
+        if (!cookingTimerRunning) return;
+        cookingTimerRemaining = Math.max(0, Math.ceil((cookingTimerEndAt - Date.now()) / 1000));
+        updateCookingTimerUi();
+        if (cookingTimerRemaining <= 0) {
+          cookingTimerRunning = false;
+          clearCookingTimerInterval();
+          updateCookingTimerUi();
+          showToast('Minuteur terminé');
+          if ('vibrate' in navigator) try { navigator.vibrate([180,100,180]); } catch (_) {}
+        }
+      }
+
+      function resetCookingTimer(seconds = cookingTimerTotal) {
+        clearCookingTimerInterval();
+        cookingTimerRunning = false;
+        cookingTimerTotal = Math.max(0, Number(seconds) || 0);
+        cookingTimerRemaining = cookingTimerTotal;
+        cookingTimerEndAt = 0;
+        updateCookingTimerUi();
+      }
+
+      function toggleCookingTimer() {
+        if (!cookingTimerTotal) return;
+        if (cookingTimerRunning) {
+          syncRunningCookingTimer();
+          cookingTimerRunning = false;
+          clearCookingTimerInterval();
+          updateCookingTimerUi();
+          return;
+        }
+        if (cookingTimerRemaining <= 0) cookingTimerRemaining = cookingTimerTotal;
+        cookingTimerRunning = true;
+        cookingTimerEndAt = Date.now() + cookingTimerRemaining * 1000;
+        clearCookingTimerInterval();
+        cookingTimerInterval = setInterval(syncRunningCookingTimer, 250);
+        updateCookingTimerUi();
+      }
+
+      function currentCookingRecipe() {
+        return recipes.find(recipe => recipe.id === cookingRecipeId) || null;
+      }
+
+      function renderCookingStep() {
+        const recipe = currentCookingRecipe();
+        if (!recipe) return;
+        const steps = lines(recipe.steps);
+        if (!steps.length) return;
+        cookingStepIndex = Math.min(Math.max(0, cookingStepIndex), steps.length - 1);
+        const position = cookingStepIndex + 1;
+        $('#cookingTitle').textContent = recipe.title;
+        $('#cookingProgressLabel').textContent = `Étape ${position} sur ${steps.length}`;
+        $('#cookingProgressBar').style.width = `${Math.round(position * 100 / steps.length)}%`;
+        $('#cookingStepNumber').textContent = String(position);
+        $('#cookingStepText').textContent = steps[cookingStepIndex];
+        $('#cookingPrevBtn').disabled = cookingStepIndex === 0;
+        $('#cookingNextBtn').textContent = cookingStepIndex === steps.length - 1 ? 'Terminer ✓' : 'Étape suivante →';
+        resetCookingTimer(detectStepDurationSeconds(steps[cookingStepIndex]));
+      }
+
+      async function openCookingMode(recipe) {
+        const steps = lines(recipe?.steps);
+        if (!recipe || !steps.length) { showToast('Cette recette ne contient pas encore d’étapes'); return; }
+        cookingRecipeId = recipe.id;
+        cookingStepIndex = 0;
+        cookingWakeManaged = false;
+        $('#cookingIngredients').innerHTML = lines(recipe.ingredients).map(item => `<li>${esc(item)}</li>`).join('');
+        $('#cookingIngredientsPanel').open = false;
+        $('#cookingMode').hidden = false;
+        document.body.classList.add('cooking-open');
+        renderCookingStep();
+        if (!keepAwakeEnabled) cookingWakeManaged = await requestKeepAwake();
+      }
+
+      function closeCookingMode(silent = false) {
+        if (!cookingRecipeId && $('#cookingMode')?.hidden) return;
+        clearCookingTimerInterval();
+        cookingTimerRunning = false;
+        $('#cookingMode').hidden = true;
+        document.body.classList.remove('cooking-open');
+        cookingRecipeId = null;
+        cookingStepIndex = 0;
+        if (cookingWakeManaged && keepAwakeEnabled) releaseKeepAwake(true);
+        cookingWakeManaged = false;
+        if (!silent) showToast('Mode cuisine fermé');
+      }
+
+      async function finishCookingMode() {
+        const recipe = currentCookingRecipe();
+        closeCookingMode(true);
+        if (recipe) openCookedModal(recipe);
+      }
+
+      function previousCookingStep() {
+        if (cookingStepIndex <= 0) return;
+        cookingStepIndex -= 1;
+        renderCookingStep();
+      }
+
+      function nextCookingStep() {
+        const recipe = currentCookingRecipe();
+        const count = lines(recipe?.steps).length;
+        if (!count) return;
+        if (cookingStepIndex >= count - 1) { finishCookingMode(); return; }
+        cookingStepIndex += 1;
+        renderCookingStep();
+      }
+
       function navigate(view, options = {}) {
+        if (view !== 'detail' && cookingRecipeId) closeCookingMode(true);
         if (view !== 'detail' && keepAwakeEnabled) releaseKeepAwake(true);
         if (view !== 'detail') previousView = currentView === 'detail' ? previousView : currentView;
         document.body.classList.toggle('recipe-open', view === 'detail');
@@ -1009,7 +1231,8 @@
             <h2>${esc(r.title)}</h2>
             <div class="detail-meta"><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.type)}</span><span class="tag">${esc(r.device)}</span><span class="tag">${r.persons} personne${r.persons > 1 ? 's' : ''}</span>${durationDetailTags(r)}</div>
             <div class="detail-actions">
-              <button class="btn btn-primary" type="button" id="detailPlanBtn">Prévoir ce repas</button>
+              <button class="btn btn-primary" type="button" id="detailCookModeBtn">👨‍🍳 Je cuisine</button>
+              <button class="btn btn-light" type="button" id="detailPlanBtn">Prévoir ce repas</button>
               <button class="btn btn-copper" type="button" id="detailClairBtn">Envoyer à Clair Courses</button>
               <button class="btn btn-light" type="button" id="detailWakeBtn" aria-pressed="false">☀️ Garder l’écran allumé</button>
               <button class="btn btn-light" type="button" id="detailPrintBtn">Imprimer</button>
@@ -1027,6 +1250,7 @@
           </article>`;
         $('#detailBackBtn').addEventListener('click', () => navigate(previousView === 'detail' ? 'recipes' : previousView));
         $('#detailFavBtn').addEventListener('click', async () => { r.favorite = !r.favorite; r.updatedAt = new Date().toISOString(); await put('recipes', r); sortRecipes(); renderDetail(r.id); showToast(r.favorite ? 'Ajoutée aux favorites' : 'Retirée des favorites'); });
+        $('#detailCookModeBtn').addEventListener('click', () => openCookingMode(r));
         $('#detailPlanBtn').addEventListener('click', () => openScheduleChoice(r));
         $('#detailClairBtn').addEventListener('click', () => sendRecipeToClairCourses(r));
         $('#detailWakeBtn').addEventListener('click', toggleKeepAwake);
@@ -1812,7 +2036,7 @@
       }
 
       function printRecipe(r) {
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.8.2</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.9</p>`);
       }
 
       function printPlan() {
@@ -1825,7 +2049,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.8.2</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.9</p>`);
       }
 
       function renderSettings() {
@@ -1898,6 +2122,11 @@
           if (scheduleSlot) { scheduleRecipeInSlot(scheduleSlot.dataset.scheduleSlot); return; }
         });
         $('#quickAddBtn').addEventListener('click', () => navigate('add'));
+        $('#cookingCloseBtn').addEventListener('click', () => closeCookingMode());
+        $('#cookingPrevBtn').addEventListener('click', previousCookingStep);
+        $('#cookingNextBtn').addEventListener('click', nextCookingStep);
+        $('#cookingTimerToggle').addEventListener('click', toggleCookingTimer);
+        $('#cookingTimerReset').addEventListener('click', () => resetCookingTimer());
         $('#refreshSuggestion').addEventListener('click', () => renderSuggestion(true));
         $('#quickPlanRecipe').addEventListener('change', () => updateQuickPlanSummary(true));
         $('#saveQuickPlanBtn').addEventListener('click', saveQuickPlan);
@@ -1979,8 +2208,11 @@
       init();
     })();
         document.addEventListener('visibilitychange', async () => {
-        if (document.visibilityState === 'visible' && keepAwakeEnabled && currentView === 'detail' && !wakeLockSentinel && 'wakeLock' in navigator) {
-          try { wakeLockSentinel = await navigator.wakeLock.request('screen'); updateKeepAwakeButton(); } catch (_) {}
+        if (document.visibilityState === 'visible') {
+          if (cookingTimerRunning) syncRunningCookingTimer();
+          if (keepAwakeEnabled && currentView === 'detail' && !wakeLockSentinel && 'wakeLock' in navigator) {
+            try { wakeLockSentinel = await navigator.wakeLock.request('screen'); updateKeepAwakeButton(); } catch (_) {}
+          }
         }
       });
     </script>
