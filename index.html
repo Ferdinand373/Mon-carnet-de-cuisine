@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Mon carnet">
-  <title>Mon carnet de cuisine — V1.3</title>
+  <title>Mon carnet de cuisine — V1.4</title>
   <style>
     :root {
       --ink: #17211e;
@@ -287,6 +287,11 @@
       body { padding-bottom: 120px; }
       .sticky-actions { bottom: 108px; }
     }
+    .home-course-action { display: flex; justify-content: flex-end; margin: 14px 0 6px; }
+    .home-course-action .btn { width: 100%; }
+    .schedule-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .schedule-choice-grid .btn { min-height: 52px; }
+
     @media (max-width: 650px) {
       .app { padding-left: 14px; padding-right: 14px; }
       .hero { padding: 24px 20px; border-radius: 25px; }
@@ -333,7 +338,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V1.3</small>
+          <small>Collection personnelle · V1.4</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -345,7 +350,7 @@
         <h2>Que cuisine-t-on<br>ces prochains jours&nbsp;?</h2>
         <p>Retrouvez vos recettes, planifiez sereinement et préparez la liste à transmettre à Clair Courses.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary" type="button" id="quickPlanHomeBtn">Choisir les prochains repas</button>
+          <button class="btn btn-primary" type="button" data-go="add">Ajouter une recette</button>
           <button class="btn btn-secondary" type="button" data-go="recipes">Trouver une recette</button>
         </div>
       </div>
@@ -357,10 +362,13 @@
       </div>
 
       <div class="section-head">
-        <div><h3>Prochains repas</h3><p>Touchez directement un repas pour choisir sa recette</p></div>
-        <button class="text-btn" type="button" data-go="planner">Planning complet</button>
+        <div><h3>Ce soir et demain</h3><p>Touchez un repas pour choisir ou modifier sa recette</p></div>
+        <button class="text-btn" type="button" data-go="planner">Planifier jusqu’à 7 jours</button>
       </div>
       <div class="meal-grid" id="homeMeals"></div>
+      <div class="home-course-action">
+        <button class="btn btn-copper" id="sendHomeMealsBtn" type="button">Envoyer les repas prévus à Clair Courses</button>
+      </div>
 
       <div class="section-head">
         <div><h3>Une idée du carnet</h3><p>Une recette choisie parmi votre collection</p></div>
@@ -399,11 +407,11 @@
         <p>Copiez toute la recette en une seule fois. Le carnet reconnaît le titre, les personnes, les ingrédients, la préparation et les principales informations.</p>
         <textarea id="quickRecipeText" placeholder="Collez ici la recette complète reçue de Chat, copiée depuis une fiche ou saisie sous forme de texte…"></textarea>
         <div class="quick-import-actions">
-          <button class="btn btn-primary" id="quickSaveRecipeBtn" type="button">Ajouter au carnet</button>
+          <button class="btn btn-primary" id="quickSaveRecipeBtn" type="button">Ajouter et prévoir</button>
           <button class="btn btn-secondary" id="quickFillRecipeBtn" type="button">Vérifier la fiche</button>
         </div>
       </section>
-      <div class="manual-divider">ou compléter manuellement</div>
+      <div class="manual-divider">ou vérifier et compléter manuellement</div>
       <form class="form-card" id="recipeForm">
         <input type="hidden" id="recipeId">
         <div class="form-grid">
@@ -468,7 +476,7 @@
           </div>
         </div>
         <div class="form-actions">
-          <button class="btn btn-primary" type="submit">Enregistrer la recette</button>
+          <button class="btn btn-primary" type="submit">Enregistrer seulement</button>
           <button class="btn btn-light hidden" id="cancelEditBtn" type="button">Annuler la modification</button>
         </div>
       </form>
@@ -489,7 +497,7 @@
       <div class="plan-list" id="planList"></div>
       <div class="sticky-actions">
         <button class="btn btn-light" type="button" id="printPlanBtn">Imprimer</button>
-        <button class="btn btn-copper" type="button" id="prepareClairBtn">Envoyer à Clair Courses</button>
+        <button class="btn btn-copper" type="button" id="prepareClairBtn">Envoyer les repas affichés à Clair Courses</button>
       </div>
     </section>
 
@@ -538,7 +546,7 @@
     <button class="nav-btn active" type="button" data-go="home"><span>⌂</span><span>Accueil</span></button>
     <button class="nav-btn" type="button" data-go="recipes"><span>▤</span><span>Recettes</span></button>
     <button class="nav-btn" type="button" data-go="add"><span>＋</span><span>Ajouter</span></button>
-    <button class="nav-btn" type="button" data-go="planner"><span>▦</span><span>Planning</span></button>
+    <button class="nav-btn" type="button" data-go="planner"><span>▦</span><span>7 jours</span></button>
     <button class="nav-btn" type="button" data-go="settings"><span>⚙</span><span>Réglages</span></button>
   </nav>
 
@@ -566,6 +574,24 @@
         <button class="btn btn-primary" id="saveQuickPlanBtn" type="button">Enregistrer ce repas</button>
         <button class="btn btn-light" id="viewQuickRecipeBtn" type="button">Voir la recette</button>
         <button class="btn btn-light quick-plan-danger" id="clearQuickPlanBtn" type="button">Effacer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="scheduleChoiceModal" role="dialog" aria-modal="true" aria-labelledby="scheduleChoiceTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <div><h3 id="scheduleChoiceTitle">Quand prévoir ce repas&nbsp;?</h3><p id="scheduleChoiceRecipeName">Choisissez simplement le moment.</p></div>
+        <button class="icon-btn" type="button" data-close-schedule-choice aria-label="Fermer">×</button>
+      </div>
+      <div class="schedule-choice-grid">
+        <button class="btn btn-primary" type="button" data-schedule-slot="today-evening">Ce soir</button>
+        <button class="btn btn-light" type="button" data-schedule-slot="tomorrow-lunch">Demain midi</button>
+        <button class="btn btn-light" type="button" data-schedule-slot="tomorrow-evening">Demain soir</button>
+        <button class="btn btn-light" type="button" data-schedule-slot="after-tomorrow-lunch">Après-demain midi</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="scheduleLaterBtn" type="button">Plus tard</button>
       </div>
     </div>
   </div>
@@ -606,6 +632,8 @@
       let currentPhoto = '';
       let suggestionId = null;
       let quickPlanTarget = null;
+      let scheduleChoiceRecipeId = null;
+      let scheduleAfterSave = false;
 
       const $ = (sel, root = document) => root.querySelector(sel);
       const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -726,11 +754,13 @@
         $('#metricRecipes').textContent = recipes.length;
         $('#metricFavorites').textContent = recipes.filter(r => r.favorite).length;
         $('#metricPlanned').textContent = plans.filter(p => p.recipeId && p.date >= todayISO()).length;
-        const upcoming = [];
-        for (let i = 0; i < 2; i++) {
-          const date = addDays(todayISO(), i);
-          for (const meal of ['midi','soir']) upcoming.push({ date, meal, plan: plans.find(p => p.date === date && p.meal === meal) });
-        }
+        const today = todayISO();
+        const upcoming = [
+          { date: today, meal: 'soir' },
+          { date: addDays(today, 1), meal: 'midi' },
+          { date: addDays(today, 1), meal: 'soir' },
+          { date: addDays(today, 2), meal: 'midi' }
+        ].map(item => ({ ...item, plan: plans.find(p => p.date === item.date && p.meal === item.meal) }));
         $('#homeMeals').innerHTML = upcoming.map(item => {
           const recipe = item.plan ? recipes.find(r => r.id === item.plan.recipeId) : null;
           return `<article class="meal-card ${recipe ? '' : 'empty'}" data-home-meal="${item.date}|${item.meal}">
@@ -802,7 +832,8 @@
             <h2>${esc(r.title)}</h2>
             <div class="detail-meta"><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.type)}</span><span class="tag">${esc(r.device)}</span><span class="tag">${r.persons} personne${r.persons > 1 ? 's' : ''}</span>${r.duration ? `<span class="tag">${r.duration} min</span>` : ''}</div>
             <div class="detail-actions">
-              <button class="btn btn-primary" type="button" id="detailPlanBtn">Ajouter au planning</button>
+              <button class="btn btn-primary" type="button" id="detailPlanBtn">Prévoir ce repas</button>
+              <button class="btn btn-copper" type="button" id="detailClairBtn">Envoyer cette recette à Clair Courses</button>
               <button class="btn btn-light" type="button" id="detailPrintBtn">Imprimer</button>
               <button class="btn btn-light" type="button" id="detailEditBtn">Modifier</button>
               <button class="btn btn-light" type="button" id="detailDeleteBtn">Supprimer</button>
@@ -814,7 +845,8 @@
           </article>`;
         $('#detailBackBtn').addEventListener('click', () => navigate(previousView === 'detail' ? 'recipes' : previousView));
         $('#detailFavBtn').addEventListener('click', async () => { r.favorite = !r.favorite; r.updatedAt = new Date().toISOString(); await put('recipes', r); sortRecipes(); renderDetail(r.id); showToast(r.favorite ? 'Ajoutée aux favorites' : 'Retirée des favorites'); });
-        $('#detailPlanBtn').addEventListener('click', () => addRecipeToNextFreeSlot(r));
+        $('#detailPlanBtn').addEventListener('click', () => openScheduleChoice(r));
+        $('#detailClairBtn').addEventListener('click', () => sendRecipeToClairCourses(r));
         $('#detailPrintBtn').addEventListener('click', () => printRecipe(r));
         $('#detailEditBtn').addEventListener('click', () => editRecipe(r));
         $('#detailDeleteBtn').addEventListener('click', () => deleteRecipe(r));
@@ -1036,6 +1068,7 @@
           return;
         }
         if (saveNow) {
+          scheduleAfterSave = true;
           $('#recipeForm').requestSubmit();
         } else {
           showToast('Fiche remplie automatiquement');
@@ -1088,9 +1121,16 @@
         const idx = recipes.findIndex(r => r.id === id);
         if (idx >= 0) recipes[idx] = recipe; else recipes.push(recipe);
         sortRecipes();
+        const shouldSchedule = scheduleAfterSave && !existing;
+        scheduleAfterSave = false;
         resetForm();
         showToast(existing ? 'Recette mise à jour' : 'Recette ajoutée au carnet');
-        renderDetail(id);
+        if (shouldSchedule) {
+          renderAll();
+          openScheduleChoice(recipe);
+        } else {
+          renderDetail(id);
+        }
       }
 
       async function deleteRecipe(r) {
@@ -1267,23 +1307,47 @@
         showToast('Planning vidé');
       }
 
-      async function addRecipeToNextFreeSlot(r) {
-        const start = todayISO();
-        let target;
-        for (let i = 0; i < 7 && !target; i++) {
-          const date = addDays(start, i);
-          for (const meal of ['midi','soir']) {
-            const p = getPlan(date, meal);
-            if (!p || !p.recipeId) { target = { date, meal, p }; break; }
-          }
+      function openScheduleChoice(recipe) {
+        if (!recipe) return;
+        scheduleChoiceRecipeId = recipe.id;
+        $('#scheduleChoiceRecipeName').textContent = recipe.title;
+        $('#scheduleChoiceModal').classList.add('open');
+      }
+
+      function closeScheduleChoice() {
+        $('#scheduleChoiceModal').classList.remove('open');
+        scheduleChoiceRecipeId = null;
+      }
+
+      function slotToDateMeal(slot) {
+        const today = todayISO();
+        if (slot === 'today-evening') return { date: today, meal: 'soir' };
+        if (slot === 'tomorrow-lunch') return { date: addDays(today, 1), meal: 'midi' };
+        if (slot === 'tomorrow-evening') return { date: addDays(today, 1), meal: 'soir' };
+        if (slot === 'after-tomorrow-lunch') return { date: addDays(today, 2), meal: 'midi' };
+        return null;
+      }
+
+      async function scheduleRecipeInSlot(slot) {
+        const recipe = recipes.find(r => r.id === scheduleChoiceRecipeId);
+        const target = slotToDateMeal(slot);
+        if (!recipe || !target) return;
+        const existing = getPlan(target.date, target.meal);
+        if (existing?.recipeId && existing.recipeId !== recipe.id) {
+          const oldRecipe = recipes.find(r => r.id === existing.recipeId);
+          const replace = confirm(`${friendlyMealTitle(target.date, target.meal)} contient déjà « ${oldRecipe?.title || 'une recette'} ». La remplacer ?`);
+          if (!replace) return;
         }
-        if (!target) { showToast('La semaine est déjà entièrement planifiée'); return; }
-        const p = target.p || { id: `${target.date}-${target.meal}`, date: target.date, meal: target.meal };
-        p.recipeId = r.id; p.persons = r.persons;
+        const p = existing || { id: `${target.date}-${target.meal}`, date: target.date, meal: target.meal };
+        p.recipeId = recipe.id;
+        p.persons = recipe.persons || 1;
         await put('plans', p);
         const idx = plans.findIndex(x => x.id === p.id);
         if (idx >= 0) plans[idx] = p; else plans.push(p);
-        showToast(`Ajoutée ${formatDay(target.date, false)} ${target.meal}`);
+        closeScheduleChoice();
+        renderAll();
+        navigate('home');
+        showToast(`${friendlyMealTitle(target.date, target.meal)} enregistré`);
       }
 
       function parseIngredientLine(line, factor) {
@@ -1303,10 +1367,7 @@
         return { text: `${display} ${match[2]}`.trim(), numeric: true, value: rounded, rest: match[2].trim() };
       }
 
-      function buildClairList() {
-        const start = $('#plannerStart').value || todayISO();
-        const dates = Array.from({ length: plannerDays }, (_,i) => addDays(start,i));
-        const chosen = plans.filter(p => dates.includes(p.date) && p.recipeId);
+      function buildClairListFromPlans(chosen) {
         const numeric = new Map();
         const plain = new Map();
         for (const plan of chosen) {
@@ -1336,15 +1397,36 @@
         return output.join('\n');
       }
 
+      function buildClairList() {
+        const start = $('#plannerStart').value || todayISO();
+        const dates = Array.from({ length: plannerDays }, (_,i) => addDays(start,i));
+        return buildClairListFromPlans(plans.filter(p => dates.includes(p.date) && p.recipeId));
+      }
+
+      function homeMealPlans() {
+        const today = todayISO();
+        const slots = [
+          { date: today, meal: 'soir' },
+          { date: addDays(today, 1), meal: 'midi' },
+          { date: addDays(today, 1), meal: 'soir' },
+          { date: addDays(today, 2), meal: 'midi' }
+        ];
+        return slots.map(slot => getPlan(slot.date, slot.meal)).filter(p => p?.recipeId);
+      }
+
+      function recipeClairText(recipe, persons = recipe?.persons || 1) {
+        if (!recipe) return '';
+        return buildClairListFromPlans([{ recipeId: recipe.id, persons }]);
+      }
+
       function openClairModal(text = buildClairList()) {
         if (!text) { showToast('Aucun repas n’est planifié dans la période'); return; }
         $('#clairText').value = text;
         $('#clairModal').classList.add('open');
       }
 
-      async function sendToClairCourses() {
-        const text = buildClairList();
-        if (!text) { showToast('Aucun repas n’est planifié dans la période'); return; }
+      async function copyAndOpenClair(text, emptyMessage = 'Aucun repas prévu') {
+        if (!text) { showToast(emptyMessage); return; }
         const url = (settings.clairUrl || DEFAULT_CLAIR_URL).trim();
         const ok = await copyText(text);
         if (!ok) {
@@ -1354,6 +1436,18 @@
         }
         showToast('Liste copiée · ouverture de Clair Courses');
         window.setTimeout(() => window.location.assign(url), 280);
+      }
+
+      async function sendToClairCourses() {
+        await copyAndOpenClair(buildClairList(), 'Aucun repas n’est planifié dans la période');
+      }
+
+      async function sendHomeMealsToClairCourses() {
+        await copyAndOpenClair(buildClairListFromPlans(homeMealPlans()), 'Aucun repas n’est prévu ce soir ou demain');
+      }
+
+      async function sendRecipeToClairCourses(recipe) {
+        await copyAndOpenClair(recipeClairText(recipe), 'Cette recette ne contient aucun ingrédient');
       }
 
       async function copyText(text) {
@@ -1385,7 +1479,7 @@
       }
 
       function printRecipe(r) {
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.3</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.4</p>`);
       }
 
       function printPlan() {
@@ -1398,7 +1492,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.3</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.4</p>`);
       }
 
       function renderSettings() {
@@ -1462,14 +1556,22 @@
             return;
           }
           if (event.target.closest('[data-close-quick-plan]') || event.target === $('#quickPlanModal')) { closeQuickPlan(); return; }
-          if (event.target.closest('[data-close-modal]') || event.target === $('#clairModal')) $('#clairModal').classList.remove('open');
+          if (event.target.closest('[data-close-modal]') || event.target === $('#clairModal')) { $('#clairModal').classList.remove('open'); return; }
+          if (event.target.closest('[data-close-schedule-choice]') || event.target === $('#scheduleChoiceModal')) { closeScheduleChoice(); return; }
+          const scheduleSlot = event.target.closest('[data-schedule-slot]');
+          if (scheduleSlot) { scheduleRecipeInSlot(scheduleSlot.dataset.scheduleSlot); return; }
         });
         $('#quickAddBtn').addEventListener('click', () => navigate('add'));
         $('#refreshSuggestion').addEventListener('click', () => renderSuggestion(true));
-        $('#quickPlanHomeBtn').addEventListener('click', () => $('#homeMeals').scrollIntoView({ behavior: 'smooth', block: 'center' }));
         $('#quickPlanRecipe').addEventListener('change', () => updateQuickPlanSummary(true));
         $('#saveQuickPlanBtn').addEventListener('click', saveQuickPlan);
+        $('#sendHomeMealsBtn').addEventListener('click', sendHomeMealsToClairCourses);
         $('#clearQuickPlanBtn').addEventListener('click', clearQuickPlan);
+        $('#scheduleLaterBtn').addEventListener('click', () => {
+          const recipeId = scheduleChoiceRecipeId;
+          closeScheduleChoice();
+          if (recipeId) renderDetail(recipeId);
+        });
         $('#viewQuickRecipeBtn').addEventListener('click', () => {
           const recipeId = $('#quickPlanRecipe').value;
           if (!recipeId) return;
