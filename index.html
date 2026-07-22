@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Mon carnet">
-  <title>Mon carnet de cuisine — V1.2</title>
+  <title>Mon carnet de cuisine — V1.3</title>
   <style>
     :root {
       --ink: #17211e;
@@ -109,6 +109,14 @@
     .meal-card h4 { margin: 14px 0 5px; font-family: Georgia, "Times New Roman", serif; font-size: 19px; font-weight: 500; }
     .meal-card p { margin: 0; color: var(--muted); font-size: 13px; }
     .meal-card.empty h4 { color: var(--muted); }
+    .meal-card { transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+    .meal-card:active { transform: scale(.985); }
+    .meal-card .meal-hint { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; color: var(--forest); font-size: 12px; font-weight: 750; }
+    .meal-card.empty .meal-hint { color: var(--copper); }
+    .quick-plan-form { display: grid; gap: 14px; }
+    .quick-plan-summary { padding: 12px 14px; border-radius: 15px; background: #f3ece1; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .quick-plan-summary strong { display: block; color: var(--ink); margin-bottom: 3px; font-size: 15px; }
+    .quick-plan-danger { margin-left: auto; }
     .recipe-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
     .recipe-card {
       background: var(--card-solid); border-radius: 22px; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow-soft);
@@ -325,7 +333,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V1.2</small>
+          <small>Collection personnelle · V1.3</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -337,7 +345,7 @@
         <h2>Que cuisine-t-on<br>ces prochains jours&nbsp;?</h2>
         <p>Retrouvez vos recettes, planifiez sereinement et préparez la liste à transmettre à Clair Courses.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary" type="button" data-go="planner" data-days="2">Planifier 2 jours</button>
+          <button class="btn btn-primary" type="button" id="quickPlanHomeBtn">Choisir les prochains repas</button>
           <button class="btn btn-secondary" type="button" data-go="recipes">Trouver une recette</button>
         </div>
       </div>
@@ -349,8 +357,8 @@
       </div>
 
       <div class="section-head">
-        <div><h3>Prochains repas</h3><p>Votre planning en un coup d’œil</p></div>
-        <button class="text-btn" type="button" data-go="planner">Tout voir</button>
+        <div><h3>Prochains repas</h3><p>Touchez directement un repas pour choisir sa recette</p></div>
+        <button class="text-btn" type="button" data-go="planner">Planning complet</button>
       </div>
       <div class="meal-grid" id="homeMeals"></div>
 
@@ -534,6 +542,34 @@
     <button class="nav-btn" type="button" data-go="settings"><span>⚙</span><span>Réglages</span></button>
   </nav>
 
+  <div class="modal-wrap" id="quickPlanModal" role="dialog" aria-modal="true" aria-labelledby="quickPlanTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <div><h3 id="quickPlanTitle">Choisir un repas</h3><p>Une recette, le nombre de personnes, puis enregistrer.</p></div>
+        <button class="icon-btn" type="button" data-close-quick-plan aria-label="Fermer">×</button>
+      </div>
+      <div class="quick-plan-form">
+        <div class="field">
+          <label for="quickPlanRecipe">Recette</label>
+          <select id="quickPlanRecipe"></select>
+        </div>
+        <div class="field">
+          <label for="quickPlanPersons">Nombre de personnes</label>
+          <input id="quickPlanPersons" type="number" min="1" max="20" value="2">
+        </div>
+        <div class="quick-plan-summary" id="quickPlanSummary">
+          <strong>Aucune recette choisie</strong>
+          Sélectionnez une recette de votre carnet.
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="saveQuickPlanBtn" type="button">Enregistrer ce repas</button>
+        <button class="btn btn-light" id="viewQuickRecipeBtn" type="button">Voir la recette</button>
+        <button class="btn btn-light quick-plan-danger" id="clearQuickPlanBtn" type="button">Effacer</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-wrap" id="clairModal" role="dialog" aria-modal="true" aria-labelledby="clairTitle">
     <div class="modal">
       <div class="modal-head">
@@ -569,6 +605,7 @@
       let plannerDays = 2;
       let currentPhoto = '';
       let suggestionId = null;
+      let quickPlanTarget = null;
 
       const $ = (sel, root = document) => root.querySelector(sel);
       const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -698,8 +735,9 @@
           const recipe = item.plan ? recipes.find(r => r.id === item.plan.recipeId) : null;
           return `<article class="meal-card ${recipe ? '' : 'empty'}" data-home-meal="${item.date}|${item.meal}">
             <div class="meal-time">${esc(item.meal)}</div><div class="meal-date">${esc(formatDay(item.date))}</div>
-            <h4>${recipe ? esc(recipe.title) : 'À planifier'}</h4>
-            <p>${recipe ? `${item.plan.persons || recipe.persons} personne${(item.plan.persons || recipe.persons) > 1 ? 's' : ''}` : 'Touchez pour ouvrir le planning'}</p>
+            <h4>${recipe ? esc(recipe.title) : 'Choisir une recette'}</h4>
+            <p>${recipe ? `${item.plan.persons || recipe.persons} personne${(item.plan.persons || recipe.persons) > 1 ? 's' : ''}` : 'Aucun repas prévu'}</p>
+            <span class="meal-hint">${recipe ? 'Modifier ce repas →' : 'Choisir maintenant →'}</span>
           </article>`;
         }).join('');
         renderSuggestion();
@@ -1095,6 +1133,80 @@
         });
       }
 
+      function friendlyMealTitle(date, meal) {
+        const today = todayISO();
+        if (date === today) return meal === 'soir' ? 'Ce soir' : 'Aujourd’hui midi';
+        if (date === addDays(today, 1)) return `Demain ${meal}`;
+        return `${formatDay(date)} · ${meal}`;
+      }
+
+      function quickPlanRecipeOptions(selectedId = '') {
+        const sorted = [...recipes].sort((a,b) => a.title.localeCompare(b.title, 'fr'));
+        return `<option value="">— Choisir une recette —</option>${sorted.map(r => `<option value="${r.id}"${r.id === selectedId ? ' selected' : ''}>${esc(r.title)}</option>`).join('')}`;
+      }
+
+      function updateQuickPlanSummary(useRecipeDefault = false) {
+        const recipeId = $('#quickPlanRecipe').value;
+        const recipe = recipes.find(r => r.id === recipeId);
+        const summary = $('#quickPlanSummary');
+        const viewBtn = $('#viewQuickRecipeBtn');
+        if (!recipe) {
+          summary.innerHTML = '<strong>Aucune recette choisie</strong>Sélectionnez une recette de votre carnet.';
+          viewBtn.disabled = true;
+          return;
+        }
+        if (useRecipeDefault) $('#quickPlanPersons').value = recipe.persons || 2;
+        summary.innerHTML = `<strong>${esc(recipe.title)}</strong>${esc(recipe.device)} · ${recipe.duration ? `${recipe.duration} min` : 'durée libre'} · prévue pour ${recipe.persons} personne${recipe.persons > 1 ? 's' : ''}`;
+        viewBtn.disabled = false;
+      }
+
+      function openQuickPlan(date, meal) {
+        quickPlanTarget = { date, meal };
+        const existing = getPlan(date, meal);
+        const existingRecipe = existing?.recipeId ? recipes.find(r => r.id === existing.recipeId) : null;
+        $('#quickPlanTitle').textContent = friendlyMealTitle(date, meal);
+        $('#quickPlanRecipe').innerHTML = quickPlanRecipeOptions(existing?.recipeId || '');
+        $('#quickPlanPersons').value = existing?.persons || existingRecipe?.persons || 2;
+        $('#clearQuickPlanBtn').classList.toggle('hidden', !existing?.recipeId);
+        updateQuickPlanSummary(false);
+        $('#quickPlanModal').classList.add('open');
+      }
+
+      function closeQuickPlan() {
+        $('#quickPlanModal').classList.remove('open');
+        quickPlanTarget = null;
+      }
+
+      async function saveQuickPlan() {
+        if (!quickPlanTarget) return;
+        const recipeId = $('#quickPlanRecipe').value;
+        if (!recipeId) { showToast('Choisissez une recette'); return; }
+        const { date, meal } = quickPlanTarget;
+        const recipe = recipes.find(r => r.id === recipeId);
+        const p = getPlan(date, meal) || { id: `${date}-${meal}`, date, meal };
+        p.recipeId = recipeId;
+        p.persons = Math.max(1, Number($('#quickPlanPersons').value) || recipe?.persons || 1);
+        await put('plans', p);
+        const index = plans.findIndex(x => x.id === p.id);
+        if (index >= 0) plans[index] = p; else plans.push(p);
+        closeQuickPlan();
+        renderHome();
+        showToast(`${friendlyMealTitle(date, meal)} enregistré`);
+      }
+
+      async function clearQuickPlan() {
+        if (!quickPlanTarget) return;
+        const { date, meal } = quickPlanTarget;
+        const p = getPlan(date, meal);
+        if (p) {
+          await remove('plans', p.id);
+          plans = plans.filter(x => x.id !== p.id);
+        }
+        closeQuickPlan();
+        renderHome();
+        showToast('Repas effacé');
+      }
+
       function setPlannerDays(days) {
         plannerDays = days;
         $('#plan2Btn').classList.toggle('active', days === 2);
@@ -1273,7 +1385,7 @@
       }
 
       function printRecipe(r) {
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.2</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.3</p>`);
       }
 
       function printPlan() {
@@ -1286,7 +1398,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.2</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.3</p>`);
       }
 
       function renderSettings() {
@@ -1302,7 +1414,7 @@
       }
 
       function exportBackup() {
-        const payload = { app: 'Mon carnet de cuisine', version: '1.2', exportedAt: new Date().toISOString(), recipes, plans, settings };
+        const payload = { app: 'Mon carnet de cuisine', version: '1.3', exportedAt: new Date().toISOString(), recipes, plans, settings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1344,11 +1456,27 @@
           const card = event.target.closest('[data-recipe-id]');
           if (card) { renderDetail(card.dataset.recipeId); return; }
           const meal = event.target.closest('[data-home-meal]');
-          if (meal) { navigate('planner'); return; }
+          if (meal) {
+            const [date, mealName] = meal.dataset.homeMeal.split('|');
+            openQuickPlan(date, mealName);
+            return;
+          }
+          if (event.target.closest('[data-close-quick-plan]') || event.target === $('#quickPlanModal')) { closeQuickPlan(); return; }
           if (event.target.closest('[data-close-modal]') || event.target === $('#clairModal')) $('#clairModal').classList.remove('open');
         });
         $('#quickAddBtn').addEventListener('click', () => navigate('add'));
         $('#refreshSuggestion').addEventListener('click', () => renderSuggestion(true));
+        $('#quickPlanHomeBtn').addEventListener('click', () => $('#homeMeals').scrollIntoView({ behavior: 'smooth', block: 'center' }));
+        $('#quickPlanRecipe').addEventListener('change', () => updateQuickPlanSummary(true));
+        $('#saveQuickPlanBtn').addEventListener('click', saveQuickPlan);
+        $('#clearQuickPlanBtn').addEventListener('click', clearQuickPlan);
+        $('#viewQuickRecipeBtn').addEventListener('click', () => {
+          const recipeId = $('#quickPlanRecipe').value;
+          if (!recipeId) return;
+          closeQuickPlan();
+          previousView = 'home';
+          renderDetail(recipeId);
+        });
         $('#recipeSearch').addEventListener('input', renderRecipes);
         $('#filterRow').addEventListener('click', event => {
           const chip = event.target.closest('[data-filter]'); if (!chip) return;
