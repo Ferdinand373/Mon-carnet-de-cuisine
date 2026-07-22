@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.3</title>
+  <title>Mon carnet de cuisine — V2.0.4</title>
   <style>
     :root {
       --ink: #17211e;
@@ -177,6 +177,9 @@
     .field label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 7px; color: #38423e; }
     .field small { display: block; color: var(--muted); margin-top: 6px; line-height: 1.35; }
     .field textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+    .optional-time-row { display: flex; align-items: end; gap: 10px; }
+    .optional-time-row input { flex: 1; }
+    .optional-time-row .btn { flex: 0 0 auto; white-space: nowrap; }
     .photo-picker { border: 1px dashed rgba(21,60,53,.3); border-radius: 20px; padding: 14px; display: grid; grid-template-columns: 100px 1fr; gap: 14px; align-items: center; background: rgba(21,60,53,.035); }
     .photo-preview { width: 100px; height: 100px; border-radius: 16px; overflow: hidden; background: #e8e0d4; display: grid; place-items: center; font-size: 34px; }
     .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
@@ -335,6 +338,7 @@
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .subtle { color: var(--muted); font-size: 13px; }
     .hidden { display: none !important; }
+    .cooking-marinade { margin: 14px 0 0; padding: 12px 14px; border-radius: 15px; background: rgba(182,119,69,.14); color: #6f4328; font-weight: 700; line-height: 1.35; }
     @media (min-width: 760px) {
       .app { padding-left: 28px; padding-right: 28px; }
       .recipe-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -455,7 +459,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.3</small>
+          <small>Collection personnelle · V2.0.4</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -572,10 +576,21 @@
             <label for="recipeCookDuration">Cuisson</label>
             <input id="recipeCookDuration" type="number" min="0" max="1440" placeholder="minutes">
           </div>
+          <div class="field full" id="recipeMarinadeToggle">
+            <button class="btn btn-light" id="addMarinadeBtn" type="button">＋ Ajouter un temps de marinade</button>
+          </div>
+          <div class="field full hidden" id="recipeMarinadeField">
+            <label for="recipeMarinadeDuration">Marinade</label>
+            <div class="optional-time-row">
+              <input id="recipeMarinadeDuration" type="number" min="0" max="10080" placeholder="minutes">
+              <button class="btn btn-light" id="removeMarinadeBtn" type="button">Retirer</button>
+            </div>
+            <small>Cette ligne n’apparaît sur la recette que lorsqu’un temps de marinade est indiqué.</small>
+          </div>
           <div class="field">
             <label for="recipeDuration">Durée totale</label>
-            <input id="recipeDuration" type="number" min="0" max="1440" placeholder="calculée en minutes">
-            <small>Calculée automatiquement quand préparation et cuisson sont indiquées.</small>
+            <input id="recipeDuration" type="number" min="0" max="43200" placeholder="calculée en minutes">
+            <small>Calculée automatiquement avec la préparation, la marinade éventuelle et la cuisson.</small>
           </div>
           <div class="field">
             <label for="recipeSeason">Saison</label>
@@ -798,6 +813,7 @@
         <span class="cooking-head-spacer" aria-hidden="true"></span>
       </header>
       <div class="cooking-progress" aria-hidden="true"><span id="cookingProgressBar"></span></div>
+      <div class="cooking-marinade hidden" id="cookingMarinadeNotice"></div>
       <details class="cooking-ingredients" id="cookingIngredientsPanel">
         <summary id="cookingIngredientsSummary">Voir les ingrédients</summary>
         <ul id="cookingIngredients"></ul>
@@ -1121,6 +1137,9 @@
         cookingStepIndex = 0;
         cookingWakeManaged = false;
         $('#cookingIngredients').innerHTML = ingredientListHtml(recipe, cookingPersons);
+        const marinade = recipeMarinadeDuration(recipe);
+        $('#cookingMarinadeNotice').textContent = marinade ? `À prévoir avant la cuisson : marinade ${formatDuration(marinade)}.` : '';
+        $('#cookingMarinadeNotice').classList.toggle('hidden', !marinade);
         $('#cookingIngredientsSummary').textContent = `Voir les ingrédients · ${cookingPersons} personne${cookingPersons > 1 ? 's' : ''}`;
         $('#cookingIngredientsPanel').open = false;
         $('#cookingMode').hidden = false;
@@ -1536,10 +1555,15 @@
       }
 
       function recipePrepDuration(recipe = {}) { return Math.max(0, Number(recipe.prepDuration) || 0); }
+      function recipeMarinadeDuration(recipe = {}) { return Math.max(0, Number(recipe.marinadeDuration) || 0); }
       function recipeCookDuration(recipe = {}) { return Math.max(0, Number(recipe.cookDuration) || 0); }
       function recipeTotalDuration(recipe = {}) {
         const explicit = Math.max(0, Number(recipe.duration) || 0);
-        return explicit || recipePrepDuration(recipe) + recipeCookDuration(recipe);
+        const prep = recipePrepDuration(recipe);
+        const marinade = recipeMarinadeDuration(recipe);
+        const cook = recipeCookDuration(recipe);
+        if (marinade) return Math.max(explicit, prep + marinade + cook);
+        return explicit || prep + cook;
       }
 
       function durationCardLabel(recipe = {}) {
@@ -1549,30 +1573,42 @@
 
       function durationDetailTags(recipe = {}) {
         const prep = recipePrepDuration(recipe);
+        const marinade = recipeMarinadeDuration(recipe);
         const cook = recipeCookDuration(recipe);
         const total = recipeTotalDuration(recipe);
         const tags = [];
         if (prep) tags.push(`<span class="tag">Préparation ${formatDuration(prep)}</span>`);
+        if (marinade) tags.push(`<span class="tag">Marinade ${formatDuration(marinade)}</span>`);
         if (cook) tags.push(`<span class="tag">Cuisson ${formatDuration(cook)}</span>`);
-        if (total) tags.push(`<span class="tag">Total ${formatDuration(total)}</span>`);
+        if (total) tags.push(`<span class="tag">${marinade ? 'Total avec marinade' : 'Total'} ${formatDuration(total)}</span>`);
         return tags.join('');
       }
 
       function durationPrintText(recipe = {}) {
         const prep = recipePrepDuration(recipe);
+        const marinade = recipeMarinadeDuration(recipe);
         const cook = recipeCookDuration(recipe);
         const total = recipeTotalDuration(recipe);
         const parts = [];
         if (prep) parts.push(`Préparation ${formatDuration(prep)}`);
+        if (marinade) parts.push(`Marinade ${formatDuration(marinade)}`);
         if (cook) parts.push(`Cuisson ${formatDuration(cook)}`);
-        if (total) parts.push(`Total ${formatDuration(total)}`);
+        if (total) parts.push(`${marinade ? 'Total avec marinade' : 'Total'} ${formatDuration(total)}`);
         return parts.join(' · ');
+      }
+
+      function setMarinadeFieldVisible(visible, focus = false) {
+        const show = !!visible;
+        $('#recipeMarinadeField')?.classList.toggle('hidden', !show);
+        $('#recipeMarinadeToggle')?.classList.toggle('hidden', show);
+        if (show && focus) $('#recipeMarinadeDuration')?.focus();
       }
 
       function syncTotalDuration() {
         const prep = Math.max(0, Number($('#recipePrepDuration')?.value) || 0);
+        const marinade = Math.max(0, Number($('#recipeMarinadeDuration')?.value) || 0);
         const cook = Math.max(0, Number($('#recipeCookDuration')?.value) || 0);
-        if (prep || cook) $('#recipeDuration').value = prep + cook;
+        if (prep || marinade || cook) $('#recipeDuration').value = prep + marinade + cook;
       }
 
       function resetForm(options = {}) {
@@ -1584,6 +1620,8 @@
         $('#recipeSeason').value = 'Toute l’année';
         $('#recipeType').value = 'Plat principal';
         $('#recipeDevice').value = 'Sans cuisson';
+        $('#recipeMarinadeDuration').value = '';
+        setMarinadeFieldVisible(false);
         $('#formTitle').textContent = 'Ajouter une recette';
         $('#cancelEditBtn').classList.add('hidden');
         if ($('#quickRecipeText')) $('#quickRecipeText').value = quickText;
@@ -1630,15 +1668,18 @@
 
       function parseDurationMinutes(value = '') {
         const text = foldText(value).replace(',', '.');
+        if (/\b(?:une|toute la) nuit\b/.test(text)) return 12 * 60;
         const clock = text.match(/(?:^|\s)(\d{1,2})\s*[:h]\s*(\d{1,2})(?:\s|$)/);
         if (clock) return Number(clock[1]) * 60 + Number(clock[2]);
         let total = 0;
+        const days = text.match(/(\d+(?:\.\d+)?)\s*(?:j|jour|jours)\b/);
         const hours = text.match(/(\d+(?:\.\d+)?)\s*h(?:eures?)?/);
         const minutes = text.match(/(\d+)\s*(?:min(?:utes?)?)/);
+        if (days) total += Math.round(Number(days[1]) * 1440);
         if (hours) total += Math.round(Number(hours[1]) * 60);
         if (minutes) total += Number(minutes[1]);
         if (!total) {
-          const plain = text.match(/(?:duree|temps|preparation|cuisson)[^\d]{0,20}(\d+)\s*$/);
+          const plain = text.match(/(?:duree|temps|preparation|marinade|cuisson)[^\d]{0,20}(\d+)\s*$/);
           if (plain) total = Number(plain[1]);
         }
         return total;
@@ -1662,6 +1703,11 @@
           if (duration) { parsed.prepDuration = duration; return true; }
         }
 
+        if (/^(marinade|temps de marinade|duree de marinade|temps marinade)$/.test(key) && match) {
+          const duration = parseDurationMinutes(val);
+          if (duration) { parsed.marinadeDuration = duration; return true; }
+        }
+
         if (/^(cuisson|temps de cuisson|duree de cuisson|temps cuisson)$/.test(key) && match) {
           const duration = parseDurationMinutes(val);
           if (duration) { parsed.cookDuration = duration; return true; }
@@ -1671,7 +1717,7 @@
           }
         }
 
-        if (/^(duree|duree totale|temps total|temps de la recette)$/.test(key) && match) {
+        if (/^(duree|duree totale|temps total|temps de la recette|total avec marinade)$/.test(key) && match) {
           const duration = parseDurationMinutes(val);
           if (duration) { parsed.duration = duration; return true; }
         }
@@ -1697,6 +1743,10 @@
 
       function inferRecipeValues(parsed, fullText) {
         const haystack = foldText(`${parsed.title} ${fullText}`);
+        if (!parsed.marinadeDuration) {
+          const marinadeLine = String(fullText || '').split(/\r?\n/).find(line => /marin/.test(foldText(line)) && parseDurationMinutes(line));
+          if (marinadeLine) parsed.marinadeDuration = parseDurationMinutes(marinadeLine);
+        }
         if (!parsed.device) {
           if (/air\s*fryer|airfryer/.test(haystack)) parsed.device = 'Airfryer';
           else if (/plancha/.test(haystack)) parsed.device = 'Plancha';
@@ -1725,7 +1775,7 @@
       function parseRecipeText(rawText) {
         const raw = String(rawText || '').replace(/\r\n?/g, '\n').replace(/\u00a0/g, ' ').trim();
         const sourceLines = raw.split('\n').map(cleanRecipeLine).filter(Boolean);
-        const parsed = { title: '', source: '', persons: 0, prepDuration: 0, cookDuration: 0, duration: 0, season: '', type: '', device: '', ingredients: [], steps: [], notes: [] };
+        const parsed = { title: '', source: '', persons: 0, prepDuration: 0, marinadeDuration: 0, cookDuration: 0, duration: 0, season: '', type: '', device: '', ingredients: [], steps: [], notes: [] };
         const candidates = [];
         let section = '';
 
@@ -1778,8 +1828,9 @@
           source: parsed.source || 'ChatGPT',
           persons: parsed.persons || 2,
           prepDuration: parsed.prepDuration || 0,
+          marinadeDuration: parsed.marinadeDuration || 0,
           cookDuration: parsed.cookDuration || 0,
-          duration: parsed.duration || (parsed.prepDuration || 0) + (parsed.cookDuration || 0),
+          duration: parsed.duration || (parsed.prepDuration || 0) + (parsed.marinadeDuration || 0) + (parsed.cookDuration || 0),
           season: parsed.season || 'Toute l’année',
           type: parsed.type || 'Plat principal',
           device: parsed.device || 'Sans cuisson',
@@ -1795,8 +1846,10 @@
         $('#recipeSource').value = optionValue('#recipeSource', parsed.source, 'ChatGPT');
         $('#recipePersons').value = Math.max(1, Number(parsed.persons) || 2);
         $('#recipePrepDuration').value = Number(parsed.prepDuration) || '';
+        $('#recipeMarinadeDuration').value = Number(parsed.marinadeDuration) || '';
+        setMarinadeFieldVisible(Number(parsed.marinadeDuration) > 0);
         $('#recipeCookDuration').value = Number(parsed.cookDuration) || '';
-        $('#recipeDuration').value = Number(parsed.duration) || ((Number(parsed.prepDuration) || 0) + (Number(parsed.cookDuration) || 0)) || '';
+        $('#recipeDuration').value = Number(parsed.duration) || ((Number(parsed.prepDuration) || 0) + (Number(parsed.marinadeDuration) || 0) + (Number(parsed.cookDuration) || 0)) || '';
         $('#recipeSeason').value = optionValue('#recipeSeason', parsed.season, 'Toute l’année');
         $('#recipeType').value = optionValue('#recipeType', parsed.type, 'Plat principal');
         $('#recipeDevice').value = optionValue('#recipeDevice', parsed.device, 'Sans cuisson');
@@ -1835,6 +1888,8 @@
         $('#recipeSource').value = r.source;
         $('#recipePersons').value = r.persons;
         $('#recipePrepDuration').value = recipePrepDuration(r) || '';
+        $('#recipeMarinadeDuration').value = recipeMarinadeDuration(r) || '';
+        setMarinadeFieldVisible(recipeMarinadeDuration(r) > 0);
         $('#recipeCookDuration').value = recipeCookDuration(r) || '';
         $('#recipeDuration').value = recipeTotalDuration(r) || '';
         $('#recipeSeason').value = r.season;
@@ -1860,8 +1915,9 @@
           source: $('#recipeSource').value,
           persons: Math.max(1, Number($('#recipePersons').value) || 1),
           prepDuration: Math.max(0, Number($('#recipePrepDuration').value) || 0),
+          marinadeDuration: Math.max(0, Number($('#recipeMarinadeDuration').value) || 0),
           cookDuration: Math.max(0, Number($('#recipeCookDuration').value) || 0),
-          duration: Math.max(0, Number($('#recipeDuration').value) || ((Number($('#recipePrepDuration').value) || 0) + (Number($('#recipeCookDuration').value) || 0))),
+          duration: Math.max(0, Number($('#recipeDuration').value) || ((Number($('#recipePrepDuration').value) || 0) + (Number($('#recipeMarinadeDuration').value) || 0) + (Number($('#recipeCookDuration').value) || 0))),
           season: $('#recipeSeason').value,
           type: $('#recipeType').value,
           device: $('#recipeDevice').value,
@@ -2329,7 +2385,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.3</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.4</p>`);
       }
 
       function printPlan() {
@@ -2342,7 +2398,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.3</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.4</p>`);
       }
 
       function renderSettings() {
@@ -2377,7 +2433,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.0.3', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.0.4', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -2486,7 +2542,14 @@
         });
         $('#recipeForm').addEventListener('submit', saveRecipe);
         $('#recipePrepDuration').addEventListener('input', syncTotalDuration);
+        $('#recipeMarinadeDuration').addEventListener('input', syncTotalDuration);
         $('#recipeCookDuration').addEventListener('input', syncTotalDuration);
+        $('#addMarinadeBtn').addEventListener('click', () => setMarinadeFieldVisible(true, true));
+        $('#removeMarinadeBtn').addEventListener('click', () => {
+          $('#recipeMarinadeDuration').value = '';
+          setMarinadeFieldVisible(false);
+          syncTotalDuration();
+        });
         $('#quickSaveRecipeBtn').addEventListener('click', () => importQuickRecipe(true));
         $('#quickFillRecipeBtn').addEventListener('click', () => importQuickRecipe(false));
         $('#cancelEditBtn').addEventListener('click', () => { resetForm(); navigate('recipes'); });
