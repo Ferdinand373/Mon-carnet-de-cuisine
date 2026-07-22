@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Mon carnet">
-  <title>Mon carnet de cuisine — V1.1</title>
+  <title>Mon carnet de cuisine — V1.2</title>
   <style>
     :root {
       --ink: #17211e;
@@ -325,7 +325,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V1.1</small>
+          <small>Collection personnelle · V1.2</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -481,7 +481,7 @@
       <div class="plan-list" id="planList"></div>
       <div class="sticky-actions">
         <button class="btn btn-light" type="button" id="printPlanBtn">Imprimer</button>
-        <button class="btn btn-copper" type="button" id="prepareClairBtn">Préparer pour Clair Courses</button>
+        <button class="btn btn-copper" type="button" id="prepareClairBtn">Envoyer à Clair Courses</button>
       </div>
     </section>
 
@@ -492,10 +492,10 @@
       <div class="settings-grid">
         <div class="setting-card">
           <h3>Clair Courses</h3>
-          <p>Ajoutez ici l’adresse de votre application. Le carnet copiera la liste puis ouvrira Clair Courses, sans le modifier.</p>
+          <p>L’adresse est déjà enregistrée. Le bouton « Envoyer à Clair Courses » copie les ingrédients et ouvre directement l’application. Modifiez cette adresse seulement si votre lien change.</p>
           <div class="field">
             <label for="clairUrl">Adresse de Clair Courses</label>
-            <input id="clairUrl" type="url" placeholder="https://…">
+            <input id="clairUrl" type="url" placeholder="https://ferdinand373.github.io/clair-courses/">
           </div>
           <div class="form-actions"><button class="btn btn-primary" id="saveSettingsBtn" type="button">Enregistrer</button></div>
         </div>
@@ -561,7 +561,8 @@
       let db;
       let recipes = [];
       let plans = [];
-      let settings = { clairUrl: '', seeded: false };
+      const DEFAULT_CLAIR_URL = 'https://ferdinand373.github.io/clair-courses/';
+      let settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: false };
       let currentView = 'home';
       let previousView = 'recipes';
       let activeFilter = 'all';
@@ -620,6 +621,10 @@
         plans = await getAll('plans');
         const settingsRows = await getAll('settings');
         settingsRows.forEach(row => settings[row.key] = row.value);
+        if (!settings.clairUrl) {
+          settings.clairUrl = DEFAULT_CLAIR_URL;
+          await put('settings', { key: 'clairUrl', value: settings.clairUrl });
+        }
         if (!settings.seeded && recipes.length === 0) await seedExamples();
         sortRecipes();
       }
@@ -1219,11 +1224,24 @@
         return output.join('\n');
       }
 
-      function openClairModal() {
-        const text = buildClairList();
+      function openClairModal(text = buildClairList()) {
         if (!text) { showToast('Aucun repas n’est planifié dans la période'); return; }
         $('#clairText').value = text;
         $('#clairModal').classList.add('open');
+      }
+
+      async function sendToClairCourses() {
+        const text = buildClairList();
+        if (!text) { showToast('Aucun repas n’est planifié dans la période'); return; }
+        const url = (settings.clairUrl || DEFAULT_CLAIR_URL).trim();
+        const ok = await copyText(text);
+        if (!ok) {
+          openClairModal(text);
+          showToast('La copie automatique a échoué');
+          return;
+        }
+        showToast('Liste copiée · ouverture de Clair Courses');
+        window.setTimeout(() => window.location.assign(url), 280);
       }
 
       async function copyText(text) {
@@ -1240,9 +1258,8 @@
         const ok = await copyText(text);
         showToast(ok ? 'Liste copiée' : 'Sélectionnez puis copiez la liste');
         if (openAfter) {
-          const url = settings.clairUrl?.trim();
-          if (url) window.open(url, '_blank', 'noopener');
-          else { $('#clairModal').classList.remove('open'); navigate('settings'); showToast('Ajoutez d’abord l’adresse de Clair Courses'); }
+          const url = (settings.clairUrl || DEFAULT_CLAIR_URL).trim();
+          window.location.assign(url);
         }
       }
 
@@ -1256,7 +1273,7 @@
       }
 
       function printRecipe(r) {
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.1</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${r.persons} personne${r.persons > 1 ? 's' : ''}${r.duration ? ` · ${r.duration} min` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${lines(r.ingredients).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.2</p>`);
       }
 
       function printPlan() {
@@ -1269,7 +1286,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.1</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V1.2</p>`);
       }
 
       function renderSettings() {
@@ -1285,7 +1302,7 @@
       }
 
       function exportBackup() {
-        const payload = { app: 'Mon carnet de cuisine', version: '1.0', exportedAt: new Date().toISOString(), recipes, plans, settings };
+        const payload = { app: 'Mon carnet de cuisine', version: '1.2', exportedAt: new Date().toISOString(), recipes, plans, settings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1302,7 +1319,8 @@
           await clearStore('recipes'); await clearStore('plans'); await clearStore('settings');
           for (const r of data.recipes) await put('recipes', r);
           for (const p of data.plans) await put('plans', p);
-          settings = { clairUrl: '', seeded: true, ...(data.settings || {}) };
+          settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: true, ...(data.settings || {}) };
+          if (!settings.clairUrl) settings.clairUrl = DEFAULT_CLAIR_URL;
           for (const [key,value] of Object.entries(settings)) await put('settings', { key, value });
           await loadData(); renderAll(); navigate('home'); showToast('Sauvegarde restaurée');
         } catch (err) { alert(`Impossible de restaurer ce fichier : ${err.message}`); }
@@ -1312,7 +1330,7 @@
         if (!confirm('Effacer définitivement toutes les recettes, photos et le planning ?')) return;
         if (!confirm('Cette action est irréversible sans sauvegarde. Confirmer ?')) return;
         await clearStore('recipes'); await clearStore('plans'); await clearStore('settings');
-        recipes = []; plans = []; settings = { clairUrl: '', seeded: true };
+        recipes = []; plans = []; settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: true };
         await put('settings', { key: 'seeded', value: true });
         renderAll(); navigate('home'); showToast('Carnet effacé');
       }
@@ -1358,7 +1376,7 @@
         $('#plan7Btn').addEventListener('click', () => setPlannerDays(7));
         $('#plannerStart').addEventListener('change', renderPlanner);
         $('#clearPlanBtn').addEventListener('click', clearVisiblePlan);
-        $('#prepareClairBtn').addEventListener('click', openClairModal);
+        $('#prepareClairBtn').addEventListener('click', sendToClairCourses);
         $('#printPlanBtn').addEventListener('click', printPlan);
         $('#copyClairBtn').addEventListener('click', () => copyClair(false));
         $('#openClairBtn').addEventListener('click', () => copyClair(true));
