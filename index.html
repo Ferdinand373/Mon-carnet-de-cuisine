@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.7</title>
+  <title>Mon carnet de cuisine — V2.0.8</title>
   <style>
     :root {
       --ink: #17211e;
@@ -463,7 +463,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.7</small>
+          <small>Collection personnelle · V2.0.8</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -514,6 +514,17 @@
         <button class="icon-btn" type="button" id="clearFiltersBtn" aria-label="Effacer les filtres">↺</button>
       </div>
       <div class="filter-groups" id="filterGroups">
+        <div class="filter-group">
+          <div class="filter-label">Catégorie</div>
+          <div class="filter-row" id="categoryFilterRow" role="group" aria-label="Filtrer par catégorie">
+            <button class="chip active" type="button" data-category-filter="all">Toutes</button>
+            <button class="chip" type="button" data-category-filter="Entrée">Entrées</button>
+            <button class="chip" type="button" data-category-filter="Plat">Plats</button>
+            <button class="chip" type="button" data-category-filter="Accompagnement">Accompagnements</button>
+            <button class="chip" type="button" data-category-filter="Dessert">Desserts</button>
+            <button class="chip" type="button" data-category-filter="Apéritif">Apéritif</button>
+          </div>
+        </div>
         <div class="filter-group">
           <div class="filter-label">Appareil</div>
           <div class="filter-row" id="deviceFilterRow" role="group" aria-label="Filtrer par appareil">
@@ -622,8 +633,12 @@
             <select id="recipeSeason"><option>Toute l’année</option><option>Printemps</option><option>Été</option><option>Automne</option><option>Hiver</option></select>
           </div>
           <div class="field">
-            <label for="recipeType">Type de plat</label>
-            <select id="recipeType"><option>Plat principal</option><option>Entrée</option><option>Salade</option><option>Poisson</option><option>Viande</option><option>Végétarien</option><option>Mijoté</option><option>Accompagnement</option><option>Dessert</option></select>
+            <label for="recipeCategory">Catégorie</label>
+            <select id="recipeCategory"><option>Plat</option><option>Entrée</option><option>Accompagnement</option><option>Dessert</option><option>Apéritif</option></select>
+          </div>
+          <div class="field">
+            <label for="recipeType">Type de recette</label>
+            <select id="recipeType"><option>Plat principal</option><option>Entrée</option><option>Salade</option><option>Poisson</option><option>Viande</option><option>Volaille</option><option>Végétarien</option><option>Mijoté</option><option>Accompagnement</option><option>Dessert</option><option>Autre</option></select>
           </div>
           <div class="field">
             <label for="recipeDevice">Cuisson / appareil</label>
@@ -876,6 +891,7 @@
       let settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: false };
       let currentView = 'home';
       let previousView = 'recipes';
+      let activeCategoryFilter = 'all';
       let activeDeviceFilter = 'all';
       let activeSeasonFilter = 'all';
       let favoriteOnly = false;
@@ -918,6 +934,17 @@
         return d.toISOString().slice(0,10);
       };
       const formatDay = (iso, long = true) => new Intl.DateTimeFormat('fr-FR', { weekday: long ? 'long' : 'short', day: 'numeric', month: long ? 'long' : 'short' }).format(new Date(`${iso}T12:00:00`));
+      const CATEGORY_VALUES = ['Entrée', 'Plat', 'Accompagnement', 'Dessert', 'Apéritif'];
+      function recipeCategory(recipe = {}) {
+        const current = String(recipe.category || '').trim();
+        if (CATEGORY_VALUES.includes(current)) return current;
+        const text = foldText(`${recipe.type || ''} ${recipe.title || ''}`);
+        if (/dessert|gateau|tarte|clafoutis|crepe|cake sucre|mousse|flan|glace/.test(text)) return 'Dessert';
+        if (/aperitif|apero|amuse[- ]?bouche|tapas|toast|tartinade/.test(text)) return 'Apéritif';
+        if (/accompagnement|garniture/.test(text)) return 'Accompagnement';
+        if (/entree/.test(text)) return 'Entrée';
+        return 'Plat';
+      }
       const iconFor = recipe => {
         const t = `${recipe.type} ${recipe.device}`.toLowerCase();
         if (t.includes('poisson')) return '🐟';
@@ -964,6 +991,11 @@
         plans = await getAll('plans');
         const settingsRows = await getAll('settings');
         settingsRows.forEach(row => settings[row.key] = row.value);
+        const categoryUpdates = recipes.filter(recipe => !CATEGORY_VALUES.includes(String(recipe.category || '').trim()));
+        for (const recipe of categoryUpdates) {
+          recipe.category = recipeCategory(recipe);
+          await put('recipes', recipe);
+        }
         if (!settings.clairUrl) {
           settings.clairUrl = DEFAULT_CLAIR_URL;
           await put('settings', { key: 'clairUrl', value: settings.clairUrl });
@@ -977,21 +1009,21 @@
         const examples = [
           {
             id: uid(), title: 'Dos de cabillaud, courgettes et citron', source: 'ChatGPT', persons: 3, duration: 30,
-            season: 'Été', type: 'Poisson', device: 'Airfryer', favorite: true, photo: '', createdAt: now, updatedAt: now,
+            season: 'Été', category: 'Plat', type: 'Poisson', device: 'Airfryer', favorite: true, photo: '', createdAt: now, updatedAt: now,
             ingredients: '3 dos de cabillaud\n2 courgettes\n500 g de pommes de terre grenaille\n1 citron\n1 c. à soupe d’huile d’olive\nUn peu de thym\nSel et poivre',
             steps: 'Couper les pommes de terre en deux et les mélanger avec la moitié de l’huile.\nCuire les pommes de terre 15 minutes à 190 °C dans l’Airfryer.\nAjouter les courgettes en rondelles et poursuivre 8 minutes.\nDéposer le cabillaud assaisonné, ajouter le citron et cuire encore 8 à 10 minutes.',
             notes: 'Recette d’exemple. À personnaliser ou supprimer après votre premier test.'
           },
           {
             id: uid(), title: 'Légumes d’été à la plancha et halloumi', source: 'Revue', persons: 2, duration: 25,
-            season: 'Été', type: 'Végétarien', device: 'Plancha', favorite: false, photo: '', createdAt: now, updatedAt: now,
+            season: 'Été', category: 'Plat', type: 'Végétarien', device: 'Plancha', favorite: false, photo: '', createdAt: now, updatedAt: now,
             ingredients: '1 courgette\n1 poivron rouge\n1 petite aubergine\n200 g de halloumi\n1 c. à soupe d’huile d’olive\nUn peu d’origan\nSel et poivre',
             steps: 'Couper les légumes en tranches régulières.\nChauffer la plancha et huiler légèrement les légumes.\nCuire les légumes 10 à 12 minutes en les retournant.\nAjouter le halloumi en tranches et le dorer 2 minutes de chaque côté.',
             notes: 'Recette d’exemple.'
           },
           {
             id: uid(), title: 'Sauté de veau au cidre', source: 'Famille', persons: 4, duration: 95,
-            season: 'Automne', type: 'Mijoté', device: 'Cocotte', favorite: true, photo: '', createdAt: now, updatedAt: now,
+            season: 'Automne', category: 'Plat', type: 'Mijoté', device: 'Cocotte', favorite: true, photo: '', createdAt: now, updatedAt: now,
             ingredients: '800 g de sauté de veau\n2 carottes\n1 oignon\n25 cl de cidre brut\n20 cl de crème\n1 c. à soupe de farine\n1 c. à soupe d’huile\nSel et poivre',
             steps: 'Faire dorer le veau dans l’huile.\nAjouter l’oignon et les carottes, puis saupoudrer de farine.\nVerser le cidre, couvrir et laisser mijoter 1 heure 10.\nAjouter la crème et poursuivre 10 minutes à feu doux.',
             notes: 'Recette d’exemple inspirée de vos habitudes.'
@@ -1277,7 +1309,7 @@
         const r = recipes.find(x => x.id === suggestionId);
         target.innerHTML = `<article class="recipe-card" data-recipe-id="${r.id}">
           <div class="recipe-image">${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}${r.favorite ? '<div class="fav-badge">♥</div>' : ''}</div>
-          <div class="recipe-body"><h4>${esc(r.title)}</h4><div class="tags"><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.device)}</span><span class="tag">${esc(r.type)}</span></div><div class="recipe-meta"><span>${durationCardLabel(r)}</span><span>${r.persons} pers.</span></div></div>
+          <div class="recipe-body"><h4>${esc(r.title)}</h4><div class="tags"><span class="tag">${esc(recipeCategory(r))}</span><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.device)}</span></div><div class="recipe-meta"><span>${durationCardLabel(r)}</span><span>${r.persons} pers.</span></div></div>
         </article>`;
       }
 
@@ -1297,12 +1329,14 @@
       function renderRecipes() {
         const query = $('#recipeSearch').value.trim().toLowerCase();
         let list = recipes.filter(r => {
-          const haystack = `${r.title} ${r.ingredients} ${r.source} ${r.season} ${r.type} ${r.device}`.toLowerCase();
+          const category = recipeCategory(r);
+          const haystack = `${r.title} ${r.ingredients} ${r.source} ${category} ${r.season} ${r.type} ${r.device}`.toLowerCase();
           const textMatch = !query || haystack.includes(query);
+          const categoryMatch = activeCategoryFilter === 'all' || category === activeCategoryFilter;
           const deviceMatch = activeDeviceFilter === 'all' || canonicalDevice(r.device) === activeDeviceFilter;
           const seasonMatch = activeSeasonFilter === 'all' || r.season === activeSeasonFilter;
           const favoriteMatch = !favoriteOnly || !!r.favorite;
-          return textMatch && deviceMatch && seasonMatch && favoriteMatch;
+          return textMatch && categoryMatch && deviceMatch && seasonMatch && favoriteMatch;
         });
         const grid = $('#recipeGrid');
         if (!list.length) {
@@ -1311,7 +1345,7 @@
         }
         grid.innerHTML = list.map(r => `<article class="recipe-card" data-recipe-id="${r.id}">
           <div class="recipe-image">${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}${r.favorite ? '<div class="fav-badge">♥</div>' : ''}</div>
-          <div class="recipe-body"><h4>${esc(r.title)}</h4><div class="tags"><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.device)}</span></div><div class="recipe-meta"><span>${recipeTotalDuration(r) ? durationCardLabel(r) : esc(r.type)}</span><span>${r.persons} pers.</span></div></div>
+          <div class="recipe-body"><h4>${esc(r.title)}</h4><div class="tags"><span class="tag">${esc(recipeCategory(r))}</span><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.device)}</span></div><div class="recipe-meta"><span>${recipeTotalDuration(r) ? durationCardLabel(r) : esc(r.type)}</span><span>${r.persons} pers.</span></div></div>
         </article>`).join('');
       }
 
@@ -1346,7 +1380,7 @@
           <article class="detail-sheet">
             <p class="eyebrow" style="color:var(--copper);opacity:1">${esc(r.source || 'Recette personnelle')}</p>
             <h2>${esc(r.title)}</h2>
-            <div class="detail-meta"><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.type)}</span><span class="tag">${esc(r.device)}</span><span class="tag" id="detailPersonsTag">${selectedPersonsFor(r)} personne${selectedPersonsFor(r) > 1 ? 's' : ''}</span>${durationDetailTags(r)}</div>
+            <div class="detail-meta"><span class="tag">${esc(recipeCategory(r))}</span><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.type)}</span><span class="tag">${esc(r.device)}</span><span class="tag" id="detailPersonsTag">${selectedPersonsFor(r)} personne${selectedPersonsFor(r) > 1 ? 's' : ''}</span>${durationDetailTags(r)}</div>
             <section class="servings-panel" aria-label="Adapter le nombre de convives">
               <div class="servings-head">
                 <div class="servings-copy"><strong>Je cuisine pour combien&nbsp;?</strong><span>Recette d’origine prévue pour ${r.persons} personne${r.persons > 1 ? 's' : ''}.</span></div>
@@ -1682,6 +1716,7 @@
         $('#recipePersons').value = 2;
         $('#recipeSource').value = 'ChatGPT';
         $('#recipeSeason').value = 'Toute l’année';
+        $('#recipeCategory').value = 'Plat';
         $('#recipeType').value = 'Plat principal';
         $('#recipeDevice').value = 'Sans cuisson';
         $('#recipeMarinadeDuration').value = '';
@@ -1760,7 +1795,8 @@
         if (/^(titre|nom|nom de la recette|recette)$/.test(key) && match) { parsed.title = val; return true; }
         if (/^(origine|source)$/.test(key) && match) { parsed.source = val; return true; }
         if (/^(saison)$/.test(key) && match) { parsed.season = val; return true; }
-        if (/^(type|type de plat|categorie)$/.test(key) && match) { parsed.type = val; return true; }
+        if (/^(categorie|catégorie)$/.test(key) && match) { parsed.category = val; return true; }
+        if (/^(type|type de plat|type de recette)$/.test(key) && match) { parsed.type = val; return true; }
         if (/^(notes?|conseils?|remarques?)$/.test(key) && match) { parsed.notes.push(val); return true; }
 
         if (/^(preparation|temps de preparation|duree de preparation|temps preparation)$/.test(key) && match) {
@@ -1829,6 +1865,13 @@
           else if (/poulet|porc|boeuf|veau|agneau|canard|saucisse|andouillette|filet mignon/.test(haystack)) parsed.type = 'Viande';
           else if (/vegetar|halloumi|tofu/.test(haystack)) parsed.type = 'Végétarien';
         }
+        if (!parsed.category) {
+          if (/dessert|gateau|tarte|clafoutis|crepe|cake sucre|mousse|flan|glace/.test(haystack)) parsed.category = 'Dessert';
+          else if (/aperitif|apero|amuse[- ]?bouche|tapas|toast|tartinade/.test(haystack)) parsed.category = 'Apéritif';
+          else if (/accompagnement|garniture/.test(haystack)) parsed.category = 'Accompagnement';
+          else if (/entree/.test(haystack)) parsed.category = 'Entrée';
+          else parsed.category = 'Plat';
+        }
         if (!parsed.season) {
           if (/ete|courgette|tomate|aubergine|poivron/.test(haystack)) parsed.season = 'Été';
           else if (/hiver|chou|potimarron|raclette/.test(haystack)) parsed.season = 'Hiver';
@@ -1840,7 +1883,7 @@
       function parseRecipeText(rawText) {
         const raw = String(rawText || '').replace(/\r\n?/g, '\n').replace(/\u00a0/g, ' ').trim();
         const sourceLines = raw.split('\n').map(cleanRecipeLine).filter(Boolean);
-        const parsed = { title: '', source: '', persons: 0, prepDuration: 0, marinadeDuration: 0, cookDuration: 0, duration: 0, season: '', type: '', device: '', ingredients: [], steps: [], notes: [] };
+        const parsed = { title: '', source: '', persons: 0, prepDuration: 0, marinadeDuration: 0, cookDuration: 0, duration: 0, season: '', category: '', type: '', device: '', ingredients: [], steps: [], notes: [] };
         const candidates = [];
         let section = '';
 
@@ -1899,6 +1942,7 @@
             ? calculatedKitchenDuration(parsed.prepDuration, parsed.marinadeDuration, parsed.cookDuration)
             : (parsed.duration || 0),
           season: parsed.season || 'Toute l’année',
+          category: CATEGORY_VALUES.includes(parsed.category) ? parsed.category : recipeCategory(parsed),
           type: parsed.type || 'Plat principal',
           device: parsed.device || 'Sans cuisson',
           ingredients: parsed.ingredients.join('\n').trim(),
@@ -1918,6 +1962,7 @@
         $('#recipeCookDuration').value = Number(parsed.cookDuration) || '';
         $('#recipeDuration').value = recipeTotalDuration(parsed) || '';
         $('#recipeSeason').value = optionValue('#recipeSeason', parsed.season, 'Toute l’année');
+        $('#recipeCategory').value = optionValue('#recipeCategory', parsed.category, 'Plat');
         $('#recipeType').value = optionValue('#recipeType', parsed.type, 'Plat principal');
         $('#recipeDevice').value = optionValue('#recipeDevice', parsed.device, 'Sans cuisson');
         $('#recipeIngredients').value = parsed.ingredients || '';
@@ -1960,7 +2005,8 @@
         $('#recipeCookDuration').value = recipeCookDuration(r) || '';
         $('#recipeDuration').value = recipeTotalDuration(r) || '';
         $('#recipeSeason').value = r.season;
-        $('#recipeType').value = r.type;
+        $('#recipeCategory').value = recipeCategory(r);
+        $('#recipeType').value = optionValue('#recipeType', r.type, 'Plat principal');
         $('#recipeDevice').value = r.device;
         $('#recipeIngredients').value = r.ingredients;
         $('#recipeSteps').value = r.steps;
@@ -1992,6 +2038,7 @@
             ? calculatedTotal
             : Math.max(0, Number($('#recipeDuration').value) || 0),
           season: $('#recipeSeason').value,
+          category: $('#recipeCategory').value,
           type: $('#recipeType').value,
           device: $('#recipeDevice').value,
           ingredients: $('#recipeIngredients').value.trim(),
@@ -2458,7 +2505,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.7</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.8</p>`);
       }
 
       function printPlan() {
@@ -2471,7 +2518,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.7</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.8</p>`);
       }
 
       function renderSettings() {
@@ -2506,7 +2553,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.0.7', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.0.8', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -2602,6 +2649,12 @@
           renderDetail(recipeId);
         });
         $('#recipeSearch').addEventListener('input', renderRecipes);
+        $('#categoryFilterRow').addEventListener('click', event => {
+          const chip = event.target.closest('[data-category-filter]'); if (!chip) return;
+          activeCategoryFilter = chip.dataset.categoryFilter;
+          $$('[data-category-filter]', $('#categoryFilterRow')).forEach(x => x.classList.toggle('active', x === chip));
+          renderRecipes();
+        });
         $('#deviceFilterRow').addEventListener('click', event => {
           const chip = event.target.closest('[data-device-filter]'); if (!chip) return;
           activeDeviceFilter = chip.dataset.deviceFilter;
@@ -2622,15 +2675,18 @@
           renderRecipes();
         });
         $('#clearFiltersBtn').addEventListener('click', () => {
+          activeCategoryFilter = 'all';
           activeDeviceFilter = 'all';
           activeSeasonFilter = 'all';
           favoriteOnly = false;
           $('#recipeSearch').value = '';
+          $$('[data-category-filter]', $('#categoryFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.categoryFilter === 'all'));
           $$('[data-device-filter]', $('#deviceFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.deviceFilter === 'all'));
           $$('[data-season-filter]', $('#seasonFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.seasonFilter === 'all'));
           $('#favoriteFilterBtn').classList.remove('active');
           $('#favoriteFilterBtn').setAttribute('aria-pressed', 'false');
           $('#favoriteFilterBtn').textContent = '♡ Favorites seulement';
+          $('#categoryFilterRow').scrollLeft = 0;
           $('#deviceFilterRow').scrollLeft = 0;
           $('#seasonFilterRow').scrollLeft = 0;
           renderRecipes();
