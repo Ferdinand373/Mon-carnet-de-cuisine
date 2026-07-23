@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.8</title>
+  <title>Mon carnet de cuisine — V2.0.10</title>
   <style>
     :root {
       --ink: #17211e;
@@ -463,7 +463,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.8</small>
+          <small>Collection personnelle · V2.0.10</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -867,6 +867,7 @@
             <button class="btn btn-primary" id="cookingTimerToggle" type="button">Lancer le minuteur</button>
             <button class="btn btn-light" id="cookingTimerReset" type="button">Réinitialiser</button>
           </div>
+          <small style="display:block;margin-top:9px;color:var(--muted)">🔔 Sonnerie activée au lancement</small>
         </div>
       </section>
       <footer class="cooking-nav">
@@ -917,6 +918,8 @@
       let cookingTimerTotal = 0;
       let cookingTimerRunning = false;
       let cookingTimerEndAt = 0;
+      let cookingTimerAudioContext = null;
+      let cookingTimerAudioReady = false;
       let clairReviewItems = [];
 
       const $ = (sel, root = document) => root.querySelector(sel);
@@ -1095,6 +1098,62 @@
         else await requestKeepAwake();
       }
 
+      async function prepareCookingTimerAudio() {
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return false;
+          if (!cookingTimerAudioContext) cookingTimerAudioContext = new AudioContextClass();
+          if (cookingTimerAudioContext.state === 'suspended') await cookingTimerAudioContext.resume();
+
+          // Une impulsion silencieuse déclenchée par le toucher de l'utilisateur
+          // autorise ensuite la sonnerie sur Safari/iPhone.
+          const oscillator = cookingTimerAudioContext.createOscillator();
+          const gain = cookingTimerAudioContext.createGain();
+          gain.gain.setValueAtTime(0.0001, cookingTimerAudioContext.currentTime);
+          oscillator.connect(gain);
+          gain.connect(cookingTimerAudioContext.destination);
+          oscillator.start();
+          oscillator.stop(cookingTimerAudioContext.currentTime + 0.02);
+          cookingTimerAudioReady = true;
+          return true;
+        } catch (_) {
+          cookingTimerAudioReady = false;
+          return false;
+        }
+      }
+
+      async function playCookingTimerAlarm() {
+        try {
+          if (!cookingTimerAudioReady) await prepareCookingTimerAudio();
+          const context = cookingTimerAudioContext;
+          if (!context) return false;
+          if (context.state === 'suspended') await context.resume();
+
+          const start = context.currentTime + 0.03;
+          const notes = [
+            [0.00, 880], [0.38, 880], [0.76, 1046],
+            [1.30, 880], [1.68, 1046], [2.06, 1175]
+          ];
+
+          notes.forEach(([offset, frequency]) => {
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency, start + offset);
+            gain.gain.setValueAtTime(0.0001, start + offset);
+            gain.gain.exponentialRampToValueAtTime(0.32, start + offset + 0.025);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + offset + 0.28);
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            oscillator.start(start + offset);
+            oscillator.stop(start + offset + 0.30);
+          });
+          return true;
+        } catch (_) {
+          return false;
+        }
+      }
+
       function clearCookingTimerInterval() {
         if (cookingTimerInterval) clearInterval(cookingTimerInterval);
         cookingTimerInterval = null;
@@ -1128,7 +1187,7 @@
         $('#cookingTimerReset').disabled = !cookingTimerTotal || cookingTimerRemaining === cookingTimerTotal;
       }
 
-      function syncRunningCookingTimer() {
+      async function syncRunningCookingTimer() {
         if (!cookingTimerRunning) return;
         cookingTimerRemaining = Math.max(0, Math.ceil((cookingTimerEndAt - Date.now()) / 1000));
         updateCookingTimerUi();
@@ -1136,8 +1195,9 @@
           cookingTimerRunning = false;
           clearCookingTimerInterval();
           updateCookingTimerUi();
-          showToast('Minuteur terminé');
-          if ('vibrate' in navigator) try { navigator.vibrate([180,100,180]); } catch (_) {}
+          showToast('⏰ Minuteur terminé');
+          await playCookingTimerAlarm();
+          if ('vibrate' in navigator) try { navigator.vibrate([250,120,250,120,450]); } catch (_) {}
         }
       }
 
@@ -1160,6 +1220,7 @@
           return;
         }
         if (cookingTimerRemaining <= 0) cookingTimerRemaining = cookingTimerTotal;
+        prepareCookingTimerAudio();
         cookingTimerRunning = true;
         cookingTimerEndAt = Date.now() + cookingTimerRemaining * 1000;
         clearCookingTimerInterval();
@@ -2505,7 +2566,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.8</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.10</p>`);
       }
 
       function printPlan() {
@@ -2518,7 +2579,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.8</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.10</p>`);
       }
 
       function renderSettings() {
