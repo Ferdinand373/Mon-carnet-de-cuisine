@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.13</title>
+  <title>Mon carnet de cuisine — V2.0.14</title>
   <style>
     :root {
       --ink: #17211e;
@@ -463,7 +463,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.13</small>
+          <small>Collection personnelle · V2.0.14</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -1628,6 +1628,17 @@
         return /^(pour\s+(le|la|les|l)\b|ingredients?\b|farce\b|sauce\b|garniture\b|accompagnement\b|legumes? rotis?\b|pour le service\b)/.test(normalized);
       }
 
+      function isPreparationInstruction(line = '') {
+        const normalized = foldText(line)
+          .replace(/^[\d.)\-–—•]+\s*/, '')
+          .replace(/[:：]$/, '')
+          .trim();
+        if (!normalized) return false;
+        // Les noms d'ingrédients comme « mélange d'épices » ne sont pas des consignes.
+        if (/^(?:melange|assortiment)\s+d\b/.test(normalized)) return false;
+        return /^(?:eplucher|peler|laver|rincer|essuyer|egoutter|secher|couper|decouper|tailler|trancher|emin?cer|hacher|ciseler|ecraser|raper|presser|zester|denoyauter|ep?epiner|retirer|enlever|inciser|entailler|melanger|fouetter|battre|ajouter|incorporer|verser|mettre|deposer|disposer|repartir|recouvrir|badigeonner|assaisonner|saler|poivrer|saupoudrer|arroser|faire\s+(?:chauffer|fondre|revenir|dorer|cuire)|prechauffer|chauffer|fondre|revenir|dorer|saisir|griller|cuire|enfourner|laisser|reserver|retourner|remuer|servir|garnir|former|rouler|plier|fermer|ouvrir)\b/.test(normalized);
+      }
+
       function scaleIngredientLine(line, factor = 1) {
         const original = String(line || '').trim();
         if (!original || factor === 1 || isIngredientHeading(original)) return original;
@@ -2370,19 +2381,117 @@
         await scheduleRecipeAt(target.date, target.meal);
       }
 
+      function splitShoppingIngredientRest(rest = '') {
+        const source = String(rest || '').trim();
+        const measure = source.match(/^(kg|g|mg|l|cl|ml|c\.?\s*[àa]\s*soupe|c\.?\s*[àa]\s*caf[ée]|cuill[èe]res?\s+[àa]\s+soupe|cuill[èe]res?\s+[àa]\s+caf[ée])\b\s*(?:(?:de)\s+|d[’']\s*)?(.+)$/i);
+        if (measure) return { name: measure[2].trim(), packageUnit: '', measureUnit: measure[1].trim() };
+        const packageMatch = source.match(/^(gousses?|t[êe]tes?|b[âa]tons?|bo[iî]tes?|paquets?|bouteilles?|pots?|tranches?|pi[èe]ces?|barquettes?|sachets?|[ée]pis?|bouquets?)\s+(?:(?:de)\s+|d[’']\s*)(.+)$/i);
+        if (packageMatch) return { name: packageMatch[2].trim(), packageUnit: packageMatch[1].trim(), measureUnit: '' };
+        return { name: source, packageUnit: '', measureUnit: '' };
+      }
+
+      function normalizeShoppingMeasure(value, unit = '') {
+        const normalized = foldText(unit).replace(/\s+/g, ' ').trim();
+        if (normalized === 'kg') return { value: value * 1000, unit: 'g' };
+        if (normalized === 'mg') return { value: value / 1000, unit: 'g' };
+        if (normalized === 'l') return { value: value * 1000, unit: 'ml' };
+        if (normalized === 'cl') return { value: value * 10, unit: 'ml' };
+        if (normalized === 'ml' || normalized === 'g') return { value, unit: normalized };
+        if (/soupe/.test(normalized)) return { value, unit: 'c. à soupe' };
+        if (/cafe/.test(normalized)) return { value, unit: 'c. à café' };
+        return { value, unit: normalized };
+      }
+
+      function shoppingIngredientIdentity(rest = '') {
+        const parts = splitShoppingIngredientRest(rest);
+        return ingredientMergeKey(parts.name);
+      }
+
+      function formatShoppingMeasure(value, unit = '') {
+        if (unit === 'g') {
+          if (value >= 1000) return `${formatScaledQuantity(value / 1000, 'measure', 'kg')} kg`;
+          return `${formatScaledQuantity(value, 'measure', 'g')} g`;
+        }
+        if (unit === 'ml') {
+          if (value >= 1000) return `${formatScaledQuantity(value / 1000, 'measure', 'l')} l`;
+          if (value >= 100 && value % 10 === 0) return `${formatScaledQuantity(value / 10, 'measure', 'cl')} cl`;
+          return `${formatScaledQuantity(value, 'measure', 'ml')} ml`;
+        }
+        const display = formatScaledQuantity(value, 'measure', unit);
+        return `${display}${unit ? ` ${unit}` : ''}`.trim();
+      }
+
+      function formatShoppingVariant(variant) {
+        if (variant.kind === 'measure') {
+          if (variant.unit === 'g' || variant.unit === 'ml') {
+            const quantity = formatShoppingMeasure(variant.value, variant.unit);
+            return `${quantity} de ${variant.name}`.replace(/\s+de\s+de\s+/i, ' de ').trim();
+          }
+          const display = formatScaledQuantity(variant.value, 'measure', variant.unit);
+          const rest = variant.rest.replace(/^(kg|g|mg|l|cl|ml|c\.?\s*[àa]\s*soupe|c\.?\s*[àa]\s*caf[ée]|cuill[èe]res?\s+[àa]\s+soupe|cuill[èe]res?\s+[àa]\s+caf[ée])\b/i, variant.unit || '$1');
+          return `${display} ${rest}`.trim();
+        }
+        const display = formatScaledQuantity(variant.value, 'count', '');
+        const rest = adjustCountLabel(variant.rest, variant.value);
+        return `${display} ${rest}`.trim();
+      }
+
+      function practicalMixedShoppingLine(group) {
+        const key = foldText(group.name);
+        if (/tomates?\s+cerises?/.test(key)) {
+          let grams = 0;
+          for (const variant of group.variants.values()) {
+            if (variant.kind === 'measure' && variant.unit === 'g') grams += variant.value;
+            else if (variant.kind === 'count') grams += variant.value * 15;
+          }
+          if (grams > 0) {
+            const packs = Math.max(1, Math.ceil(grams / 500));
+            return `Tomates cerises — ${packs} barquette${packs > 1 ? 's' : ''} de 500 g`;
+          }
+        }
+        return '';
+      }
+
+      function mixedShoppingLine(group) {
+        const practical = practicalMixedShoppingLine(group);
+        if (practical) return practical;
+        const quantities = [];
+        for (const variant of group.variants.values()) {
+          if (variant.kind === 'measure') quantities.push(formatShoppingMeasure(variant.value, variant.unit));
+          else if (variant.packageUnit) quantities.push(`${formatScaledQuantity(variant.value, 'count', '')} ${adjustCountLabel(variant.packageUnit, variant.value)}`);
+          else quantities.push(`${formatScaledQuantity(variant.value, 'count', '')} unité${variant.value > 1 ? 's' : ''}`);
+        }
+        const name = group.name.charAt(0).toUpperCase() + group.name.slice(1);
+        return `${name} — ${quantities.join(' et ')}`;
+      }
+
       function parseIngredientLine(line, factor = 1) {
         const scaledText = scaleIngredientLine(String(line || '').trim(), factor);
-        if (!scaledText || isIngredientHeading(scaledText)) return { text: scaledText, numeric: false, skip: isIngredientHeading(scaledText) };
+        const skip = !scaledText || isIngredientHeading(scaledText) || isPreparationInstruction(scaledText);
+        if (skip) return { text: scaledText, numeric: false, skip: true };
         const match = scaledText.match(/^((?:\d+(?:[.,]\d+)?|[½⅓⅔¼¾⅛⅜⅝⅞]|\d+\s*\/\s*\d+))\s+(.+)$/);
         if (!match || /\s(?:à|–|—|-)\s/.test(scaledText)) return { text: scaledText, numeric: false };
         const value = parseQuantityToken(match[1]);
         if (!Number.isFinite(value)) return { text: scaledText, numeric: false };
-        const info = ingredientQuantityKind(match[2], value);
-        return { text: scaledText, numeric: true, value, rest: match[2].trim(), kind: info.kind === 'fixed' ? 'count' : info.kind };
+        const rest = match[2].trim();
+        const info = ingredientQuantityKind(rest, value);
+        const kind = info.kind === 'fixed' ? 'count' : info.kind;
+        const parts = splitShoppingIngredientRest(rest);
+        const normalizedMeasure = kind === 'measure' ? normalizeShoppingMeasure(value, info.unit || parts.measureUnit) : { value, unit: '' };
+        return {
+          text: scaledText,
+          numeric: true,
+          value: normalizedMeasure.value,
+          rest,
+          name: parts.name,
+          packageUnit: parts.packageUnit,
+          kind,
+          unit: normalizedMeasure.unit
+        };
       }
 
       function buildClairListFromPlans(chosen) {
-        const numeric = new Map();
+        const groups = new Map();
         const plain = new Map();
         for (const plan of chosen) {
           const recipe = recipes.find(r => r.id === plan.recipeId);
@@ -2392,24 +2501,24 @@
             const parsed = parseIngredientLine(line, 1);
             if (parsed.skip) continue;
             if (parsed.numeric) {
-              const key = ingredientMergeKey(parsed.rest);
-              const previous = numeric.get(key) || { value: 0, rest: parsed.rest, kind: parsed.kind };
+              const key = shoppingIngredientIdentity(parsed.rest);
+              if (!key) continue;
+              const group = groups.get(key) || { name: parsed.name, variants: new Map() };
+              const signature = `${parsed.kind}:${parsed.unit || parsed.packageUnit || 'unité'}`;
+              const previous = group.variants.get(signature) || { ...parsed, value: 0 };
               previous.value += parsed.value;
-              if (!previous.kind) previous.kind = parsed.kind;
-              numeric.set(key, previous);
+              group.variants.set(signature, previous);
+              groups.set(key, group);
             } else {
-              const key = parsed.text.toLowerCase();
+              const key = foldText(parsed.text);
               if (!plain.has(key)) plain.set(key, parsed.text);
             }
           }
         }
         const output = [];
-        for (const item of numeric.values()) {
-          const unit = foldText(item.rest).split(' ')[0] || '';
-          const display = formatScaledQuantity(item.value, item.kind, unit);
-          const displayAmount = parseQuantityToken(display);
-          const rest = item.kind === 'count' ? adjustCountLabel(item.rest, displayAmount) : item.rest;
-          output.push(`${display} ${rest}`.trim());
+        for (const group of groups.values()) {
+          if (group.variants.size === 1) output.push(formatShoppingVariant([...group.variants.values()][0]));
+          else output.push(mixedShoppingLine(group));
         }
         output.push(...plain.values());
         return output.join('\n');
@@ -2622,7 +2731,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.13</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.14</p>`);
       }
 
       function printPlan() {
@@ -2635,7 +2744,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.13</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.14</p>`);
       }
 
       function renderSettings() {
