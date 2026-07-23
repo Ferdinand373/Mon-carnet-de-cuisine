@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.11</title>
+  <title>Mon carnet de cuisine — V2.0.12</title>
   <style>
     :root {
       --ink: #17211e;
@@ -463,7 +463,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.11</small>
+          <small>Collection personnelle · V2.0.12</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -2370,6 +2370,28 @@
         await scheduleRecipeAt(target.date, target.meal);
       }
 
+      function shoppingIngredientLine(line = '') {
+        const original = String(line || '').trim();
+        if (!original || isIngredientHeading(original)) return original;
+        let text = original.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
+
+        // Une recette peut demander le jus ou le zeste d'agrumes. Pour les courses,
+        // il faut acheter les fruits eux-mêmes.
+        const citrus = text.match(/^(?:le\s+)?(?:jus|zeste)\s+de\s+((?:\d+(?:[.,]\d+)?|[½⅓⅔¼¾⅛⅜⅝⅞]|\d+\s*\/\s*\d+))\s+(?:(?:petit(?:e|es|s)?|grand(?:e|es|s)?|gros(?:se|ses|s)?)\s+)?(citrons?|oranges?|pamplemousses?|clémentines?|mandarines?)\b/i);
+        if (citrus) return `${citrus[1]} ${citrus[2]}`;
+
+        text = text
+          .replace(/\s*,\s*idéalement\s+(?:du|de la)\s+panko\b/i, ' panko')
+          .replace(/\([^)]*(?:facultatif|optionnel|pour servir|selon le goût)[^)]*\)/gi, ' ')
+          .replace(/\s*,\s*(?:en|avec|pour|afin|à servir|au moment de|de préférence)\b.*$/i, '')
+          .replace(/\s+(?:finement\s+)?(?:désossé(?:e|es|s)?|écrasé(?:e|es|s)?|haché(?:e|es|s)?|émincé(?:e|es|s)?|coupé(?:e|es|s)?|rincé(?:e|es|s)?|égoutté(?:e|es|s)?|pelé(?:e|es|s)?|épépiné(?:e|es|s)?|cuit(?:e|es|s)?)\s*$/i, '')
+          .replace(/^(?:du|de la|des|le|la|les)\s+/i, '')
+          .replace(/[.,;:]+$/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        return text;
+      }
+
       function parseIngredientLine(line, factor = 1) {
         const scaledText = scaleIngredientLine(String(line || '').trim(), factor);
         if (!scaledText || isIngredientHeading(scaledText)) return { text: scaledText, numeric: false, skip: isIngredientHeading(scaledText) };
@@ -2388,8 +2410,10 @@
           const recipe = recipes.find(r => r.id === plan.recipeId);
           if (!recipe) continue;
           const chosenPersons = clampPersons(plan.persons || recipe.persons || 1, recipe.persons || 1);
-          for (const line of scaledIngredientLines(recipe, chosenPersons)) {
-            const parsed = parseIngredientLine(line, 1);
+          const factor = chosenPersons / clampPersons(recipe.persons || 1, 1);
+          for (const rawLine of lines(recipe.ingredients)) {
+            const line = shoppingIngredientLine(rawLine);
+            const parsed = parseIngredientLine(line, factor);
             if (parsed.skip) continue;
             if (parsed.numeric) {
               const key = ingredientMergeKey(parsed.rest);
@@ -2576,7 +2600,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.11</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.12</p>`);
       }
 
       function printPlan() {
@@ -2589,7 +2613,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.11</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.12</p>`);
       }
 
       function renderSettings() {
