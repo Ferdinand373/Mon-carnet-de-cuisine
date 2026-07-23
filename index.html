@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.6</title>
+  <title>Mon carnet de cuisine — V2.0.7</title>
   <style>
     :root {
       --ink: #17211e;
@@ -140,8 +140,12 @@
       padding: 13px 14px; outline: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
     }
     .searchbox:focus, .field input:focus, .field select:focus, .field textarea:focus { border-color: rgba(21,60,53,.45); box-shadow: 0 0 0 4px rgba(21,60,53,.08); }
-    .filter-row { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 12px; scrollbar-width: none; }
+    .filter-groups { display: grid; gap: 8px; margin: 2px 0 14px; }
+    .filter-group { min-width: 0; }
+    .filter-label { margin: 0 0 5px 2px; color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .filter-row { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 7px; scrollbar-width: none; scroll-padding-inline: 2px; }
     .filter-row::-webkit-scrollbar { display: none; }
+    .filter-favorite-row { display: flex; padding-top: 1px; }
     .chip { border: 1px solid var(--line); background: rgba(255,255,255,.72); border-radius: 999px; padding: 9px 12px; white-space: nowrap; color: var(--muted); cursor: pointer; }
     .chip.active { background: var(--forest); color: #fff; border-color: var(--forest); }
     .empty-state { background: rgba(255,255,255,.58); border: 1px dashed rgba(23,33,30,.2); border-radius: 22px; padding: 34px 20px; text-align: center; color: var(--muted); }
@@ -459,7 +463,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.6</small>
+          <small>Collection personnelle · V2.0.7</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -509,14 +513,35 @@
         <input class="searchbox" id="recipeSearch" type="search" placeholder="Rechercher une recette, un ingrédient…" autocomplete="off">
         <button class="icon-btn" type="button" id="clearFiltersBtn" aria-label="Effacer les filtres">↺</button>
       </div>
-      <div class="filter-row" id="filterRow">
-        <button class="chip active" type="button" data-filter="all">Toutes</button>
-        <button class="chip" type="button" data-filter="favorite">Favorites</button>
-        <button class="chip" type="button" data-filter="Airfryer">Airfryer</button>
-        <button class="chip" type="button" data-filter="Plancha">Plancha</button>
-        <button class="chip" type="button" data-filter="Mijoté">Mijotés</button>
-        <button class="chip" type="button" data-filter="Été">Été</button>
-        <button class="chip" type="button" data-filter="Hiver">Hiver</button>
+      <div class="filter-groups" id="filterGroups">
+        <div class="filter-group">
+          <div class="filter-label">Appareil</div>
+          <div class="filter-row" id="deviceFilterRow" role="group" aria-label="Filtrer par appareil">
+            <button class="chip active" type="button" data-device-filter="all">Tous</button>
+            <button class="chip" type="button" data-device-filter="Airfryer">Air fryer</button>
+            <button class="chip" type="button" data-device-filter="Plancha">Plancha</button>
+            <button class="chip" type="button" data-device-filter="Barbecue">Barbecue</button>
+            <button class="chip" type="button" data-device-filter="Plaque">Plaques</button>
+            <button class="chip" type="button" data-device-filter="Four">Four</button>
+            <button class="chip" type="button" data-device-filter="Cocotte">Cocotte</button>
+            <button class="chip" type="button" data-device-filter="Micro-ondes">Micro-ondes</button>
+            <button class="chip" type="button" data-device-filter="Sans cuisson">Sans cuisson</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-label">Saison</div>
+          <div class="filter-row" id="seasonFilterRow" role="group" aria-label="Filtrer par saison">
+            <button class="chip active" type="button" data-season-filter="all">Toutes</button>
+            <button class="chip" type="button" data-season-filter="Toute l’année">Toute l’année</button>
+            <button class="chip" type="button" data-season-filter="Printemps">Printemps</button>
+            <button class="chip" type="button" data-season-filter="Été">Été</button>
+            <button class="chip" type="button" data-season-filter="Automne">Automne</button>
+            <button class="chip" type="button" data-season-filter="Hiver">Hiver</button>
+          </div>
+        </div>
+        <div class="filter-favorite-row">
+          <button class="chip" id="favoriteFilterBtn" type="button" aria-pressed="false">♡ Favorites seulement</button>
+        </div>
       </div>
       <div class="recipe-grid" id="recipeGrid"></div>
     </section>
@@ -851,7 +876,9 @@
       let settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: false };
       let currentView = 'home';
       let previousView = 'recipes';
-      let activeFilter = 'all';
+      let activeDeviceFilter = 'all';
+      let activeSeasonFilter = 'all';
+      let favoriteOnly = false;
       let plannerDays = 2;
       let currentPhoto = '';
       let suggestionId = null;
@@ -1254,15 +1281,28 @@
         </article>`;
       }
 
+      function canonicalDevice(value = '') {
+        const normalized = foldText(value);
+        if (/air\s*fryer|airfryer/.test(normalized)) return 'Airfryer';
+        if (/plancha/.test(normalized)) return 'Plancha';
+        if (/barbecue|weber/.test(normalized)) return 'Barbecue';
+        if (/plaque|poele|casserole/.test(normalized)) return 'Plaque';
+        if (/cocotte|mijot/.test(normalized)) return 'Cocotte';
+        if (/micro[- ]?ondes?/.test(normalized)) return 'Micro-ondes';
+        if (/sans cuisson|cru/.test(normalized)) return 'Sans cuisson';
+        if (/four/.test(normalized)) return 'Four';
+        return String(value || '');
+      }
+
       function renderRecipes() {
         const query = $('#recipeSearch').value.trim().toLowerCase();
         let list = recipes.filter(r => {
           const haystack = `${r.title} ${r.ingredients} ${r.source} ${r.season} ${r.type} ${r.device}`.toLowerCase();
           const textMatch = !query || haystack.includes(query);
-          let filterMatch = true;
-          if (activeFilter === 'favorite') filterMatch = !!r.favorite;
-          else if (activeFilter !== 'all') filterMatch = [r.season, r.type, r.device].includes(activeFilter);
-          return textMatch && filterMatch;
+          const deviceMatch = activeDeviceFilter === 'all' || canonicalDevice(r.device) === activeDeviceFilter;
+          const seasonMatch = activeSeasonFilter === 'all' || r.season === activeSeasonFilter;
+          const favoriteMatch = !favoriteOnly || !!r.favorite;
+          return textMatch && deviceMatch && seasonMatch && favoriteMatch;
         });
         const grid = $('#recipeGrid');
         if (!list.length) {
@@ -2418,7 +2458,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.6</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.7</p>`);
       }
 
       function printPlan() {
@@ -2431,7 +2471,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.6</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.7</p>`);
       }
 
       function renderSettings() {
@@ -2466,7 +2506,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.0.6', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.0.7', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -2562,15 +2602,37 @@
           renderDetail(recipeId);
         });
         $('#recipeSearch').addEventListener('input', renderRecipes);
-        $('#filterRow').addEventListener('click', event => {
-          const chip = event.target.closest('[data-filter]'); if (!chip) return;
-          activeFilter = chip.dataset.filter;
-          $$('.chip', $('#filterRow')).forEach(x => x.classList.toggle('active', x === chip));
+        $('#deviceFilterRow').addEventListener('click', event => {
+          const chip = event.target.closest('[data-device-filter]'); if (!chip) return;
+          activeDeviceFilter = chip.dataset.deviceFilter;
+          $$('[data-device-filter]', $('#deviceFilterRow')).forEach(x => x.classList.toggle('active', x === chip));
+          renderRecipes();
+        });
+        $('#seasonFilterRow').addEventListener('click', event => {
+          const chip = event.target.closest('[data-season-filter]'); if (!chip) return;
+          activeSeasonFilter = chip.dataset.seasonFilter;
+          $$('[data-season-filter]', $('#seasonFilterRow')).forEach(x => x.classList.toggle('active', x === chip));
+          renderRecipes();
+        });
+        $('#favoriteFilterBtn').addEventListener('click', event => {
+          favoriteOnly = !favoriteOnly;
+          event.currentTarget.classList.toggle('active', favoriteOnly);
+          event.currentTarget.setAttribute('aria-pressed', String(favoriteOnly));
+          event.currentTarget.textContent = favoriteOnly ? '♥ Favorites seulement' : '♡ Favorites seulement';
           renderRecipes();
         });
         $('#clearFiltersBtn').addEventListener('click', () => {
-          activeFilter = 'all'; $('#recipeSearch').value = '';
-          $$('.chip', $('#filterRow')).forEach(x => x.classList.toggle('active', x.dataset.filter === 'all'));
+          activeDeviceFilter = 'all';
+          activeSeasonFilter = 'all';
+          favoriteOnly = false;
+          $('#recipeSearch').value = '';
+          $$('[data-device-filter]', $('#deviceFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.deviceFilter === 'all'));
+          $$('[data-season-filter]', $('#seasonFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.seasonFilter === 'all'));
+          $('#favoriteFilterBtn').classList.remove('active');
+          $('#favoriteFilterBtn').setAttribute('aria-pressed', 'false');
+          $('#favoriteFilterBtn').textContent = '♡ Favorites seulement';
+          $('#deviceFilterRow').scrollLeft = 0;
+          $('#seasonFilterRow').scrollLeft = 0;
           renderRecipes();
         });
         $('#recipeForm').addEventListener('submit', saveRecipe);
