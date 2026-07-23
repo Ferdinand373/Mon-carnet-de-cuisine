@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.0.16</title>
+  <title>Mon carnet de cuisine — V2.1 Premium</title>
   <style>
     :root {
       --ink: #17211e;
@@ -309,6 +309,9 @@
     .setting-card { background: var(--card-solid); border: 1px solid var(--line); border-radius: 22px; padding: 18px; box-shadow: var(--shadow-soft); }
     .setting-card h3 { font-family: Georgia, "Times New Roman", serif; font-size: 21px; font-weight: 500; margin: 0 0 8px; }
     .setting-card p { color: var(--muted); line-height: 1.45; margin: 0 0 14px; font-size: 14px; }
+    .pantry-settings { margin-top: 14px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.45); }
+    .pantry-settings summary { cursor: pointer; color: var(--forest); font-weight: 750; }
+    .pantry-settings .field { margin-top: 12px; }
     .backup-status { padding: 10px 12px; border-radius: 14px; background: rgba(21,60,53,.07); color: var(--forest) !important; }
     .backup-status.due { background: rgba(182,119,69,.14); color: #86512e !important; font-weight: 650; }
     .bottom-nav {
@@ -335,8 +338,13 @@
     .clair-review-list { display: grid; gap: 8px; max-height: 46vh; overflow: auto; padding: 2px; }
     .clair-review-item { display: flex; align-items: flex-start; gap: 11px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 14px; background: #fbf8f2; transition: opacity .15s ease, background .15s ease; }
     .clair-review-item.is-skipped { opacity: .66; background: #f0ece5; }
-    .clair-review-item input { flex: 0 0 auto; width: 21px; height: 21px; margin: 0; accent-color: var(--forest); }
-    .clair-review-item span { line-height: 1.35; }
+    .clair-review-check { flex: 0 0 auto; display: grid; place-items: center; width: 44px; min-height: 44px; margin: -8px 0 -8px -8px; cursor: pointer; }
+    .clair-review-check input { width: 21px; height: 21px; margin: 0; accent-color: var(--forest); }
+    .clair-review-copy { min-width: 0; flex: 1 1 auto; line-height: 1.35; }
+    .clair-review-copy > span { display: block; }
+    .clair-choice { width: 100%; margin-top: 7px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: #fffdf8; }
+    .clair-choice:focus-visible, .clair-review-check input:focus-visible { outline: 3px solid rgba(182,119,69,.45); outline-offset: 2px; }
+    .clair-item-note { margin-top: 4px; color: var(--muted); font-size: 12px; }
     .modal-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
     .toast { position: fixed; left: 50%; transform: translateX(-50%) translateY(20px); bottom: calc(102px + var(--safe-bottom)); z-index: 6000; background: #17211e; color: #fff; padding: 12px 16px; border-radius: 999px; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .25s ease; max-width: calc(100% - 32px); text-align: center; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -463,7 +471,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.0.16</small>
+          <small>Collection personnelle · V2.1 Premium</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -696,6 +704,14 @@
             <label for="clairUrl">Adresse de Clair Courses</label>
             <input id="clairUrl" type="url" placeholder="https://ferdinand373.github.io/clair-courses/">
           </div>
+          <details class="pantry-settings">
+            <summary>Produits de réserve</summary>
+            <div class="field">
+              <label for="pantryProducts">Produits habituellement présents</label>
+              <textarea id="pantryProducts" rows="6" placeholder="Un produit par ligne"></textarea>
+              <small>Ils resteront visibles, mais décochés par défaut avant l’envoi. Vous pourrez toujours les recocher.</small>
+            </div>
+          </details>
           <div class="form-actions"><button class="btn btn-primary" id="saveSettingsBtn" type="button">Enregistrer</button></div>
         </div>
         <div class="setting-card">
@@ -826,14 +842,14 @@
         <div><h3 id="clairTitle">Liste pour Clair Courses</h3><p>Un article par ligne, prêt à être transmis directement.</p></div>
         <button class="icon-btn" type="button" data-close-modal aria-label="Fermer">×</button>
       </div>
-      <div class="clair-review-summary" id="clairReviewSummary">Vérifiez les articles avant l’envoi.</div>
+      <div class="clair-review-summary" id="clairReviewSummary" role="status" aria-live="polite" aria-atomic="true">Vérifiez les articles avant l’envoi.</div>
       <div class="clair-review-tools">
         <button class="btn btn-light" id="clairEssentialsBtn" type="button">Courses utiles</button>
         <button class="btn btn-light" id="clairSelectAllBtn" type="button">Tout cocher</button>
       </div>
       <div class="clair-review-list" id="clairReviewList" aria-label="Ingrédients à envoyer"></div>
       <textarea id="clairText" aria-hidden="true" tabindex="-1"></textarea>
-      <p class="subtle" id="scalingNote">Les produits de placard et ceux déjà enregistrés dans « Mes produits » sont décochés par défaut. Recochez-les seulement lorsqu’il vous en manque.</p>
+      <p class="subtle" id="scalingNote">Les produits indiqués comme réserves dans Réglages et ceux déjà enregistrés dans « Mes produits » sont décochés par défaut. Recochez-les seulement lorsqu’il vous en manque.</p>
       <div class="modal-actions">
         <button class="btn btn-primary" id="copyClairBtn" type="button">Copier la liste</button>
         <button class="btn btn-copper" id="openClairBtn" type="button">Envoyer à Clair Courses</button>
@@ -890,7 +906,17 @@
       let recipes = [];
       let plans = [];
       const DEFAULT_CLAIR_URL = 'https://ferdinand373.github.io/clair-courses/';
-      let settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: false };
+      const DEFAULT_PANTRY_PRODUCTS = [
+        'sel', 'poivre', 'eau', 'huile', 'vinaigre', 'paprika',
+        'sauce soja', 'mirin', 'cannelle', 'anis étoilé', 'badiane',
+        'cassonade', 'sucre roux', 'cumin', 'curry', 'muscade',
+        'piment', 'curcuma', 'gingembre en poudre', 'épices'
+      ];
+      let settings = {
+        clairUrl: DEFAULT_CLAIR_URL,
+        pantryProducts: [...DEFAULT_PANTRY_PRODUCTS],
+        seeded: false
+      };
       let currentView = 'home';
       let previousView = 'recipes';
       let activeCategoryFilter = 'all';
@@ -922,6 +948,11 @@
       let cookingTimerAudioContext = null;
       let cookingTimerAudioReady = false;
       let clairReviewItems = [];
+      let latestClairReviewRows = [];
+      let latestClairReviewText = '';
+      let clairModalReturnFocus = null;
+      let clairPantryCacheRaw = null;
+      let clairPantryCache = [];
 
       const $ = (sel, root = document) => root.querySelector(sel);
       const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -990,11 +1021,27 @@
       function remove(store, key) { return new Promise((resolve, reject) => { const r = tx(store, 'readwrite').delete(key); r.onsuccess = () => resolve(); r.onerror = () => reject(r.error); }); }
       function clearStore(store) { return new Promise((resolve, reject) => { const r = tx(store, 'readwrite').clear(); r.onsuccess = () => resolve(); r.onerror = () => reject(r.error); }); }
 
+      function normalizePantryProducts(value, useDefaultsWhenMissing = true) {
+        if (value === undefined || value === null) return useDefaultsWhenMissing ? [...DEFAULT_PANTRY_PRODUCTS] : [];
+        const source = Array.isArray(value) ? value : String(value).split(/\r?\n|,/);
+        const seen = new Set();
+        const result = [];
+        for (const item of source) {
+          const label = String(item || '').trim();
+          const key = foldText(label).replace(/\s+/g, ' ');
+          if (!key || seen.has(key)) continue;
+          seen.add(key);
+          result.push(label);
+        }
+        return result;
+      }
+
       async function loadData() {
         recipes = await getAll('recipes');
         plans = await getAll('plans');
         const settingsRows = await getAll('settings');
         settingsRows.forEach(row => settings[row.key] = row.value);
+        settings.pantryProducts = normalizePantryProducts(settings.pantryProducts);
         const categoryUpdates = recipes.filter(recipe => !CATEGORY_VALUES.includes(String(recipe.category || '').trim()));
         for (const recipe of categoryUpdates) {
           recipe.category = recipeCategory(recipe);
@@ -1602,10 +1649,13 @@
           ['steak haché','steaks hachés'], ['steak','steaks'], ['poulet','poulets'], ['saucisse','saucisses'],
           ['filet','filets'], ['escalope','escalopes'], ['tranche','tranches'], ['carotte','carottes'],
           ['navet','navets'], ['oignon','oignons'], ['échalote','échalotes'], ['echalote','echalotes'],
-          ['courgette','courgettes'], ['tomate','tomates'], ['pomme de terre','pommes de terre'],
+          ['courgette','courgettes'], ['tomate cerise','tomates cerises'], ['tomate','tomates'], ['pomme de terre','pommes de terre'],
+          ['citron jaune','citrons jaunes'], ['citron','citrons'], ['radis','radis'], ['salade','salades'],
+          ['cornichon','cornichons'], ['câpre','câpres'], ['capre','capres'],
           ['gousse','gousses'], ['tête','têtes'], ['tete','tetes'], ['branche','branches'], ['feuille','feuilles'],
           ['bouquet garni','bouquets garnis'], ['bouquet','bouquets'], ['pincée','pincées'], ['pincee','pincees'],
-          ['cuisse','cuisses'], ['morceau','morceaux'], ['portion','portions'], ['barquette','barquettes']
+          ['cuisse','cuisses'], ['morceau','morceaux'], ['portion','portions'], ['barquette','barquettes'],
+          ['petit bocal','petits bocaux'], ['bocal','bocaux'], ['pot','pots'], ['botte','bottes']
         ];
         const source = String(rest).trim();
         for (const [singular, pluralForm] of pairs) {
@@ -2473,12 +2523,14 @@
         const source = String(rest || '').trim();
         const measure = source.match(/^(kg|g|mg|l|cl|ml|c\.?\s*[àa]\s*soupe|c\.?\s*[àa]\s*caf[ée]|cuill[èe]res?\s+[àa]\s+soupe|cuill[èe]res?\s+[àa]\s+caf[ée])\b\s*(?:(?:de)\s+|d[’']\s*)?(.+)$/i);
         if (measure) return { name: measure[2].trim(), packageUnit: '', measureUnit: measure[1].trim() };
-        const packageMatch = source.match(/^(gousses?|t[êe]tes?|b[âa]tons?|bo[iî]tes?|paquets?|bouteilles?|pots?|tranches?|pi[èe]ces?|barquettes?|sachets?|[ée]pis?|bouquets?)\s+(?:(?:de)\s+|d[’']\s*)(.+)$/i);
+        const packageMatch = source.match(/^(gousses?|t[êe]tes?|b[âa]tons?|bo[iî]tes?|paquets?|bouteilles?|pots?|tranches?|pi[èe]ces?|barquettes?|sachets?|[ée]pis?|bouquets?|bottes?|bocaux|bocal)\s+(?:(?:de)\s+|d[’']\s*)(.+)$/i);
         if (packageMatch) return { name: packageMatch[2].trim(), packageUnit: packageMatch[1].trim(), measureUnit: '' };
         return { name: source, packageUnit: '', measureUnit: '' };
       }
 
-      function canonicalShoppingProductName(name = '') {
+      // Une table fermée évite de fusionner des produits seulement ressemblants
+      // (citron vert / citron jaune, tomate / tomate cerise, etc.).
+      function shoppingProductProfile(name = '') {
         let normalized = foldText(name)
           .replace(/œ/g, 'oe')
           .replace(/æ/g, 'ae')
@@ -2486,13 +2538,36 @@
           .replace(/[^a-z0-9]+/g, ' ')
           .replace(/^(?:un peu de|quelques?|du|de la|des|le|la|les|l)\s+/, '')
           .trim();
-        if (/^chapelure\s+(?:panko|japonaise)$/.test(normalized)) return 'chapelure panko';
-        if (normalized === 'chapelure') return 'chapelure';
-        if (/^tomates?\s+cerises?$/.test(normalized)) return 'tomate cerise';
-        if (/^pommes?\s+de\s+terre$/.test(normalized)) return 'pomme de terre';
-        if (/^oeufs?$/.test(normalized)) return 'oeuf';
-        if (/^(?:gousses?\s+(?:de|d)\s+)?ail$/.test(normalized)) return 'ail';
-        return ingredientMergeKey(normalized);
+        if (/^(?:chapelure\s+(?:panko|japonaise)|panko)$/.test(normalized)) return { key: 'chapelure', specificity: 3, preferredName: 'chapelure panko' };
+        if (normalized === 'chapelure') return { key: 'chapelure', specificity: 1, preferredName: '' };
+        if (/^tomates?\s+cerises?$/.test(normalized)) return { key: 'tomate cerise', specificity: 2, preferredName: 'tomates cerises' };
+        if (/^tomates?$/.test(normalized)) return { key: 'tomate', specificity: 1, preferredName: 'tomates' };
+        if (/^pommes?\s+de\s+terre$/.test(normalized)) return { key: 'pomme de terre', specificity: 1, preferredName: 'pommes de terre' };
+        if (/^courgettes?$/.test(normalized)) return { key: 'courgette', specificity: 1, preferredName: 'courgettes' };
+        if (/^oeufs?$/.test(normalized)) return { key: 'oeuf', specificity: 1, preferredName: 'œufs' };
+        if (/^(?:gousses?\s+(?:de|d)\s+)?ail$/.test(normalized)) return { key: 'ail', specificity: 1, preferredName: '' };
+        if (/^citrons?\s+jaunes?$/.test(normalized)) return { key: 'citron', specificity: 2, preferredName: '' };
+        if (/^citrons?$/.test(normalized)) return { key: 'citron', specificity: 1, preferredName: '' };
+        if (/^cornichons?$/.test(normalized)) return { key: 'cornichon', specificity: 1, preferredName: 'cornichons' };
+        if (/^capres?$/.test(normalized)) return { key: 'capre', specificity: 1, preferredName: 'câpres' };
+        if (/^yaourts?\s+grecs?$/.test(normalized)) return { key: 'yaourt grec', specificity: 1, preferredName: '' };
+        if (/^radis$/.test(normalized)) return { key: 'radis', specificity: 1, preferredName: '' };
+        if (/^salades?$/.test(normalized)) return { key: 'salade', specificity: 1, preferredName: '' };
+        return { key: ingredientMergeKey(normalized), specificity: 0, preferredName: '' };
+      }
+
+      function canonicalShoppingProductName(name = '') {
+        return shoppingProductProfile(name).key;
+      }
+
+      function applyPreciseShoppingName(group, name = '') {
+        const profile = shoppingProductProfile(name);
+        const candidate = profile.preferredName || String(name || '').trim();
+        if (!group.name || profile.specificity > (group.specificity ?? -1)) {
+          group.name = candidate;
+          group.specificity = profile.specificity;
+        }
+        return profile;
       }
 
       function normalizeShoppingMeasure(value, unit = '') {
@@ -2516,11 +2591,6 @@
         return canonicalShoppingProductName(text);
       }
 
-      function plainShoppingIngredientCoveredByGroups(key, groups) {
-        if (groups.has(key)) return true;
-        return key === 'chapelure' && groups.has('chapelure panko');
-      }
-
       function formatShoppingMeasure(value, unit = '') {
         if (unit === 'g') {
           if (value >= 1000) return `${formatScaledQuantity(value / 1000, 'measure', 'kg')} kg`;
@@ -2535,40 +2605,87 @@
         return `${display}${unit ? ` ${unit}` : ''}`.trim();
       }
 
-      function formatShoppingVariant(variant) {
+      function formatShoppingVariant(variant, nameOverride = '') {
+        const productName = nameOverride || variant.name;
         if (variant.kind === 'measure') {
           if (variant.unit === 'g' || variant.unit === 'ml') {
             const quantity = formatShoppingMeasure(variant.value, variant.unit);
-            return `${quantity} de ${variant.name}`.replace(/\s+de\s+de\s+/i, ' de ').trim();
+            return `${quantity} de ${productName}`.replace(/\s+de\s+de\s+/i, ' de ').trim();
           }
           const display = formatScaledQuantity(variant.value, 'measure', variant.unit);
-          const rest = variant.rest.replace(/^(kg|g|mg|l|cl|ml|c\.?\s*[àa]\s*soupe|c\.?\s*[àa]\s*caf[ée]|cuill[èe]res?\s+[àa]\s+soupe|cuill[èe]res?\s+[àa]\s+caf[ée])\b/i, variant.unit || '$1');
+          const rest = variant.rest
+            .replace(variant.name, productName)
+            .replace(/^(kg|g|mg|l|cl|ml|c\.?\s*[àa]\s*soupe|c\.?\s*[àa]\s*caf[ée]|cuill[èe]res?\s+[àa]\s+soupe|cuill[èe]res?\s+[àa]\s+caf[ée])\b/i, variant.unit || '$1');
           return `${display} ${rest}`.trim();
         }
         const display = formatScaledQuantity(variant.value, 'count', '');
-        const rest = adjustCountLabel(variant.rest, variant.value);
+        const rest = adjustCountLabel(variant.rest.replace(variant.name, productName), variant.value);
         return `${display} ${rest}`.trim();
       }
 
-      function practicalMixedShoppingLine(group) {
-        const key = foldText(group.name);
-        if (/tomates?\s+cerises?/.test(key)) {
-          let grams = 0;
-          for (const variant of group.variants.values()) {
-            if (variant.kind === 'measure' && variant.unit === 'g') grams += variant.value;
-            else if (variant.kind === 'count') grams += variant.value * 15;
+      function normalizedPackageUnit(value = '') {
+        return foldText(value).replace(/[^a-z]/g, '');
+      }
+
+      function shoppingPackageLabel(count, singular, plural, product, detail = '') {
+        const label = count > 1 ? plural : singular;
+        const joiner = /^[aeiouhàâäéèêëîïôöùûü]/i.test(product) ? 'd’' : 'de ';
+        return `${count} ${label} ${joiner}${product}${detail ? ` ${detail}` : ''}`;
+      }
+
+      // Les besoins exacts restent dans la recette. Cette conversion ne sert qu'à
+      // produire des conditionnements que l'on peut réellement acheter.
+      function practicalShoppingLine(group) {
+        let grams = 0;
+        let millilitres = 0;
+        let units = 0;
+        for (const variant of group.variants.values()) {
+          const packageUnit = normalizedPackageUnit(variant.packageUnit);
+          if (variant.kind === 'measure' && variant.unit === 'g') grams += variant.value;
+          else if (variant.kind === 'measure' && variant.unit === 'ml') millilitres += variant.value;
+          else if (variant.kind === 'count' && !packageUnit) units += variant.value;
+
+          if (group.key === 'tomate cerise' && /barquette/.test(packageUnit)) grams += variant.value * 500;
+          if (group.key === 'yaourt grec' && /pot/.test(packageUnit)) grams += variant.value * 125;
+          if ((group.key === 'cornichon' || group.key === 'capre') && /bocal|bocaux/.test(packageUnit)) {
+            grams += variant.value * (group.key === 'capre' ? 60 : 200);
           }
+          if (group.key === 'ail' && /tete/.test(packageUnit)) units += variant.value * 8;
+          if (group.key === 'ail' && /gousse/.test(packageUnit)) units += variant.value;
+          if (group.key === 'radis' && /botte/.test(packageUnit)) units += variant.value * 15;
+        }
+
+        if (group.key === 'tomate cerise') {
+          grams += units * 15;
           if (grams > 0) {
             const packs = Math.max(1, Math.ceil(grams / 500));
-            return `Tomates cerises — ${packs} barquette${packs > 1 ? 's' : ''} de 500 g`;
+            return shoppingPackageLabel(packs, 'barquette', 'barquettes', 'tomates cerises', '(500 g)');
           }
+        }
+        if (group.key === 'cornichon' && (grams > 0 || units > 0)) {
+          const jars = Math.max(1, Math.ceil((grams + units * 10) / 200));
+          return shoppingPackageLabel(jars, 'petit bocal', 'petits bocaux', 'cornichons');
+        }
+        if (group.key === 'capre' && (grams > 0 || units > 0)) {
+          const jars = Math.max(1, Math.ceil((grams + units) / 60));
+          return shoppingPackageLabel(jars, 'petit bocal', 'petits bocaux', 'câpres');
+        }
+        if (group.key === 'yaourt grec' && (grams > 0 || millilitres > 0)) {
+          const pots = Math.max(1, Math.ceil((grams + millilitres) / 125));
+          return shoppingPackageLabel(pots, 'pot', 'pots', 'yaourt grec');
+        }
+        if (group.key === 'ail' && units > 0) {
+          const heads = Math.max(1, Math.ceil(units / 8));
+          return shoppingPackageLabel(heads, 'tête', 'têtes', 'ail');
+        }
+        if (group.key === 'radis' && units > 0) {
+          const bunches = Math.max(1, Math.ceil(units / 15));
+          return shoppingPackageLabel(bunches, 'botte', 'bottes', 'radis');
         }
         return '';
       }
 
       function mixedShoppingLine(group) {
-        const practical = practicalMixedShoppingLine(group);
-        if (practical) return practical;
         const quantities = [];
         for (const variant of group.variants.values()) {
           if (variant.kind === 'measure') quantities.push(formatShoppingMeasure(variant.value, variant.unit));
@@ -2577,6 +2694,68 @@
         }
         const name = group.name.charAt(0).toUpperCase() + group.name.slice(1);
         return `${name} — ${quantities.join(' et ')}`;
+      }
+
+      function formatShoppingGroup(group) {
+        const practical = practicalShoppingLine(group);
+        if (practical) return { text: practical, anomalies: [] };
+        if (group.variants.size === 1) {
+          return { text: formatShoppingVariant([...group.variants.values()][0], group.name), anomalies: [] };
+        }
+        return {
+          text: mixedShoppingLine(group),
+          anomalies: ['Quantités incompatibles à vérifier']
+        };
+      }
+
+      function shoppingChoiceOptions(line = '') {
+        const cleaned = cleanShoppingCandidateLine(line);
+        if (!/\s+ou\s+/i.test(cleaned)) return [];
+
+        const numeric = cleaned.match(/^((?:\d+(?:[.,]\d+)?|[½⅓⅔¼¾⅛⅜⅝⅞]|\d+\s*\/\s*\d+))\s+(.+)$/);
+        const rest = numeric ? numeric[2].trim() : cleaned;
+        const parts = numeric ? splitShoppingIngredientRest(rest) : { name: rest };
+        const product = String(parts.name || '').trim();
+        const folded = foldText(product).replace(/\s+/g, ' ');
+        let names = [];
+
+        if (/^yaourts?\s+grecs?\s+ou\s+mayonnaise$/.test(folded)) names = ['yaourt grec', 'mayonnaise'];
+        else if (/^chapelure\s+ou\s+(?:chapelure\s+)?panko$/.test(folded)) names = ['chapelure', 'chapelure panko'];
+        else if (/^creme\s+liquide\s+ou\s+epaisse$/.test(folded)) names = ['crème liquide', 'crème épaisse'];
+        else if (/^persil\s+frais\s+ou\s+surgele$/.test(folded)) names = ['persil frais', 'persil surgelé'];
+        else {
+          const rawParts = product.split(/\s+ou\s+/i).map(value => value.trim()).filter(Boolean);
+          const wordCount = folded.split(/\s+/).length;
+          if (rawParts.length !== 2 || wordCount > 7 || /[;!?]/.test(product)) return [];
+          const [left, right] = rawParts;
+          const leftWords = left.split(/\s+/);
+          const adjective = /^(?:epaisse?|liquide|frais|fraiche|surgele|surgelee|seche|sechee|entier|entiere|allege|allegee|doux|douce|fort|forte|blanc|blanche|rouge|brisee|feuilletee)$/;
+          const expandedRight = leftWords.length > 1 && adjective.test(foldText(right))
+            ? `${leftWords.slice(0, -1).join(' ')} ${right}`
+            : right;
+          names = [left, expandedRight];
+        }
+
+        let prefix = '';
+        if (numeric) {
+          const namePosition = cleaned.lastIndexOf(product);
+          prefix = namePosition >= 0 ? cleaned.slice(0, namePosition) : `${numeric[1]} `;
+        }
+        return [...new Set(names.map(name => `${prefix}${name}`.trim()))];
+      }
+
+      function shoppingRowForSingleLine(line = '') {
+        const parsed = parseIngredientLine(line, 1);
+        if (parsed.skip) return { text: cleanShoppingCandidateLine(line), anomalies: ['Produit non reconnu'] };
+        if (!parsed.numeric) return { text: parsed.text, anomalies: [] };
+        const key = shoppingIngredientIdentity(parsed.rest);
+        const group = { key, name: '', specificity: -1, variants: new Map() };
+        const profile = applyPreciseShoppingName(group, parsed.name);
+        group.variants.set(`${parsed.kind}:${parsed.unit || parsed.packageUnit || 'unité'}`, {
+          ...parsed,
+          name: profile.preferredName || parsed.name
+        });
+        return formatShoppingGroup(group);
       }
 
       function parseIngredientLine(line, factor = 1) {
@@ -2604,27 +2783,35 @@
         };
       }
 
-      function buildClairListFromPlans(chosen) {
+      function buildClairReviewRowsFromPlans(chosen) {
         const groups = new Map();
         const plain = new Map();
+        const choices = [];
         for (const plan of chosen) {
           const recipe = recipes.find(r => r.id === plan.recipeId);
           if (!recipe) continue;
           const chosenPersons = clampPersons(plan.persons || recipe.persons || 1, recipe.persons || 1);
           for (const line of shoppingIngredientLines(recipe, chosenPersons)) {
+            const options = shoppingChoiceOptions(line);
+            if (options.length > 1) {
+              const formattedOptions = options.map(option => shoppingRowForSingleLine(option).text);
+              choices.push({ text: formattedOptions[0], choices: formattedOptions, anomalies: [] });
+              continue;
+            }
             const parsed = parseIngredientLine(line, 1);
             if (parsed.skip) continue;
             if (parsed.numeric) {
               const key = shoppingIngredientIdentity(parsed.rest);
               if (!key) continue;
-              const group = groups.get(key) || { name: parsed.name, variants: new Map() };
-              if (String(parsed.name || '').length > String(group.name || '').length) group.name = parsed.name;
+              const group = groups.get(key) || { key, name: '', specificity: -1, variants: new Map() };
+              const profile = applyPreciseShoppingName(group, parsed.name);
               const signature = `${parsed.kind}:${parsed.unit || parsed.packageUnit || 'unité'}`;
-              const previous = group.variants.get(signature) || { ...parsed, value: 0 };
-              if (String(parsed.name || '').length > String(previous.name || '').length) {
-                previous.name = parsed.name;
+              const previous = group.variants.get(signature) || { ...parsed, value: 0, specificity: -1 };
+              if (profile.specificity > (previous.specificity ?? -1)) {
+                previous.name = profile.preferredName || parsed.name;
                 previous.rest = parsed.rest;
                 previous.packageUnit = parsed.packageUnit;
+                previous.specificity = profile.specificity;
               }
               previous.value += parsed.value;
               group.variants.set(signature, previous);
@@ -2632,20 +2819,36 @@
             } else {
               const key = plainShoppingIngredientIdentity(parsed.text);
               if (!key) continue;
+              const profile = shoppingProductProfile(parsed.text);
               const previous = plain.get(key);
-              if (!previous || parsed.text.length > previous.length) plain.set(key, parsed.text);
+              if (!previous || profile.specificity > previous.specificity) {
+                plain.set(key, { text: profile.preferredName || parsed.text, specificity: profile.specificity });
+              }
             }
           }
         }
-        const output = [];
+
+        const rows = [];
+        for (const [key, item] of plain) {
+          const group = groups.get(key);
+          if (group && item.specificity > group.specificity) {
+            applyPreciseShoppingName(group, item.text);
+          }
+        }
         for (const group of groups.values()) {
-          if (group.variants.size === 1) output.push(formatShoppingVariant([...group.variants.values()][0]));
-          else output.push(mixedShoppingLine(group));
+          rows.push(formatShoppingGroup(group));
         }
-        for (const [key, text] of plain) {
-          if (!plainShoppingIngredientCoveredByGroups(key, groups)) output.push(text);
+        rows.push(...choices);
+        for (const [key, item] of plain) {
+          if (!groups.has(key)) rows.push({ text: item.text, anomalies: [] });
         }
-        return output.join('\n');
+        return rows;
+      }
+
+      function buildClairListFromPlans(chosen) {
+        latestClairReviewRows = buildClairReviewRowsFromPlans(chosen);
+        latestClairReviewText = latestClairReviewRows.map(row => row.text).join('\n');
+        return latestClairReviewText;
       }
 
       function buildClairList() {
@@ -2703,86 +2906,152 @@
 
       function clairCoursesPantryProducts() {
         try {
-          const raw = JSON.parse(localStorage.getItem('clairCourses.state') || '{}') || {};
+          const rawText = localStorage.getItem('clairCourses.state') || '{}';
+          if (rawText === clairPantryCacheRaw) return clairPantryCache;
+          const raw = JSON.parse(rawText) || {};
           const source = raw && raw.state ? raw.state : raw;
           const pantryAisles = new Set(['epicerie','conserves','boissons','maison','hygiene']);
-          return (Array.isArray(source.products) ? source.products : [])
+          clairPantryCacheRaw = rawText;
+          clairPantryCache = (Array.isArray(source.products) ? source.products : [])
             .filter(product => pantryAisles.has(foldText(product?.aisle || product?.rayon || '')))
             .map(product => String(product?.name || product?.label || product?.article || '').trim())
             .filter(Boolean);
+          return clairPantryCache;
         } catch (_) {
           return [];
         }
       }
 
+      function configuredPantryProducts() {
+        return normalizePantryProducts(settings.pantryProducts, false);
+      }
+
       function isUsualPantryProduct(line = '') {
         const info = shoppingLineInfo(line);
         const rest = info.rest || info.normalized;
-
-        // Produits de placard que Freddy garde généralement à la maison.
-        if (/\b(?:mirin|sauce\s+soja|cassonade|sucre\s+roux|anis\s+etoiles?|badianes?|cannelle|paprika|cumin|curry|muscade|piment|curcuma|gingembre\s+en\s+poudre|epices?)\b/.test(rest)) return true;
-
-        // Les produits d'épicerie déjà présents dans « Mes produits » de Clair Courses
-        // sont considérés comme des réserves habituelles. Ils restent visibles et peuvent
-        // être recochés avant l'envoi lorsqu'ils viennent à manquer.
-        return clairCoursesPantryProducts().some(product => shoppingTextContains(rest, product));
+        const declared = [...configuredPantryProducts(), ...clairCoursesPantryProducts()];
+        return declared.some(product => shoppingTextContains(rest, product));
       }
 
-      function shouldIncludeInShopping(line = '') {
+      function shoppingAnomaliesForLine(line = '', inherited = []) {
+        const anomalies = [...new Set((Array.isArray(inherited) ? inherited : []).filter(Boolean))];
+        const text = String(line || '').trim();
+        if (!text || /\b(?:nan|undefined|null)\b/i.test(text)) anomalies.push('Quantité illisible');
+        if (isManifestShoppingProcedure(text)) anomalies.push('Phrase de préparation détectée');
+        if (/\d+(?:[.,]\d+)?\s*\+\s*\d+(?:[.,]\d+)?\s*(?:g|kg|ml|cl|l)\b/i.test(text)) anomalies.push('Quantités incompatibles');
+        if (/\s+ou\s+/i.test(text)) anomalies.push('Choix non résolu');
+        if (text.length > 170) anomalies.push('Ligne anormalement longue');
+        return [...new Set(anomalies)];
+      }
+
+      function shoppingRecommendation(line = '', inheritedAnomalies = []) {
         const info = shoppingLineInfo(line);
         const text = info.normalized;
         const rest = info.rest;
-        if (!text) return false;
+        const anomalies = shoppingAnomaliesForLine(line, inheritedAnomalies);
+        if (!text || anomalies.length) return { recommended: false, reason: 'anomaly', anomalies };
 
-        // Fonds de placard courants : visibles, mais décochés par défaut.
-        if (/^(sel(?:\s+fin|\s+gros)?|poivre|sel\s+et\s+poivre|eau)(?:\b|$)/.test(text)) return false;
-        if (/^(un peu de|quelques|une pincee|1 pincee|½ pincee|¼ pincee)\b/.test(text)) return false;
-        if (/\b(?:huile|vinaigre)\b/.test(text)) return false;
-        if (isUsualPantryProduct(line)) return false;
+        // Les réserves sont configurables. Elles restent visibles et recochables.
+        if (isUsualPantryProduct(line)) return { recommended: false, reason: 'reserve', anomalies };
+        if (/^(un peu de|quelques|une pincee|1 pincee|½ pincee|¼ pincee)\b/.test(text)) {
+          return { recommended: false, reason: 'small', anomalies };
+        }
 
         // Une très petite mesure d'herbe ne mérite pas automatiquement une ligne de courses.
         const tinyMeasure = Number.isFinite(info.amount) && info.amount <= .5 &&
           /^(?:c\.?\s*a\s*(?:cafe|soupe)|cuillere(?:s)?\s+a\s+(?:cafe|soupe)|de\s+cuillere)/.test(rest);
-        if (tinyMeasure) return false;
+        if (tinyMeasure) return { recommended: false, reason: 'small', anomalies };
 
         const herbWords = /\b(?:basilic|thym|laurier|persil|coriandre|origan|romarin|ciboulette|estragon|menthe|herbes? de provence)\b/;
         const smallHerbForm = /\b(?:feuille|feuilles|branche|branches|brin|brins|pincee|pincees)\b/.test(rest);
         const packagedHerb = /\b(?:bouquet|pot|barquette|sachet)\b/.test(rest);
-        if (herbWords.test(rest) && !packagedHerb && (smallHerbForm || !Number.isFinite(info.amount) || info.amount <= 2)) return false;
+        if (herbWords.test(rest) && !packagedHerb && (smallHerbForm || !Number.isFinite(info.amount) || info.amount <= 2)) {
+          return { recommended: false, reason: 'small', anomalies };
+        }
 
-        return true;
+        return { recommended: true, reason: '', anomalies };
+      }
+
+      function shouldIncludeInShopping(line = '') {
+        return shoppingRecommendation(line).recommended;
       }
 
       function updateClairReviewText() {
         const selected = clairReviewItems.filter(item => item.included).map(item => item.text);
         $('#clairText').value = selected.join('\n');
-        const skipped = clairReviewItems.length - selected.length;
-        $('#clairReviewSummary').textContent = `${selected.length} article${selected.length > 1 ? 's' : ''} à envoyer${skipped ? ` · ${skipped} décoché${skipped > 1 ? 's' : ''}` : ''}`;
+        const reserveCount = clairReviewItems.filter(item => item.reason === 'reserve' && !item.included).length;
+        const anomalyCount = clairReviewItems.filter(item => item.anomalies?.length).length;
+        const reserveSummary = reserveCount
+          ? `${reserveCount} produit${reserveCount > 1 ? 's' : ''} de réserve ${reserveCount > 1 ? 'restent décochés' : 'reste décoché'}`
+          : 'Aucun produit de réserve décoché';
+        $('#clairReviewSummary').innerHTML = [
+          `<div>${selected.length} article${selected.length > 1 ? 's' : ''} ${selected.length > 1 ? 'seront envoyés' : 'sera envoyé'}</div>`,
+          `<div>${reserveSummary}</div>`,
+          `<div>${anomalyCount ? `Attention : ${anomalyCount} produit${anomalyCount > 1 ? 's semblent' : ' semble'} incohérent${anomalyCount > 1 ? 's' : ''}` : 'Aucune anomalie détectée'}</div>`
+        ].join('');
       }
 
       function renderClairReview() {
         $('#clairReviewList').innerHTML = clairReviewItems.map((item, index) => `
-          <label class="clair-review-item${item.included ? '' : ' is-skipped'}">
-            <input type="checkbox" data-clair-review-index="${index}" ${item.included ? 'checked' : ''}>
-            <span>${esc(item.text)}</span>
-          </label>
+          <div class="clair-review-item${item.included ? '' : ' is-skipped'}">
+            <label class="clair-review-check" aria-label="${item.included ? 'Ne pas envoyer' : 'Envoyer'} ${esc(item.text)}">
+              <input type="checkbox" data-clair-review-index="${index}" ${item.included ? 'checked' : ''}>
+            </label>
+            <div class="clair-review-copy">
+              <span id="clairItemText${index}">${esc(item.text)}</span>
+              ${item.choices?.length > 1 ? `
+                <select class="clair-choice" data-clair-choice-index="${index}" aria-label="Choisir le produit pour ${esc(item.text)}">
+                  ${item.choices.map(option => `<option value="${esc(option)}" ${option === item.text ? 'selected' : ''}>${esc(option)}</option>`).join('')}
+                </select>
+              ` : ''}
+              ${item.reason === 'reserve' ? '<div class="clair-item-note">Produit de réserve · décoché par défaut</div>' : ''}
+              ${item.reason === 'small' ? '<div class="clair-item-note">Petite quantité · décochée par défaut</div>' : ''}
+              ${item.anomalies?.length ? `<div class="clair-item-note">⚠ ${esc(item.anomalies.join(' · '))}</div>` : ''}
+            </div>
+          </div>
         `).join('');
         updateClairReviewText();
       }
 
       function setClairReviewMode(mode = 'essential') {
-        clairReviewItems.forEach(item => { item.included = mode === 'all' ? true : item.recommended; });
+        clairReviewItems.forEach(item => {
+          item.userToggled = false;
+          item.included = mode === 'all' ? true : item.recommended;
+        });
         renderClairReview();
+      }
+
+      function closeClairModal() {
+        $('#clairModal').classList.remove('open');
+        if (clairModalReturnFocus?.isConnected) clairModalReturnFocus.focus();
+        clairModalReturnFocus = null;
       }
 
       function openClairModal(text = buildClairList()) {
         if (!text) { showToast('Aucun repas n’est planifié dans la période'); return; }
-        clairReviewItems = lines(text).map(item => {
-          const recommended = shouldIncludeInShopping(item);
-          return { text: item, recommended, included: recommended };
+        const textLines = lines(text);
+        const sourceRows = text === latestClairReviewText && latestClairReviewRows.length === textLines.length
+          ? latestClairReviewRows
+          : textLines.map(item => ({ text: item, choices: [], anomalies: [] }));
+        clairReviewItems = sourceRows.map(row => {
+          const choices = [...new Set((row.choices || []).filter(Boolean))];
+          const itemText = row.text || choices[0] || '';
+          const decision = shoppingRecommendation(itemText, row.anomalies);
+          return {
+            text: itemText,
+            choices,
+            recommended: decision.recommended,
+            included: decision.recommended,
+            reason: decision.reason,
+            anomalies: decision.anomalies,
+            sourceAnomalies: row.anomalies || [],
+            userToggled: false
+          };
         });
         renderClairReview();
+        clairModalReturnFocus = document.activeElement;
         $('#clairModal').classList.add('open');
+        window.setTimeout(() => $('#clairModal [data-close-modal]')?.focus(), 0);
       }
 
       function clairBridgeUrl(text) {
@@ -2855,7 +3124,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.16</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1 Premium</p>`);
       }
 
       function printPlan() {
@@ -2868,11 +3137,12 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.0.16</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1 Premium</p>`);
       }
 
       function renderSettings() {
         $('#clairUrl').value = settings.clairUrl || '';
+        $('#pantryProducts').value = normalizePantryProducts(settings.pantryProducts).join('\n');
         const photoCount = recipes.filter(r => r.photo).length;
         $('#storageSummary').textContent = `${recipes.length} recette${recipes.length > 1 ? 's' : ''}, ${photoCount} photo${photoCount > 1 ? 's' : ''} et ${plans.filter(p=>p.recipeId).length} repas planifié${plans.filter(p=>p.recipeId).length > 1 ? 's' : ''}.`;
 
@@ -2896,14 +3166,16 @@
 
       async function saveSettings() {
         settings.clairUrl = $('#clairUrl').value.trim();
+        settings.pantryProducts = normalizePantryProducts($('#pantryProducts').value, false);
         await put('settings', { key: 'clairUrl', value: settings.clairUrl });
+        await put('settings', { key: 'pantryProducts', value: settings.pantryProducts });
         showToast('Réglages enregistrés');
       }
 
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.0.16', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.1-premium', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -2925,8 +3197,9 @@
           await clearStore('recipes'); await clearStore('plans'); await clearStore('settings');
           for (const r of data.recipes) await put('recipes', r);
           for (const p of data.plans) await put('plans', p);
-          settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: true, ...(data.settings || {}) };
+          settings = { clairUrl: DEFAULT_CLAIR_URL, pantryProducts: [...DEFAULT_PANTRY_PRODUCTS], seeded: true, ...(data.settings || {}) };
           if (!settings.clairUrl) settings.clairUrl = DEFAULT_CLAIR_URL;
+          settings.pantryProducts = normalizePantryProducts(settings.pantryProducts);
           for (const [key,value] of Object.entries(settings)) await put('settings', { key, value });
           await loadData(); renderAll(); navigate('home'); showToast('Sauvegarde restaurée');
         } catch (err) { alert(`Impossible de restaurer ce fichier : ${err.message}`); }
@@ -2936,7 +3209,7 @@
         if (!confirm('Effacer définitivement toutes les recettes, photos et le planning ?')) return;
         if (!confirm('Cette action est irréversible sans sauvegarde. Confirmer ?')) return;
         await clearStore('recipes'); await clearStore('plans'); await clearStore('settings');
-        recipes = []; plans = []; settings = { clairUrl: DEFAULT_CLAIR_URL, seeded: true };
+        recipes = []; plans = []; settings = { clairUrl: DEFAULT_CLAIR_URL, pantryProducts: [...DEFAULT_PANTRY_PRODUCTS], seeded: true };
         await put('settings', { key: 'seeded', value: true });
         renderAll(); navigate('home'); showToast('Carnet effacé');
       }
@@ -2956,13 +3229,16 @@
             return;
           }
           if (event.target.closest('[data-close-quick-plan]') || event.target === $('#quickPlanModal')) { closeQuickPlan(); return; }
-          if (event.target.closest('[data-close-modal]') || event.target === $('#clairModal')) { $('#clairModal').classList.remove('open'); return; }
+          if (event.target.closest('[data-close-modal]') || event.target === $('#clairModal')) { closeClairModal(); return; }
           if (event.target.closest('[data-close-schedule-choice]') || event.target === $('#scheduleChoiceModal')) { closeScheduleChoice(); return; }
           if (event.target.closest('[data-close-cooked]') || event.target === $('#cookedModal')) { closeCookedModal(); return; }
           const cookChoice = event.target.closest('[data-cook-rating]');
           if (cookChoice) { cookedRating = cookChoice.dataset.cookRating; updateCookedChoices(); return; }
           const scheduleSlot = event.target.closest('[data-schedule-slot]');
           if (scheduleSlot) { scheduleRecipeInSlot(scheduleSlot.dataset.scheduleSlot); return; }
+        });
+        document.addEventListener('keydown', event => {
+          if (event.key === 'Escape' && $('#clairModal').classList.contains('open')) closeClairModal();
         });
         $('#quickAddBtn').addEventListener('click', () => navigate('add'));
         $('#cookingCloseBtn').addEventListener('click', () => closeCookingMode());
@@ -3070,11 +3346,27 @@
         $('#prepareClairBtn').addEventListener('click', sendToClairCourses);
         $('#printPlanBtn').addEventListener('click', printPlan);
         $('#clairReviewList').addEventListener('change', event => {
+          const choice = event.target.closest('[data-clair-choice-index]');
+          if (choice) {
+            const index = Number(choice.dataset.clairChoiceIndex);
+            const item = clairReviewItems[index];
+            if (!item) return;
+            item.text = choice.value;
+            const decision = shoppingRecommendation(item.text, item.sourceAnomalies);
+            item.recommended = decision.recommended;
+            item.reason = decision.reason;
+            item.anomalies = decision.anomalies;
+            if (!item.userToggled) item.included = decision.recommended;
+            renderClairReview();
+            $(`[data-clair-choice-index="${index}"]`)?.focus();
+            return;
+          }
           const input = event.target.closest('[data-clair-review-index]');
           if (!input) return;
           const index = Number(input.dataset.clairReviewIndex);
           if (!clairReviewItems[index]) return;
           clairReviewItems[index].included = input.checked;
+          clairReviewItems[index].userToggled = true;
           input.closest('.clair-review-item')?.classList.toggle('is-skipped', !input.checked);
           updateClairReviewText();
         });
@@ -3093,15 +3385,16 @@
           await openDb(); await loadData();
           $('#plannerStart').value = todayISO();
           bindEvents(); renderAll();
+          if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+            navigator.serviceWorker.register('./sw.js').catch(() => {});
+          }
         } catch (err) {
           console.error(err);
           document.body.innerHTML = `<main style="font-family:sans-serif;padding:30px"><h1>Mon carnet de cuisine</h1><p>Le stockage local n’a pas pu être ouvert. Rechargez la page depuis Safari ou Chrome.</p><pre>${esc(err.message)}</pre></main>`;
         }
       }
 
-      init();
-    })();
-        document.addEventListener('visibilitychange', async () => {
+      document.addEventListener('visibilitychange', async () => {
         if (document.visibilityState === 'visible') {
           if (cookingTimerRunning) syncRunningCookingTimer();
           if (keepAwakeEnabled && currentView === 'detail' && !wakeLockSentinel && 'wakeLock' in navigator) {
@@ -3109,6 +3402,9 @@
           }
         }
       });
+
+      init();
+    })();
     </script>
 </body>
 </html>
