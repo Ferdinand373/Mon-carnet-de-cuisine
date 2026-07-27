@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-carnet-v2-2-1';
+const CACHE_NAME = 'mon-carnet-v2-3';
 const APP_SHELL = ['./', './index.html', './mon-carnet-v17.png'];
 
 self.addEventListener('install', event => {

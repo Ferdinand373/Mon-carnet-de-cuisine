@@ -336,7 +336,7 @@
     .backup-status.due { background: rgba(182,119,69,.14); color: #86512e !important; font-weight: 650; }
     .bottom-nav {
       position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: min(100%, 760px); z-index: 20;
-      padding: 9px 10px calc(9px + var(--safe-bottom)); display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+      padding: 9px 10px calc(9px + var(--safe-bottom)); display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px;
       background: rgba(255,253,248,.9); backdrop-filter: blur(22px); border-top: 1px solid rgba(23,33,30,.1);
       box-shadow: 0 -10px 35px rgba(35,42,39,.08);
     }
@@ -426,6 +426,7 @@
     .saved-menu-head h4 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:20px; font-weight:500; }
     .saved-menu-items { display:grid; gap:5px; margin:12px 0; color:var(--muted); font-size:13px; }
     .saved-menu-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .menu-help { margin:12px 0 0; color:var(--muted); font-size:13px; }
     .detail-hero { min-height:330px; }
     .detail-hero > img { height:100%; min-height:330px; object-fit:cover; }
     @media (max-width: 650px) {
@@ -612,7 +613,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.2.0</small>
+          <small>Collection personnelle · V2.3</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -847,7 +848,7 @@
 
     <section class="view" id="view-menus" data-view="menus">
       <div class="section-head">
-        <div><h2>Mes menus</h2><p>Une entrée, un plat et un dessert, sans complication</p></div>
+        <div><h2>Créer un menu</h2><p>Choisissez une entrée, un plat et un dessert, puis donnez un nom au menu</p></div>
         <button class="btn btn-light" type="button" data-go="home">Retour</button>
       </div>
       <section class="menus-panel">
@@ -858,6 +859,7 @@
           <div class="field"><label for="menuDessert">Dessert</label><select id="menuDessert"></select></div>
         </div>
         <div class="form-actions" style="margin-top:14px"><button class="btn btn-primary" id="saveMenuBtn" type="button">Enregistrer ce menu</button></div>
+        <p class="menu-help">Les trois choix sont facultatifs : vous pouvez aussi créer un menu composé seulement d’un plat, ou d’une entrée et d’un plat.</p>
         <div class="saved-menu-list" id="savedMenuList"></div>
       </section>
     </section>
@@ -936,6 +938,7 @@
     <button class="nav-btn" type="button" data-open-search><span>⌕</span><span>Recettes</span></button>
     <button class="nav-btn" type="button" data-go="add"><span>＋</span><span>Ajouter</span></button>
     <button class="nav-btn" type="button" data-go="planner"><span>▦</span><span>7 jours</span></button>
+    <button class="nav-btn" type="button" data-go="menus"><span>☰</span><span>Menus</span></button>
     <button class="nav-btn" type="button" data-go="settings"><span>⚙</span><span>Réglages</span></button>
   </nav>
 
