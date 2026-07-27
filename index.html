@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.1.5</title>
+  <title>Mon carnet de cuisine — V2.1.6</title>
   <style>
     :root {
       --ink: #17211e;
@@ -351,6 +351,38 @@
     .subtle { color: var(--muted); font-size: 13px; }
     .hidden { display: none !important; }
     .cooking-marinade { margin: 14px 0 0; padding: 12px 14px; border-radius: 15px; background: rgba(182,119,69,.14); color: #6f4328; font-weight: 700; line-height: 1.35; }
+    .meal-ideas-panel {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, rgba(255,253,248,.96), rgba(237,228,213,.94));
+      border: 1px solid rgba(23,33,30,.11);
+      box-shadow: var(--shadow-soft);
+    }
+    .meal-ideas-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
+    .meal-ideas-head h3 { margin: 2px 0 5px; font-family: Georgia, "Times New Roman", serif; font-size: 27px; font-weight: 500; }
+    .meal-ideas-head p { margin: 0; color: var(--muted); font-size: 13px; }
+    .meal-ideas-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .meal-idea-card {
+      min-width: 0;
+      padding: 17px;
+      border-radius: 19px;
+      cursor: pointer;
+      background: var(--card-solid);
+      border: 1px solid var(--line);
+      box-shadow: 0 6px 18px rgba(35,42,39,.07);
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .meal-idea-card:active { transform: scale(.985); }
+    .meal-idea-label { color: var(--copper); text-transform: uppercase; letter-spacing: .11em; font-size: 10px; font-weight: 850; }
+    .meal-idea-card h4 { margin: 10px 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: 21px; line-height: 1.12; font-weight: 500; }
+    .meal-idea-meta { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .meal-idea-open { display: inline-block; margin-top: 10px; color: var(--forest); font-size: 12px; font-weight: 800; }
+    @media (max-width: 650px) {
+      .meal-ideas-head { align-items: stretch; flex-direction: column; }
+      .meal-ideas-head .btn { width: 100%; }
+      .meal-ideas-grid { grid-template-columns: 1fr; }
+    }
     @media (min-width: 760px) {
       .app { padding-left: 28px; padding-right: 28px; }
       .recipe-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -471,7 +503,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.1.5</small>
+          <small>Collection personnelle · V2.1.6</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -493,6 +525,18 @@
         <div class="metric"><strong id="metricFavorites">0</strong><span>recettes favorites</span></div>
         <div class="metric"><strong id="metricPlanned">0</strong><span>repas planifiés</span></div>
       </div>
+
+      <section class="meal-ideas-panel" aria-labelledby="mealIdeasTitle">
+        <div class="meal-ideas-head">
+          <div>
+            <p class="eyebrow" style="color:var(--copper);opacity:1">Une réponse simple, prise dans votre carnet</p>
+            <h3 id="mealIdeasTitle">Que mange-t-on&nbsp;?</h3>
+            <p>Une idée pour ce midi et une autre, plus adaptée au soir.</p>
+          </div>
+          <button class="btn btn-light" id="refreshMealIdeasBtn" type="button">Une autre idée</button>
+        </div>
+        <div class="meal-ideas-grid" id="mealIdeasGrid"></div>
+      </section>
 
       <div id="nextMealSpotlight"></div>
 
@@ -556,6 +600,13 @@
             <button class="chip" type="button" data-season-filter="Été">Été</button>
             <button class="chip" type="button" data-season-filter="Automne">Automne</button>
             <button class="chip" type="button" data-season-filter="Hiver">Hiver</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-label">Moment</div>
+          <div class="filter-row" id="momentFilterRow" role="group" aria-label="Filtrer selon le moment du repas">
+            <button class="chip active" type="button" data-moment-filter="all">Tous les repas</button>
+            <button class="chip" type="button" data-moment-filter="evening">Repas du soir</button>
           </div>
         </div>
         <div class="filter-favorite-row">
@@ -646,7 +697,7 @@
           </div>
           <div class="field">
             <label for="recipeType">Type de recette</label>
-            <select id="recipeType"><option>Plat principal</option><option>Entrée</option><option>Salade</option><option>Poisson</option><option>Viande</option><option>Volaille</option><option>Végétarien</option><option>Mijoté</option><option>Accompagnement</option><option>Dessert</option><option>Autre</option></select>
+            <select id="recipeType"><option>Plat principal</option><option>Entrée</option><option>Salade</option><option>Poisson</option><option>Viande</option><option>Volaille</option><option>Végétarien</option><option>Mijoté</option><option>Accompagnement</option><option>Dessert</option><option>Repas du soir</option><option>Autre</option></select>
           </div>
           <div class="field">
             <label for="recipeDevice">Cuisson / appareil</label>
@@ -923,9 +974,12 @@
       let activeDeviceFilter = 'all';
       let activeSeasonFilter = 'all';
       let favoriteOnly = false;
+      let activeMomentFilter = 'all';
       let plannerDays = 2;
       let currentPhoto = '';
       let suggestionId = null;
+      let lunchIdeaId = null;
+      let dinnerIdeaId = null;
       let quickPlanTarget = null;
       let scheduleChoiceRecipeId = null;
       let scheduleChoicePersons = 0;
@@ -1390,6 +1444,61 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
+      function isDinnerRecipe(recipe = {}) {
+        const text = foldText(`${recipe.title || ''} ${recipe.type || ''} ${recipe.category || ''} ${recipe.device || ''}`);
+        if (/repas du soir/.test(text)) return true;
+        const lightEvening = /salade|soupe|veloute|potage|tartine|bruschetta|croque|omelette|oeuf|oeufs|quiche|flan sale|galette|wrap|poisson|cabillaud|saumon|bar|thon|sardine|maquereau|moule|crevette|legumes|vegetar|halloumi/.test(text);
+        const veryHeavy = /bourguignon|cassoulet|choucroute|jarret|epaule|souris d agneau|ragout|cote de boeuf/.test(text);
+        return lightEvening && !veryHeavy;
+      }
+
+      function chooseMealIdea(pool, previousId = '', excludedId = '') {
+        if (!pool.length) return null;
+        let candidates = pool.filter(recipe => recipe.id !== previousId && recipe.id !== excludedId);
+        if (!candidates.length) candidates = pool.filter(recipe => recipe.id !== excludedId);
+        if (!candidates.length) candidates = pool;
+        return candidates[Math.floor(Math.random() * candidates.length)] || null;
+      }
+
+      function mealIdeaCard(recipe, label) {
+        if (!recipe) return `<article class="meal-idea-card"><span class="meal-idea-label">${esc(label)}</span><h4>Aucune recette disponible</h4><div class="meal-idea-meta">Ajoutez quelques recettes pour obtenir une proposition.</div></article>`;
+        const meta = [recipe.type, recipe.device, durationCardLabel(recipe)].filter(Boolean).map(esc).join(' · ');
+        return `<article class="meal-idea-card" data-recipe-id="${recipe.id}">
+          <span class="meal-idea-label">${esc(label)}</span>
+          <h4>${esc(recipe.title)}</h4>
+          <div class="meal-idea-meta">${meta}</div>
+          <span class="meal-idea-open">Ouvrir la recette →</span>
+        </article>`;
+      }
+
+      function renderMealIdeas(forceNew = false) {
+        const target = $('#mealIdeasGrid');
+        if (!target) return;
+        const mealRecipes = recipes.filter(recipe => !['Dessert', 'Apéritif', 'Accompagnement'].includes(recipeCategory(recipe)));
+        if (!mealRecipes.length) {
+          lunchIdeaId = null;
+          dinnerIdeaId = null;
+          target.innerHTML = mealIdeaCard(null, 'Ce midi') + mealIdeaCard(null, 'Ce soir');
+          return;
+        }
+
+        const lunchPool = mealRecipes.filter(recipe => recipeCategory(recipe) === 'Plat' || recipeCategory(recipe) === 'Entrée');
+        const dinnerPool = mealRecipes.filter(isDinnerRecipe);
+        const effectiveLunchPool = lunchPool.length ? lunchPool : mealRecipes;
+        const effectiveDinnerPool = dinnerPool.length ? dinnerPool : mealRecipes;
+
+        if (forceNew || !recipes.some(recipe => recipe.id === lunchIdeaId)) {
+          lunchIdeaId = chooseMealIdea(effectiveLunchPool, lunchIdeaId)?.id || null;
+        }
+        if (forceNew || !recipes.some(recipe => recipe.id === dinnerIdeaId) || dinnerIdeaId === lunchIdeaId) {
+          dinnerIdeaId = chooseMealIdea(effectiveDinnerPool, dinnerIdeaId, lunchIdeaId)?.id || null;
+        }
+
+        const lunch = recipes.find(recipe => recipe.id === lunchIdeaId) || null;
+        const dinner = recipes.find(recipe => recipe.id === dinnerIdeaId) || null;
+        target.innerHTML = mealIdeaCard(lunch, 'Ce midi') + mealIdeaCard(dinner, 'Ce soir');
+      }
+
       function renderHome() {
         $('#metricRecipes').textContent = recipes.length;
         $('#metricFavorites').textContent = recipes.filter(r => r.favorite).length;
@@ -1421,6 +1530,7 @@
             <span class="meal-hint">${recipe ? 'Modifier ce repas →' : 'Choisir maintenant →'}</span>
           </article>`;
         }).join('');
+        renderMealIdeas();
         renderSuggestion();
       }
 
@@ -1464,7 +1574,8 @@
           const deviceMatch = activeDeviceFilter === 'all' || canonicalDevice(r.device) === activeDeviceFilter;
           const seasonMatch = activeSeasonFilter === 'all' || r.season === activeSeasonFilter;
           const favoriteMatch = !favoriteOnly || !!r.favorite;
-          return textMatch && categoryMatch && deviceMatch && seasonMatch && favoriteMatch;
+          const momentMatch = activeMomentFilter === 'all' || isDinnerRecipe(r);
+          return textMatch && categoryMatch && deviceMatch && seasonMatch && favoriteMatch && momentMatch;
         });
         const grid = $('#recipeGrid');
         if (!list.length) {
@@ -3187,7 +3298,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.5</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.6</p>`);
       }
 
       function printPlan() {
@@ -3200,7 +3311,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.5</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.6</p>`);
       }
 
       function renderSettings() {
@@ -3238,7 +3349,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.1.5', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.1.6', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -3312,6 +3423,7 @@
         $('#cookingTimerToggle').addEventListener('click', toggleCookingTimer);
         $('#cookingTimerReset').addEventListener('click', () => resetCookingTimer());
         $('#cookingTimerTest').addEventListener('click', testCookingTimerAlarm);
+        $('#refreshMealIdeasBtn').addEventListener('click', () => renderMealIdeas(true));
         $('#refreshSuggestion').addEventListener('click', () => renderSuggestion(true));
         $('#quickPlanRecipe').addEventListener('change', () => updateQuickPlanSummary(true));
         $('#saveQuickPlanBtn').addEventListener('click', saveQuickPlan);
@@ -3359,6 +3471,12 @@
           $$('[data-season-filter]', $('#seasonFilterRow')).forEach(x => x.classList.toggle('active', x === chip));
           renderRecipes();
         });
+        $('#momentFilterRow').addEventListener('click', event => {
+          const chip = event.target.closest('[data-moment-filter]'); if (!chip) return;
+          activeMomentFilter = chip.dataset.momentFilter;
+          $$('[data-moment-filter]', $('#momentFilterRow')).forEach(x => x.classList.toggle('active', x === chip));
+          renderRecipes();
+        });
         $('#favoriteFilterBtn').addEventListener('click', event => {
           favoriteOnly = !favoriteOnly;
           event.currentTarget.classList.toggle('active', favoriteOnly);
@@ -3370,17 +3488,20 @@
           activeCategoryFilter = 'all';
           activeDeviceFilter = 'all';
           activeSeasonFilter = 'all';
+          activeMomentFilter = 'all';
           favoriteOnly = false;
           $('#recipeSearch').value = '';
           $$('[data-category-filter]', $('#categoryFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.categoryFilter === 'all'));
           $$('[data-device-filter]', $('#deviceFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.deviceFilter === 'all'));
           $$('[data-season-filter]', $('#seasonFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.seasonFilter === 'all'));
+          $$('[data-moment-filter]', $('#momentFilterRow')).forEach(x => x.classList.toggle('active', x.dataset.momentFilter === 'all'));
           $('#favoriteFilterBtn').classList.remove('active');
           $('#favoriteFilterBtn').setAttribute('aria-pressed', 'false');
           $('#favoriteFilterBtn').textContent = '♡ Favorites seulement';
           $('#categoryFilterRow').scrollLeft = 0;
           $('#deviceFilterRow').scrollLeft = 0;
           $('#seasonFilterRow').scrollLeft = 0;
+          $('#momentFilterRow').scrollLeft = 0;
           renderRecipes();
         });
         $('#recipeForm').addEventListener('submit', saveRecipe);
