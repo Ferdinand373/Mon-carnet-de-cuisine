@@ -613,7 +613,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.3</small>
+          <small>Collection personnelle · V2.3.1</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -1576,9 +1576,21 @@
         resetCookingTimer(detectStepDurationSeconds(steps[cookingStepIndex]));
       }
 
+      async function recordRecipeUse(recipe) {
+        if (!recipe) return;
+        recipe.useCount = Math.max(0, Number(recipe.useCount) || 0) + 1;
+        recipe.lastUsedAt = new Date().toISOString();
+        recipe.updatedAt = recipe.lastUsedAt;
+        await put('recipes', recipe);
+        const index = recipes.findIndex(item => item.id === recipe.id);
+        if (index >= 0) recipes[index] = recipe;
+        renderSmartShelves();
+      }
+
       async function openCookingMode(recipe, persons = selectedPersonsFor(recipe)) {
         const steps = lines(recipe?.steps);
         if (!recipe || !steps.length) { showToast('Cette recette ne contient pas encore d’étapes'); return; }
+        await recordRecipeUse(recipe);
         cookingRecipeId = recipe.id;
         cookingPersons = clampPersons(persons, recipe.persons || 1);
         cookingStepIndex = 0;
@@ -1726,14 +1738,16 @@
       function renderSmartShelves() {
         const host = $('#smartShelves'); if (!host) return;
         const favorites = recipes.filter(r => r.favorite).slice(0,3);
-        const mostCooked = [...recipes].filter(r => Array.isArray(r.cookHistory) && r.cookHistory.length)
-          .sort((a,b) => b.cookHistory.length - a.cookHistory.length).slice(0,3);
-        const recent = [...recipes].filter(r => r.lastCookedAt)
-          .sort((a,b) => String(b.lastCookedAt).localeCompare(String(a.lastCookedAt))).slice(0,3);
+        const usageTotal = recipe => Math.max(Number(recipe.useCount) || 0, Array.isArray(recipe.cookHistory) ? recipe.cookHistory.length : 0);
+        const recentDate = recipe => recipe.lastUsedAt || recipe.lastCookedAt || '';
+        const mostCooked = [...recipes].filter(r => usageTotal(r) > 0)
+          .sort((a,b) => usageTotal(b) - usageTotal(a) || String(recentDate(b)).localeCompare(String(recentDate(a)))).slice(0,3);
+        const recent = [...recipes].filter(r => recentDate(r))
+          .sort((a,b) => String(recentDate(b)).localeCompare(String(recentDate(a)))).slice(0,3);
         const sections = [
           ['⭐ Mes favoris', 'Touchez l’étoile d’une recette pour la retrouver ici', favorites, r => '⭐ Favori', 'Aucun favori pour le moment'],
-          ['Les plus cuisinées', 'Celles qui reviennent naturellement', mostCooked, r => `${r.cookHistory.length} fois`, 'Aucune recette cuisinée pour le moment'],
-          ['Dernières utilisées', 'Pour les retrouver sans chercher', recent, r => r.lastCookedAt ? formatDay(r.lastCookedAt.slice(0,10)) : '', 'Aucune recette utilisée pour le moment']
+          ['Les plus cuisinées', 'Celles qui reviennent naturellement', mostCooked, r => `${usageTotal(r)} fois`, 'Aucune recette cuisinée pour le moment'],
+          ['Dernières utilisées', 'Pour les retrouver sans chercher', recent, r => recentDate(r) ? formatDay(recentDate(r).slice(0,10)) : '', 'Aucune recette utilisée pour le moment']
         ];
         host.innerHTML = sections.map(([title,sub,list,label,empty]) => `<section class="smart-shelf"><div class="smart-shelf-head"><div><h3>${title}</h3><p>${sub}</p></div></div>${list.length ? `<div class="mini-recipe-row">${list.map(r => miniRecipeCard(r,label(r))).join('')}</div>` : `<div class="empty-state"><p>${empty}</p></div>`}</section>`).join('');
         $$('[data-mini-recipe]', host).forEach(card => card.addEventListener('click', () => { previousView='home'; renderDetail(card.dataset.miniRecipe); }));
