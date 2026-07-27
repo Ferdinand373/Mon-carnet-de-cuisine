@@ -1764,7 +1764,7 @@
         const mostCooked = [...recipes].filter(r => usageTotal(r) > 0)
           .sort((a,b) => usageTotal(b) - usageTotal(a) || String(recentDate(b)).localeCompare(String(recentDate(a)))).slice(0,3);
         const recent = [...recipes].filter(r => recentDate(r))
-          .sort((a,b) => String(recentDate(b)).localeCompare(String(recentDate(a))).slice(0,3);
+          .sort((a,b) => String(recentDate(b)).localeCompare(String(recentDate(a)))).slice(0,3);
         const sections = [
           ['⭐ Mes favoris', 'Touchez l’étoile d’une recette pour la retrouver ici', favorites, r => '⭐ Favori', 'Aucun favori pour le moment'],
           ['Les plus cuisinées', 'Celles qui reviennent naturellement', mostCooked, r => `${usageTotal(r)} fois`, 'Aucune recette cuisinée pour le moment'],
