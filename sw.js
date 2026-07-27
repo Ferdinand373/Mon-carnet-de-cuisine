@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-carnet-cuisine-v2.1.7-recettes';
+const CACHE_NAME = 'mon-carnet-cuisine-v2.1.8-recherche';
 const APP_SHELL = ['./', './index.html', './mon-carnet-v17.png'];
 
 self.addEventListener('install', event => {
