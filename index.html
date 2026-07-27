@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.1.6</title>
+  <title>Mon carnet de cuisine — V2.1.7</title>
   <style>
     :root {
       --ink: #17211e;
@@ -378,10 +378,20 @@
     .meal-idea-card h4 { margin: 10px 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: 21px; line-height: 1.12; font-weight: 500; }
     .meal-idea-meta { color: var(--muted); font-size: 12px; line-height: 1.4; }
     .meal-idea-open { display: inline-block; margin-top: 10px; color: var(--forest); font-size: 12px; font-weight: 800; }
+    .chat-quick-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 4px 0 15px; }
+    .chat-quick-actions .btn { min-width: 0; padding-left: 10px; padding-right: 10px; }
+    .chat-quick-actions .btn.active { background: var(--forest); color: #fff; }
+    .chat-context-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+    .chat-context-grid .field { margin: 0; }
+    .chat-note { min-height: 84px !important; }
+    .chat-prompt { min-height: 210px !important; }
+    .chat-help { margin: 9px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
     @media (max-width: 650px) {
       .meal-ideas-head { align-items: stretch; flex-direction: column; }
       .meal-ideas-head .btn { width: 100%; }
       .meal-ideas-grid { grid-template-columns: 1fr; }
+      .chat-quick-actions, .chat-context-grid { grid-template-columns: 1fr; }
+      .chat-quick-actions .btn { width: 100%; }
     }
     @media (min-width: 760px) {
       .app { padding-left: 28px; padding-right: 28px; }
@@ -503,7 +513,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.1.6</small>
+          <small>Collection personnelle · V2.1.7</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -517,6 +527,7 @@
         <div class="hero-actions">
           <button class="btn btn-primary" type="button" data-go="add">Ajouter une recette</button>
           <button class="btn btn-secondary" type="button" data-open-search>Trouver une recette</button>
+          <button class="btn btn-copper" id="askChatBtn" type="button">✦ Demander à Chat</button>
         </div>
       </div>
 
@@ -887,6 +898,81 @@
     </div>
   </div>
 
+  <div class="modal-wrap" id="chatModal" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <div><h3 id="chatTitle">Demander à Chat</h3><p>Choisissez une demande, ajustez le texte, puis ouvrez ChatGPT.</p></div>
+        <button class="icon-btn" type="button" data-close-chat aria-label="Fermer">×</button>
+      </div>
+      <div class="chat-quick-actions" role="group" aria-label="Demandes rapides">
+        <button class="btn btn-light active" type="button" data-chat-mode="meals">Midi et soir</button>
+        <button class="btn btn-light" type="button" data-chat-mode="new-recipe">Nouvelle recette</button>
+        <button class="btn btn-light" type="button" data-chat-mode="free">Question libre</button>
+        <button class="btn btn-light hidden" id="chatRecipeModeBtn" type="button" data-chat-mode="recipe">Cette recette</button>
+      </div>
+      <div id="chatMealContext">
+        <div class="chat-context-grid">
+          <div class="field">
+            <label for="chatLunchPersons">Midi — personnes</label>
+            <input id="chatLunchPersons" type="number" min="1" max="20" value="3">
+          </div>
+          <div class="field">
+            <label for="chatDinnerPersons">Soir — personnes</label>
+            <input id="chatDinnerPersons" type="number" min="1" max="20" value="2">
+          </div>
+          <div class="field">
+            <label for="chatDevice">Appareil souhaité</label>
+            <select id="chatDevice">
+              <option>Peu importe</option>
+              <option>Air fryer</option>
+              <option>Plancha</option>
+              <option>Barbecue</option>
+              <option>Plaques / poêle</option>
+              <option>Four</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="chatNote">Précision facultative</label>
+          <textarea class="chat-note" id="chatNote" placeholder="Ex. Très chaud, repas léger, utiliser les courgettes…"></textarea>
+        </div>
+      </div>
+      <div class="hidden" id="chatNewRecipeContext">
+        <div class="chat-context-grid">
+          <div class="field">
+            <label for="chatRecipePersons">Nombre de personnes</label>
+            <input id="chatRecipePersons" type="number" min="1" max="20" value="2">
+          </div>
+          <div class="field">
+            <label for="chatRecipeDevice">Appareil de cuisson</label>
+            <select id="chatRecipeDevice">
+              <option>Peu importe</option>
+              <option>Air fryer</option>
+              <option>Plancha</option>
+              <option>Barbecue</option>
+              <option>Plaques / poêle</option>
+              <option>Four</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="chatRecipeRequest">La recette souhaitée</label>
+          <textarea class="chat-note" id="chatRecipeRequest" placeholder="Ex. Poulet rôti gastronomique, léger et estival…"></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label for="chatPrompt">Demande préparée</label>
+        <textarea class="chat-prompt" id="chatPrompt" placeholder="Votre demande apparaîtra ici."></textarea>
+      </div>
+      <p class="chat-help">Le bouton copie la demande avant d’ouvrir ChatGPT. Dans ChatGPT, faites un appui long puis « Coller ».</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="copyOpenChatBtn" type="button">Copier + ouvrir ChatGPT</button>
+        <button class="btn btn-light" id="copyChatBtn" type="button">Copier seulement</button>
+        <button class="btn btn-light" type="button" data-close-chat>Fermer</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-wrap" id="clairModal" role="dialog" aria-modal="true" aria-labelledby="clairTitle">
     <div class="modal">
       <div class="modal-head">
@@ -970,6 +1056,9 @@
       };
       let currentView = 'home';
       let previousView = 'recipes';
+      let chatMode = 'meals';
+      let chatRecipeId = null;
+      let chatModalReturnFocus = null;
       let activeCategoryFilter = 'all';
       let activeDeviceFilter = 'all';
       let activeSeasonFilter = 'all';
@@ -1638,6 +1727,7 @@
               <button class="btn btn-primary" type="button" id="detailCookModeBtn">👨‍🍳 Je cuisine</button>
               <button class="btn btn-light" type="button" id="detailPlanBtn">Prévoir ce repas</button>
               <button class="btn btn-copper" type="button" id="detailClairBtn">Envoyer à Clair Courses</button>
+              <button class="btn btn-light" type="button" id="detailChatBtn">✦ Demander à Chat</button>
               <button class="btn btn-light" type="button" id="detailWakeBtn" aria-pressed="false">☀️ Garder l’écran allumé</button>
               <button class="btn btn-light" type="button" id="detailPrintBtn">Imprimer</button>
               <button class="btn btn-light" type="button" id="detailPhotoBtn">${r.photo ? '📷 Changer la photo' : '📷 Ajouter une photo'}</button>
@@ -1668,6 +1758,7 @@
         $('#detailCookModeBtn').addEventListener('click', () => openCookingMode(r, selectedPersonsFor(r)));
         $('#detailPlanBtn').addEventListener('click', () => openScheduleChoice(r, selectedPersonsFor(r)));
         $('#detailClairBtn').addEventListener('click', () => sendRecipeToClairCourses(r, selectedPersonsFor(r)));
+        $('#detailChatBtn').addEventListener('click', () => openChatModal(r));
         $('#detailWakeBtn').addEventListener('click', toggleKeepAwake);
         updateKeepAwakeButton();
         $('#detailPrintBtn').addEventListener('click', () => printRecipe(r, selectedPersonsFor(r)));
@@ -3228,6 +3319,98 @@
         window.setTimeout(() => $('#clairModal [data-close-modal]')?.focus(), 0);
       }
 
+      function chatMealRecipes() {
+        return recipes
+          .filter(recipe => !['Dessert', 'Apéritif', 'Accompagnement'].includes(recipeCategory(recipe)))
+          .sort((a, b) => Number(Boolean(b.favorite)) - Number(Boolean(a.favorite)) || String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')));
+      }
+
+      function chatRecipeCatalogue(device = 'Peu importe') {
+        const normalizedDevice = foldText(device);
+        let list = chatMealRecipes();
+        if (normalizedDevice && normalizedDevice !== 'peu importe') {
+          const filtered = list.filter(recipe => {
+            const haystack = foldText(`${recipe.device || ''} ${recipe.type || ''} ${recipe.title || ''}`);
+            if (normalizedDevice.includes('plaques')) return /plaque|poele|mijote/.test(haystack);
+            return haystack.includes(normalizedDevice);
+          });
+          if (filtered.length >= 4) list = filtered;
+        }
+        if (!list.length) return 'Le carnet ne contient pas encore de plat utilisable.';
+        return list.map((recipe, index) => {
+          const details = [recipe.type, recipe.device, durationCardLabel(recipe)].filter(Boolean).join(' · ');
+          return `${index + 1}. ${recipe.title}${details ? ` — ${details}` : ''}${recipe.favorite ? ' — favori' : ''}`;
+        }).join('\n');
+      }
+
+      function buildMealsChatPrompt() {
+        const lunchPersons = clampPersons($('#chatLunchPersons')?.value || 3, 3);
+        const dinnerPersons = clampPersons($('#chatDinnerPersons')?.value || 2, 2);
+        const device = $('#chatDevice')?.value || 'Peu importe';
+        const note = $('#chatNote')?.value.trim() || '';
+        return `Chat,\n\nAide-moi à choisir ce que nous allons manger aujourd’hui à partir de Mon Carnet.\n\n- Ce midi : ${lunchPersons} personne${lunchPersons > 1 ? 's' : ''}\n- Ce soir : ${dinnerPersons} personne${dinnerPersons > 1 ? 's' : ''}\n- Appareil souhaité : ${device}${note ? `\n- Ma précision : ${note}` : ''}\n\nChoisis deux recettes différentes dans la liste ci-dessous, une pour le midi et une plus adaptée au soir. Évite les répétitions et explique brièvement ton choix. Indique ensuite seulement les ingrédients probablement manquants pour les courses.\n\nRECETTES DE MON CARNET\n${chatRecipeCatalogue(device)}`;
+      }
+
+      function buildNewRecipeChatPrompt() {
+        const persons = clampPersons($('#chatRecipePersons')?.value || 2, 2);
+        const device = $('#chatRecipeDevice')?.value || 'Peu importe';
+        const request = $('#chatRecipeRequest')?.value.trim() || '';
+        return `Chat,\n\nCrée-moi une nouvelle recette complète, claire et facile à copier dans Mon Carnet.\n\n- Pour ${persons} personne${persons > 1 ? 's' : ''}\n- Appareil de cuisson : ${device}${request ? `\n- Ma demande : ${request}` : ''}\n\nPrésente-la avec : titre, temps de préparation, temps de cuisson, temps total, nombre de personnes, ingrédients puis étapes numérotées. Utilise des quantités naturelles et des consignes de cuisson précises.`;
+      }
+
+      function buildRecipeChatPrompt(recipe) {
+        if (!recipe) return 'Chat, aide-moi avec cette recette.';
+        const persons = selectedPersonsFor(recipe);
+        const ingredients = scaledIngredientLines(recipe, persons).map(line => `- ${line}`).join('\n');
+        const preparation = lines(recipe.steps).map((line, index) => `${index + 1}. ${line}`).join('\n');
+        return `Chat,\n\nVoici une recette de Mon Carnet : « ${recipe.title} », adaptée pour ${persons} personne${persons > 1 ? 's' : ''}.\n\nAide-moi à l’améliorer, à remplacer un ingrédient ou à adapter la cuisson selon ma prochaine question. Commence par me demander ce que je souhaite modifier.\n\nINGRÉDIENTS\n${ingredients || '- Aucun ingrédient enregistré'}\n\nPRÉPARATION\n${preparation || 'Aucune étape enregistrée'}`;
+      }
+
+      function setChatMode(mode, rebuild = true) {
+        chatMode = mode;
+        $$('[data-chat-mode]').forEach(button => button.classList.toggle('active', button.dataset.chatMode === mode));
+        $('#chatMealContext')?.classList.toggle('hidden', mode !== 'meals');
+        $('#chatNewRecipeContext')?.classList.toggle('hidden', mode !== 'new-recipe');
+        if (!rebuild) return;
+        if (mode === 'meals') $('#chatPrompt').value = buildMealsChatPrompt();
+        if (mode === 'new-recipe') $('#chatPrompt').value = buildNewRecipeChatPrompt();
+        if (mode === 'recipe') $('#chatPrompt').value = buildRecipeChatPrompt(recipes.find(item => item.id === chatRecipeId));
+        if (mode === 'free') {
+          $('#chatPrompt').value = 'Chat,\n\n';
+          window.setTimeout(() => $('#chatPrompt')?.focus(), 0);
+        }
+      }
+
+      function openChatModal(recipe = null) {
+        chatRecipeId = recipe?.id || null;
+        chatModalReturnFocus = document.activeElement;
+        $('#chatRecipeModeBtn')?.classList.toggle('hidden', !chatRecipeId);
+        $('#chatModal').classList.add('open');
+        setChatMode(chatRecipeId ? 'recipe' : 'meals');
+        window.setTimeout(() => $('#chatModal [data-close-chat]')?.focus(), 0);
+      }
+
+      function closeChatModal() {
+        $('#chatModal').classList.remove('open');
+        chatRecipeId = null;
+        if (chatModalReturnFocus && typeof chatModalReturnFocus.focus === 'function') chatModalReturnFocus.focus();
+        chatModalReturnFocus = null;
+      }
+
+      function refreshChatPromptFromContext() {
+        if (chatMode === 'meals') $('#chatPrompt').value = buildMealsChatPrompt();
+        if (chatMode === 'new-recipe') $('#chatPrompt').value = buildNewRecipeChatPrompt();
+      }
+
+      async function copyChatPrompt(openAfter = false) {
+        const text = $('#chatPrompt').value.trim();
+        if (!text) { showToast('Écrivez une demande avant de continuer'); return; }
+        const ok = await copyText(text);
+        if (!ok) { showToast('Sélectionnez puis copiez la demande'); return; }
+        showToast(openAfter ? 'Demande copiée · ouverture de ChatGPT' : 'Demande copiée');
+        if (openAfter) window.setTimeout(() => window.location.assign('https://chatgpt.com/'), 180);
+      }
+
       function clairBridgeUrl(text) {
         const configured = (settings.clairUrl || DEFAULT_CLAIR_URL).trim();
         const cleanBase = configured
@@ -3298,7 +3481,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.6</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.7</p>`);
       }
 
       function printPlan() {
@@ -3311,7 +3494,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.6</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.7</p>`);
       }
 
       function renderSettings() {
@@ -3349,7 +3532,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.1.6', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.1.7', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -3405,6 +3588,9 @@
             return;
           }
           if (event.target.closest('[data-close-quick-plan]') || event.target === $('#quickPlanModal')) { closeQuickPlan(); return; }
+          if (event.target.closest('[data-close-chat]') || event.target === $('#chatModal')) { closeChatModal(); return; }
+          const chatModeButton = event.target.closest('[data-chat-mode]');
+          if (chatModeButton) { setChatMode(chatModeButton.dataset.chatMode); return; }
           if (event.target.closest('[data-close-modal]') || event.target === $('#clairModal')) { closeClairModal(); return; }
           if (event.target.closest('[data-close-schedule-choice]') || event.target === $('#scheduleChoiceModal')) { closeScheduleChoice(); return; }
           if (event.target.closest('[data-close-cooked]') || event.target === $('#cookedModal')) { closeCookedModal(); return; }
@@ -3414,9 +3600,16 @@
           if (scheduleSlot) { scheduleRecipeInSlot(scheduleSlot.dataset.scheduleSlot); return; }
         });
         document.addEventListener('keydown', event => {
-          if (event.key === 'Escape' && $('#clairModal').classList.contains('open')) closeClairModal();
+          if (event.key === 'Escape' && $('#chatModal').classList.contains('open')) closeChatModal();
+          else if (event.key === 'Escape' && $('#clairModal').classList.contains('open')) closeClairModal();
         });
         $('#quickAddBtn').addEventListener('click', () => navigate('add'));
+        $('#askChatBtn').addEventListener('click', () => openChatModal());
+        $('#copyOpenChatBtn').addEventListener('click', () => copyChatPrompt(true));
+        $('#copyChatBtn').addEventListener('click', () => copyChatPrompt(false));
+        ['chatLunchPersons', 'chatDinnerPersons', 'chatDevice', 'chatRecipePersons', 'chatRecipeDevice'].forEach(id => $('#' + id).addEventListener('change', refreshChatPromptFromContext));
+        $('#chatNote').addEventListener('input', refreshChatPromptFromContext);
+        $('#chatRecipeRequest').addEventListener('input', refreshChatPromptFromContext);
         $('#cookingCloseBtn').addEventListener('click', () => closeCookingMode());
         $('#cookingPrevBtn').addEventListener('click', previousCookingStep);
         $('#cookingNextBtn').addEventListener('click', nextCookingStep);
