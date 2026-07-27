@@ -52,6 +52,9 @@
       display: flex; align-items: center; justify-content: space-between; gap: 14px;
       margin-bottom: 22px;
     }
+    .topbar-actions { display:flex; gap:8px; flex:0 0 auto; }
+    .help-list { margin:14px 0 0; padding-left:20px; line-height:1.55; color:var(--ink); }
+    .help-list li { margin:8px 0; }
     .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .brand-mark {
       width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center;
@@ -613,10 +616,10 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.3.1</small>
+          <small>Collection personnelle · V2.3.2</small>
         </div>
       </div>
-      <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
+      <div class="topbar-actions"><button class="icon-btn" id="helpBtn" type="button" aria-label="Aide">?</button><button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button></div>
     </header>
 
     <section class="view active" id="view-home" data-view="home">
@@ -941,6 +944,24 @@
     <button class="nav-btn" type="button" data-go="menus"><span>☰</span><span>Menus</span></button>
     <button class="nav-btn" type="button" data-go="settings"><span>⚙</span><span>Réglages</span></button>
   </nav>
+
+  <div class="modal-wrap" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <div><h3 id="helpTitle">Bien utiliser Mon Carnet</h3><p>Les fonctions essentielles, simplement.</p></div>
+        <button class="icon-btn" type="button" data-close-help aria-label="Fermer">×</button>
+      </div>
+      <ol class="help-list">
+        <li><strong>Retrouver une recette :</strong> ouvrez Recettes, tapez un mot ou utilisez les filtres.</li>
+        <li><strong>Mettre en favori :</strong> touchez l’étoile d’une recette.</li>
+        <li><strong>Lorsque vous cuisinez :</strong> appuyez sur « Je cuisine » pour alimenter Dernières utilisées et Les plus cuisinées.</li>
+        <li><strong>Créer un menu :</strong> choisissez une entrée, un plat et un dessert, puis enregistrez-le.</li>
+        <li><strong>Faire les courses :</strong> envoyez un repas ou un menu vers Clair Courses.</li>
+        <li><strong>Conserver vos données :</strong> effectuez régulièrement une sauvegarde dans Réglages.</li>
+      </ol>
+      <div class="modal-actions"><button class="btn btn-primary" type="button" data-close-help>J’ai compris</button></div>
+    </div>
+  </div>
 
   <div class="modal-wrap" id="quickPlanModal" role="dialog" aria-modal="true" aria-labelledby="quickPlanTitle">
     <div class="modal">
@@ -1743,7 +1764,7 @@
         const mostCooked = [...recipes].filter(r => usageTotal(r) > 0)
           .sort((a,b) => usageTotal(b) - usageTotal(a) || String(recentDate(b)).localeCompare(String(recentDate(a)))).slice(0,3);
         const recent = [...recipes].filter(r => recentDate(r))
-          .sort((a,b) => String(recentDate(b)).localeCompare(String(recentDate(a)))).slice(0,3);
+          .sort((a,b) => String(recentDate(b)).localeCompare(String(recentDate(a))).slice(0,3);
         const sections = [
           ['⭐ Mes favoris', 'Touchez l’étoile d’une recette pour la retrouver ici', favorites, r => '⭐ Favori', 'Aucun favori pour le moment'],
           ['Les plus cuisinées', 'Celles qui reviennent naturellement', mostCooked, r => `${usageTotal(r)} fois`, 'Aucune recette cuisinée pour le moment'],
@@ -2366,9 +2387,10 @@
         return mins ? `${hours} h ${String(mins).padStart(2, '0')}` : `${hours} h`;
       }
 
-      function recipePrepDuration(recipe = {}) { return Math.max(0, Number(recipe.prepDuration) || 0); }
-      function recipeMarinadeDuration(recipe = {}) { return Math.max(0, Number(recipe.marinadeDuration) || 0); }
-      function recipeCookDuration(recipe = {}) { return Math.max(0, Number(recipe.cookDuration) || 0); }
+      function durationValue(value) { return Math.max(0, typeof value === 'number' ? value : (parseDurationMinutes(String(value || '')) || Number(value) || 0)); }
+      function recipePrepDuration(recipe = {}) { return durationValue(recipe.prepDuration); }
+      function recipeMarinadeDuration(recipe = {}) { return durationValue(recipe.marinadeDuration); }
+      function recipeCookDuration(recipe = {}) { return durationValue(recipe.cookDuration); }
       function marinadeIncludedInKitchenTime(minutes = 0) {
         const total = Math.max(0, Number(minutes) || 0);
         return total > 0 && total < 60;
@@ -2380,7 +2402,7 @@
         return prepMinutes + cookMinutes + (marinadeIncludedInKitchenTime(marinadeMinutes) ? marinadeMinutes : 0);
       }
       function recipeTotalDuration(recipe = {}) {
-        const explicit = Math.max(0, Number(recipe.duration) || 0);
+        const explicit = durationValue(recipe.duration);
         const prep = recipePrepDuration(recipe);
         const marinade = recipeMarinadeDuration(recipe);
         const cook = recipeCookDuration(recipe);
@@ -3819,6 +3841,9 @@
       function renderAll() { renderHome(); renderRecipes(); renderPlanner(); renderMenus(); renderSettings(); }
 
       function bindEvents() {
+        $('#helpBtn')?.addEventListener('click', () => $('#helpModal')?.classList.add('open'));
+        $$('[data-close-help]').forEach(btn => btn.addEventListener('click', () => $('#helpModal')?.classList.remove('open')));
+        $('#helpModal')?.addEventListener('click', event => { if (event.target === $('#helpModal')) $('#helpModal').classList.remove('open'); });
         document.addEventListener('click', async event => {
           const searchTrigger = event.target.closest('[data-open-search]');
           if (searchTrigger) { openRecipeSearch(); return; }
@@ -3861,7 +3886,8 @@
           if (scheduleSlot) { scheduleRecipeInSlot(scheduleSlot.dataset.scheduleSlot); return; }
         });
         document.addEventListener('keydown', event => {
-          if (event.key === 'Escape' && $('#chatModal').classList.contains('open')) closeChatModal();
+          if (event.key === 'Escape' && $('#helpModal')?.classList.contains('open')) $('#helpModal').classList.remove('open');
+          else if (event.key === 'Escape' && $('#chatModal').classList.contains('open')) closeChatModal();
           else if (event.key === 'Escape' && $('#clairModal').classList.contains('open')) closeClairModal();
         });
         $('#quickAddBtn').addEventListener('click', () => navigate('add'));
