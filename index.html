@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.1.4</title>
+  <title>Mon carnet de cuisine — V2.1.5</title>
   <style>
     :root {
       --ink: #17211e;
@@ -65,6 +65,28 @@
       color: var(--forest); display: grid; place-items: center; box-shadow: var(--shadow-soft); cursor: pointer;
       font-size: 25px;
     }
+    .topbar-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+    .topbar-actions .icon-btn { width: 44px; height: 44px; font-size: 22px; }
+    .meal-ideas-panel {
+      margin-top: 18px; padding: 18px; border: 1px solid rgba(21,60,53,.14); border-radius: 22px;
+      background: rgba(255,255,255,.72); box-shadow: var(--shadow-soft);
+    }
+    .meal-ideas-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 13px; }
+    .meal-ideas-head h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 23px; font-weight: 500; }
+    .meal-ideas-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+    .meal-ideas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    .meal-idea-card {
+      display: grid; grid-template-columns: 92px minmax(0,1fr); min-height: 112px; overflow: hidden;
+      border: 1px solid var(--line); border-radius: 18px; background: var(--card-solid); cursor: pointer;
+    }
+    .meal-idea-visual { min-height: 112px; background: linear-gradient(145deg, #d9c5ae, #a9b7a9); overflow: hidden; }
+    .meal-idea-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .meal-idea-visual .recipe-placeholder { min-height: 112px; font-size: 36px; }
+    .meal-idea-copy { min-width: 0; padding: 12px; }
+    .meal-idea-copy small { display: block; margin-bottom: 5px; color: var(--copper); font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .meal-idea-copy h4 { margin: 0 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: 18px; line-height: 1.15; font-weight: 500; }
+    .meal-idea-copy p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .duration-preview { color: var(--forest) !important; font-weight: 750; }
     .view { display: none; animation: rise .28s ease; }
     .view.active { display: block; }
     @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -417,6 +439,9 @@
       .metrics { gap: 8px; }
       .metric { padding: 13px 10px; }
       .metric strong { font-size: 24px; }
+      .meal-ideas-grid { grid-template-columns: 1fr; }
+      .meal-ideas-head { align-items: stretch; flex-direction: column; }
+      .meal-ideas-head .btn { width: 100%; }
       .meal-grid, .recipe-grid, .form-grid, .plan-meals, .settings-grid, .content-grid { grid-template-columns: 1fr; }
       .recipe-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
       .recipe-image { height: 132px; }
@@ -471,10 +496,13 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.1.4</small>
+          <small>Collection personnelle · V2.1.5</small>
         </div>
       </div>
-      <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="helpBtn" type="button" aria-label="Aide">?</button>
+        <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
+      </div>
     </header>
 
     <section class="view active" id="view-home" data-view="home">
@@ -493,6 +521,17 @@
         <div class="metric"><strong id="metricFavorites">0</strong><span>recettes favorites</span></div>
         <div class="metric"><strong id="metricPlanned">0</strong><span>repas planifiés</span></div>
       </div>
+
+      <section class="meal-ideas-panel" aria-labelledby="mealIdeasTitle">
+        <div class="meal-ideas-head">
+          <div>
+            <h3 id="mealIdeasTitle">Que mange-t-on&nbsp;?</h3>
+            <p>Une proposition pour le midi et une autre, adaptée au soir.</p>
+          </div>
+          <button class="btn btn-light" id="refreshMealIdeasBtn" type="button">Une autre idée</button>
+        </div>
+        <div class="meal-ideas-grid" id="mealIdeasGrid"></div>
+      </section>
 
       <div id="nextMealSpotlight"></div>
 
@@ -599,7 +638,7 @@
                 <small>Une seule image, automatiquement allégée pour préserver l’espace du téléphone.</small>
               </div>
             </div>
-            <input class="hidden" id="photoInput" type="file" accept="image/*" capture="environment">
+            <input class="hidden" id="photoInput" type="file" accept="image/*">
           </div>
 
           <div class="field">
@@ -615,10 +654,12 @@
           <div class="field">
             <label for="recipePrepDuration">Préparation</label>
             <input id="recipePrepDuration" type="number" min="0" max="1440" placeholder="minutes">
+            <small class="duration-preview" id="recipePrepDurationPreview">Affichage : —</small>
           </div>
           <div class="field">
             <label for="recipeCookDuration">Cuisson</label>
             <input id="recipeCookDuration" type="number" min="0" max="1440" placeholder="minutes">
+            <small class="duration-preview" id="recipeCookDurationPreview">Affichage : —</small>
           </div>
           <div class="field full" id="recipeMarinadeToggle">
             <button class="btn btn-light" id="addMarinadeBtn" type="button">＋ Ajouter un temps de marinade</button>
@@ -634,6 +675,7 @@
           <div class="field">
             <label for="recipeDuration">Temps en cuisine</label>
             <input id="recipeDuration" type="number" min="0" max="43200" placeholder="calculé en minutes">
+            <small class="duration-preview" id="recipeDurationPreview">Affichage : —</small>
             <small>Préparation + cuisson. Une marinade de moins d’une heure reste incluse ; à partir d’une heure, elle est affichée séparément.</small>
           </div>
           <div class="field">
@@ -926,6 +968,8 @@
       let plannerDays = 2;
       let currentPhoto = '';
       let suggestionId = null;
+      let mealIdeaLunchId = null;
+      let mealIdeaDinnerId = null;
       let quickPlanTarget = null;
       let scheduleChoiceRecipeId = null;
       let scheduleChoicePersons = 0;
@@ -1421,6 +1465,7 @@
             <span class="meal-hint">${recipe ? 'Modifier ce repas →' : 'Choisir maintenant →'}</span>
           </article>`;
         }).join('');
+        renderMealIdeas();
         renderSuggestion();
       }
 
@@ -1439,6 +1484,69 @@
           <div class="recipe-image">${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}${r.favorite ? '<div class="fav-badge">♥</div>' : ''}</div>
           <div class="recipe-body"><h4>${esc(r.title)}</h4><div class="tags"><span class="tag">${esc(recipeCategory(r))}</span><span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.device)}</span></div><div class="recipe-meta"><span>${durationCardLabel(r)}</span><span>${r.persons} pers.</span></div></div>
         </article>`;
+      }
+
+
+      function mealIdeaBasePool() {
+        const excluded = /dessert|aperitif|accompagnement|boisson/;
+        const preferred = recipes.filter(recipe => {
+          const text = foldText(`${recipeCategory(recipe)} ${recipe.type || ''} ${recipe.title || ''}`);
+          return !excluded.test(text);
+        });
+        return preferred.length ? preferred : recipes;
+      }
+
+      function eveningFriendlyRecipe(recipe = {}) {
+        const text = foldText(`${recipe.title || ''} ${recipe.type || ''} ${recipeCategory(recipe)} ${recipe.device || ''}`);
+        const light = /salade|soupe|veloute|poisson|saumon|cabillaud|bar\b|lieu\b|crevette|gambas|saint-jacques|legume|vegetar|oeuf|omelette|tartare|carpaccio|courgette|tomate|avocat|burrata|moules|palourdes/;
+        const heavy = /choucroute|cassoulet|lasagne|rago[uû]t|jarret|souris d.agneau|cote de boeuf|confit|kig ar farz|schweinshaxe/;
+        const duration = recipeTotalDuration(recipe);
+        return !heavy.test(text) && (light.test(text) || !duration || duration <= 45);
+      }
+
+      function pickMealIdea(pool = [], excludedId = '', previousId = '') {
+        const available = pool.filter(recipe => recipe.id !== excludedId && (pool.length < 2 || recipe.id !== previousId));
+        const withoutExcluded = pool.filter(recipe => recipe.id !== excludedId);
+        const source = available.length ? available : (withoutExcluded.length ? withoutExcluded : pool);
+        if (!source.length) return null;
+        return source[Math.floor(Math.random() * source.length)];
+      }
+
+      function mealIdeaCard(recipe, moment) {
+        if (!recipe) return `<div class="empty-state"><strong>Aucune recette disponible</strong>Ajoutez une recette pour obtenir une proposition.</div>`;
+        const people = Math.max(1, Number(recipe.persons) || 1);
+        return `<article class="meal-idea-card" data-recipe-id="${recipe.id}">
+          <div class="meal-idea-visual">${recipe.photo ? `<img src="${recipe.photo}" alt="${esc(recipe.title)}">` : `<div class="recipe-placeholder">${iconFor(recipe)}</div>`}</div>
+          <div class="meal-idea-copy">
+            <small>${moment}</small>
+            <h4>${esc(recipe.title)}</h4>
+            <p>${durationCardLabel(recipe)} · ${people} personne${people > 1 ? 's' : ''} · ${esc(recipe.device || 'Sans cuisson')}${recipe.favorite ? ' · ♥' : ''}</p>
+          </div>
+        </article>`;
+      }
+
+      function renderMealIdeas(forceNew = false) {
+        const target = $('#mealIdeasGrid');
+        if (!target) return;
+        if (!recipes.length) {
+          target.innerHTML = `<div class="empty-state"><strong>Le carnet est encore vide</strong>Ajoutez votre première recette pour obtenir des idées.</div>`;
+          return;
+        }
+        const base = mealIdeaBasePool();
+        const dinners = base.filter(eveningFriendlyRecipe);
+        if (forceNew || !recipes.some(recipe => recipe.id === mealIdeaLunchId)) {
+          mealIdeaLunchId = pickMealIdea(base, '', mealIdeaLunchId)?.id || null;
+        }
+        if (forceNew || !recipes.some(recipe => recipe.id === mealIdeaDinnerId) || mealIdeaDinnerId === mealIdeaLunchId) {
+          mealIdeaDinnerId = pickMealIdea(dinners.length ? dinners : base, mealIdeaLunchId, mealIdeaDinnerId)?.id || null;
+        }
+        const lunch = recipes.find(recipe => recipe.id === mealIdeaLunchId) || null;
+        const dinner = recipes.find(recipe => recipe.id === mealIdeaDinnerId) || null;
+        target.innerHTML = `${mealIdeaCard(lunch, 'Ce midi')}${mealIdeaCard(dinner, 'Ce soir')}`;
+      }
+
+      function openHelp() {
+        alert(`Mon carnet de cuisine — V2.1.5 stable\n\n• Favoris : touchez le cœur dans une recette, puis utilisez « Favorites seulement » dans Recherche.\n\n• Durées : elles restent enregistrées en minutes pour protéger les anciennes recettes, mais 75 minutes s’affiche désormais aussi « 1 h 15 ».\n\n• Que mange-t-on ? : les deux propositions viennent uniquement de votre carnet.\n\n• Clair Courses : relisez la sélection « Essentiel » avant l’envoi. La recette originale n’est jamais modifiée.\n\n• Sécurité : faites régulièrement Réglages → Exporter.\n\nBase locale conservée : mon-carnet-cuisine-v1.`);
       }
 
       function canonicalDevice(value = '') {
@@ -1530,7 +1638,7 @@
               <button class="btn btn-light" type="button" id="detailWakeBtn" aria-pressed="false">☀️ Garder l’écran allumé</button>
               <button class="btn btn-light" type="button" id="detailPrintBtn">Imprimer</button>
               <button class="btn btn-light" type="button" id="detailPhotoBtn">${r.photo ? '📷 Changer la photo' : '📷 Ajouter une photo'}</button>
-              <input class="hidden" id="detailPhotoInput" type="file" accept="image/*" capture="environment">
+              <input class="hidden" id="detailPhotoInput" type="file" accept="image/*">
               <button class="btn btn-light" type="button" id="detailEditBtn">Modifier</button>
               <button class="btn btn-light" type="button" id="detailDeleteBtn">Supprimer</button>
             </div>
@@ -1985,11 +2093,24 @@
         return minutes;
       }
 
+      function updateDurationPreviews() {
+        const prep = Math.max(0, Number($('#recipePrepDuration')?.value) || 0);
+        const cook = Math.max(0, Number($('#recipeCookDuration')?.value) || 0);
+        const total = Math.max(0, Number($('#recipeDuration')?.value) || 0);
+        const prepPreview = $('#recipePrepDurationPreview');
+        const cookPreview = $('#recipeCookDurationPreview');
+        const totalPreview = $('#recipeDurationPreview');
+        if (prepPreview) prepPreview.textContent = `Affichage : ${prep ? formatDuration(prep) : '—'}`;
+        if (cookPreview) cookPreview.textContent = `Affichage : ${cook ? formatDuration(cook) : '—'}`;
+        if (totalPreview) totalPreview.textContent = `Affichage : ${total ? formatDuration(total) : '—'}`;
+      }
+
       function syncTotalDuration() {
         const prep = Math.max(0, Number($('#recipePrepDuration')?.value) || 0);
         const marinade = Math.max(0, parseDurationMinutes($('#recipeMarinadeDuration')?.value || '') || 0);
         const cook = Math.max(0, Number($('#recipeCookDuration')?.value) || 0);
         if (prep || marinade || cook) $('#recipeDuration').value = calculatedKitchenDuration(prep, marinade, cook);
+        updateDurationPreviews();
       }
 
       function resetForm(options = {}) {
@@ -2009,6 +2130,7 @@
         if ($('#quickRecipeText')) $('#quickRecipeText').value = quickText;
         currentPhoto = '';
         updatePhotoPreview();
+        updateDurationPreviews();
       }
 
       function foldText(value = '') {
@@ -2251,6 +2373,7 @@
         $('#recipeIngredients').value = parsed.ingredients || '';
         $('#recipeSteps').value = parsed.steps || '';
         $('#recipeNotes').value = parsed.notes || '';
+        updateDurationPreviews();
       }
 
       function importQuickRecipe(saveNow = false) {
@@ -2298,6 +2421,7 @@
         updatePhotoPreview();
         $('#formTitle').textContent = 'Modifier la recette';
         $('#cancelEditBtn').classList.remove('hidden');
+        updateDurationPreviews();
       }
 
       async function saveRecipe(event) {
@@ -3187,7 +3311,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.4</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.5</p>`);
       }
 
       function printPlan() {
@@ -3200,7 +3324,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.4</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.5</p>`);
       }
 
       function renderSettings() {
@@ -3238,7 +3362,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.1-premium', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.1.5', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -3305,7 +3429,9 @@
         document.addEventListener('keydown', event => {
           if (event.key === 'Escape' && $('#clairModal').classList.contains('open')) closeClairModal();
         });
+        $('#helpBtn').addEventListener('click', openHelp);
         $('#quickAddBtn').addEventListener('click', () => navigate('add'));
+        $('#refreshMealIdeasBtn').addEventListener('click', () => renderMealIdeas(true));
         $('#cookingCloseBtn').addEventListener('click', () => closeCookingMode());
         $('#cookingPrevBtn').addEventListener('click', previousCookingStep);
         $('#cookingNextBtn').addEventListener('click', nextCookingStep);
@@ -3385,6 +3511,7 @@
         });
         $('#recipeForm').addEventListener('submit', saveRecipe);
         $('#recipePrepDuration').addEventListener('input', syncTotalDuration);
+        $('#recipeDuration').addEventListener('input', updateDurationPreviews);
         $('#recipeMarinadeDuration').addEventListener('input', syncTotalDuration);
         $('#recipeMarinadeDuration').addEventListener('blur', () => { normalizeMarinadeDurationField(); syncTotalDuration(); });
         $('#recipeCookDuration').addEventListener('input', syncTotalDuration);

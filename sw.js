@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-carnet-cuisine-v2-1-4';
+const CACHE_NAME = 'mon-carnet-cuisine-v2-1-5';
 const CORE_FILES = ['./', './index.html', './mon-carnet-v17.png'];
 
 self.addEventListener('install', event => {
