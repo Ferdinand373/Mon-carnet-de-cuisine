@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.1.9</title>
+  <title>Mon carnet de cuisine — V2.2.0</title>
   <style>
     :root {
       --ink: #17211e;
@@ -403,6 +403,28 @@
     .chat-note { min-height: 84px !important; }
     .chat-prompt { min-height: 210px !important; }
     .chat-help { margin: 9px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .smart-shelves { display: grid; gap: 18px; margin-top: 24px; }
+    .smart-shelf { padding: 18px; border-radius: 22px; background: rgba(255,253,248,.8); border: 1px solid var(--line); box-shadow: var(--shadow-soft); }
+    .smart-shelf-head { display:flex; align-items:end; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .smart-shelf-head h3 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:23px; font-weight:500; }
+    .smart-shelf-head p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    .mini-recipe-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .mini-recipe-card { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--card-solid); cursor:pointer; min-width:0; }
+    .mini-recipe-card img, .mini-recipe-card .recipe-placeholder { width:100%; height:108px; object-fit:cover; }
+    .mini-recipe-card div:last-child { padding:10px; }
+    .mini-recipe-card strong { display:block; font-size:13px; line-height:1.25; }
+    .mini-recipe-card span { display:block; margin-top:4px; color:var(--muted); font-size:11px; }
+    .menus-panel { padding:20px; border-radius:24px; background:var(--card-solid); border:1px solid var(--line); box-shadow:var(--shadow-soft); }
+    .menu-builder { display:grid; grid-template-columns:1.2fr repeat(3,1fr); gap:10px; align-items:end; }
+    .menu-builder .field { margin:0; }
+    .saved-menu-list { display:grid; gap:12px; margin-top:18px; }
+    .saved-menu-card { padding:16px; border:1px solid var(--line); border-radius:18px; background:#fffdf8; }
+    .saved-menu-head { display:flex; justify-content:space-between; gap:10px; align-items:start; }
+    .saved-menu-head h4 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:20px; font-weight:500; }
+    .saved-menu-items { display:grid; gap:5px; margin:12px 0; color:var(--muted); font-size:13px; }
+    .saved-menu-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .detail-hero { min-height:330px; }
+    .detail-hero > img { height:100%; min-height:330px; object-fit:cover; }
     @media (max-width: 650px) {
       #view-recipes .recipe-grid { grid-template-columns: 1fr; gap: 11px; }
       #view-recipes .recipe-card { display: grid; grid-template-columns: 116px minmax(0,1fr); min-height: 126px; }
@@ -417,6 +439,10 @@
       .meal-ideas-head .btn { width: 100%; }
       .meal-ideas-grid { grid-template-columns: 1fr; }
       .chat-quick-actions, .chat-context-grid { grid-template-columns: 1fr; }
+      .mini-recipe-row { grid-template-columns:1fr; }
+      .mini-recipe-card { display:grid; grid-template-columns:105px 1fr; }
+      .mini-recipe-card img, .mini-recipe-card .recipe-placeholder { height:100%; min-height:92px; }
+      .menu-builder { grid-template-columns:1fr; }
       .chat-quick-actions .btn { width: 100%; }
     }
     @media (min-width: 760px) {
@@ -474,11 +500,55 @@
     .cooking-nav { display: grid; grid-template-columns: 1fr 1.25fr; gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
     .cooking-nav .btn { min-height: 56px; font-size: 16px; }
     .cooking-nav .btn:disabled { opacity: .38; }
+    .smart-shelves { display: grid; gap: 18px; margin-top: 24px; }
+    .smart-shelf { padding: 18px; border-radius: 22px; background: rgba(255,253,248,.8); border: 1px solid var(--line); box-shadow: var(--shadow-soft); }
+    .smart-shelf-head { display:flex; align-items:end; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .smart-shelf-head h3 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:23px; font-weight:500; }
+    .smart-shelf-head p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    .mini-recipe-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .mini-recipe-card { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--card-solid); cursor:pointer; min-width:0; }
+    .mini-recipe-card img, .mini-recipe-card .recipe-placeholder { width:100%; height:108px; object-fit:cover; }
+    .mini-recipe-card div:last-child { padding:10px; }
+    .mini-recipe-card strong { display:block; font-size:13px; line-height:1.25; }
+    .mini-recipe-card span { display:block; margin-top:4px; color:var(--muted); font-size:11px; }
+    .menus-panel { padding:20px; border-radius:24px; background:var(--card-solid); border:1px solid var(--line); box-shadow:var(--shadow-soft); }
+    .menu-builder { display:grid; grid-template-columns:1.2fr repeat(3,1fr); gap:10px; align-items:end; }
+    .menu-builder .field { margin:0; }
+    .saved-menu-list { display:grid; gap:12px; margin-top:18px; }
+    .saved-menu-card { padding:16px; border:1px solid var(--line); border-radius:18px; background:#fffdf8; }
+    .saved-menu-head { display:flex; justify-content:space-between; gap:10px; align-items:start; }
+    .saved-menu-head h4 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:20px; font-weight:500; }
+    .saved-menu-items { display:grid; gap:5px; margin:12px 0; color:var(--muted); font-size:13px; }
+    .saved-menu-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .detail-hero { min-height:330px; }
+    .detail-hero > img { height:100%; min-height:330px; object-fit:cover; }
     @media (max-width: 650px) {
       .cooking-shell { padding-left: 14px; padding-right: 14px; }
       .cooking-step-card { padding-top: 16px; padding-bottom: 16px; }
       .cooking-step-text { font-size: clamp(24px, 7vw, 33px); }
     }
+    .smart-shelves { display: grid; gap: 18px; margin-top: 24px; }
+    .smart-shelf { padding: 18px; border-radius: 22px; background: rgba(255,253,248,.8); border: 1px solid var(--line); box-shadow: var(--shadow-soft); }
+    .smart-shelf-head { display:flex; align-items:end; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .smart-shelf-head h3 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:23px; font-weight:500; }
+    .smart-shelf-head p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    .mini-recipe-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .mini-recipe-card { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--card-solid); cursor:pointer; min-width:0; }
+    .mini-recipe-card img, .mini-recipe-card .recipe-placeholder { width:100%; height:108px; object-fit:cover; }
+    .mini-recipe-card div:last-child { padding:10px; }
+    .mini-recipe-card strong { display:block; font-size:13px; line-height:1.25; }
+    .mini-recipe-card span { display:block; margin-top:4px; color:var(--muted); font-size:11px; }
+    .menus-panel { padding:20px; border-radius:24px; background:var(--card-solid); border:1px solid var(--line); box-shadow:var(--shadow-soft); }
+    .menu-builder { display:grid; grid-template-columns:1.2fr repeat(3,1fr); gap:10px; align-items:end; }
+    .menu-builder .field { margin:0; }
+    .saved-menu-list { display:grid; gap:12px; margin-top:18px; }
+    .saved-menu-card { padding:16px; border:1px solid var(--line); border-radius:18px; background:#fffdf8; }
+    .saved-menu-head { display:flex; justify-content:space-between; gap:10px; align-items:start; }
+    .saved-menu-head h4 { margin:0; font-family:Georgia,"Times New Roman",serif; font-size:20px; font-weight:500; }
+    .saved-menu-items { display:grid; gap:5px; margin:12px 0; color:var(--muted); font-size:13px; }
+    .saved-menu-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .detail-hero { min-height:330px; }
+    .detail-hero > img { height:100%; min-height:330px; object-fit:cover; }
     @media (max-width: 650px) {
       .app { padding-left: 14px; padding-right: 14px; }
       .hero { padding: 24px 20px; border-radius: 25px; }
@@ -539,7 +609,7 @@
         <div class="brand-mark">♨</div>
         <div>
           <h1>Mon carnet de cuisine</h1>
-          <small>Collection personnelle · V2.1.9</small>
+          <small>Collection personnelle · V2.2.0</small>
         </div>
       </div>
       <button class="icon-btn" id="quickAddBtn" type="button" aria-label="Ajouter une recette">＋</button>
@@ -553,6 +623,7 @@
         <div class="hero-actions">
           <button class="btn btn-primary" type="button" data-go="add">Ajouter une recette</button>
           <button class="btn btn-secondary" type="button" data-open-search>Trouver une recette</button>
+          <button class="btn btn-secondary" type="button" data-go="menus">Mes menus</button>
           <button class="btn btn-copper" id="askChatBtn" type="button">✦ Demander à Chat</button>
         </div>
       </div>
@@ -591,6 +662,7 @@
         <button class="text-btn" type="button" id="refreshSuggestion">Changer</button>
       </div>
       <div id="homeSuggestion"></div>
+      <div class="smart-shelves" id="smartShelves"></div>
     </section>
 
     <section class="view" id="view-recipes" data-view="recipes">
@@ -768,6 +840,23 @@
           <button class="btn btn-light hidden" id="cancelEditBtn" type="button">Annuler la modification</button>
         </div>
       </form>
+    </section>
+
+    <section class="view" id="view-menus" data-view="menus">
+      <div class="section-head">
+        <div><h2>Mes menus</h2><p>Une entrée, un plat et un dessert, sans complication</p></div>
+        <button class="btn btn-light" type="button" data-go="home">Retour</button>
+      </div>
+      <section class="menus-panel">
+        <div class="menu-builder">
+          <div class="field"><label for="menuName">Nom du menu</label><input id="menuName" placeholder="Ex. Menu d’été"></div>
+          <div class="field"><label for="menuStarter">Entrée</label><select id="menuStarter"></select></div>
+          <div class="field"><label for="menuMain">Plat</label><select id="menuMain"></select></div>
+          <div class="field"><label for="menuDessert">Dessert</label><select id="menuDessert"></select></div>
+        </div>
+        <div class="form-actions" style="margin-top:14px"><button class="btn btn-primary" id="saveMenuBtn" type="button">Enregistrer ce menu</button></div>
+        <div class="saved-menu-list" id="savedMenuList"></div>
+      </section>
     </section>
 
     <section class="view" id="view-planner" data-view="planner">
@@ -1221,6 +1310,7 @@
         const settingsRows = await getAll('settings');
         settingsRows.forEach(row => settings[row.key] = row.value);
         settings.pantryProducts = normalizePantryProducts(settings.pantryProducts);
+        if (!Array.isArray(settings.savedMenus)) settings.savedMenus = [];
         if (!settings.clairUrl) {
           settings.clairUrl = DEFAULT_CLAIR_URL;
           await put('settings', { key: 'clairUrl', value: settings.clairUrl });
@@ -1559,6 +1649,7 @@
         if (view === 'home') renderHome();
         if (view === 'recipes') renderRecipes();
         if (view === 'planner') renderPlanner();
+        if (view === 'menus') renderMenus();
         if (view === 'settings') renderSettings();
         if (view === 'add' && !options.keepForm) resetForm();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1619,6 +1710,72 @@
         target.innerHTML = mealIdeaCard(lunch, 'Ce midi') + mealIdeaCard(dinner, 'Ce soir');
       }
 
+      function miniRecipeCard(recipe, note = '') {
+        return `<article class="mini-recipe-card" data-mini-recipe="${recipe.id}">
+          ${recipe.photo ? `<img src="${recipe.photo}" alt="${esc(recipe.title)}" loading="lazy">` : `<div class="recipe-placeholder">${iconFor(recipe)}</div>`}
+          <div><strong>${esc(recipe.title)}</strong><span>${esc(note || durationCardLabel(recipe))}</span></div>
+        </article>`;
+      }
+
+      function renderSmartShelves() {
+        const host = $('#smartShelves'); if (!host) return;
+        const favorites = recipes.filter(r => r.favorite).slice(0,3);
+        const mostCooked = [...recipes].filter(r => Array.isArray(r.cookHistory) && r.cookHistory.length)
+          .sort((a,b) => b.cookHistory.length - a.cookHistory.length).slice(0,3);
+        const recent = [...recipes].filter(r => r.lastCookedAt)
+          .sort((a,b) => String(b.lastCookedAt).localeCompare(String(a.lastCookedAt))).slice(0,3);
+        const sections = [
+          ['Mes favoris', 'Vos recettes que vous aimez retrouver', favorites, r => '♥ Favorite'],
+          ['Les plus cuisinées', 'Celles qui reviennent naturellement', mostCooked, r => `${r.cookHistory.length} fois`],
+          ['Dernièrement cuisinées', 'Pour les retrouver sans chercher', recent, r => r.lastCookedAt ? formatDay(r.lastCookedAt.slice(0,10)) : '']
+        ].filter(x => x[2].length);
+        host.innerHTML = sections.map(([title,sub,list,label]) => `<section class="smart-shelf"><div class="smart-shelf-head"><div><h3>${title}</h3><p>${sub}</p></div></div><div class="mini-recipe-row">${list.map(r => miniRecipeCard(r,label(r))).join('')}</div></section>`).join('');
+        $$('[data-mini-recipe]', host).forEach(card => card.addEventListener('click', () => { previousView='home'; renderDetail(card.dataset.miniRecipe); }));
+      }
+
+      function menuRecipeOptions(category) {
+        const list = recipes.filter(r => recipeCategory(r) === category).sort((a,b)=>a.title.localeCompare(b.title,'fr'));
+        return `<option value="">Aucune</option>${list.map(r => `<option value="${r.id}">${esc(r.title)}</option>`).join('')}`;
+      }
+
+      function renderMenus() {
+        $('#menuStarter').innerHTML = menuRecipeOptions('Entrée');
+        $('#menuMain').innerHTML = menuRecipeOptions('Plat');
+        $('#menuDessert').innerHTML = menuRecipeOptions('Dessert');
+        const menus = Array.isArray(settings.savedMenus) ? settings.savedMenus : [];
+        const host = $('#savedMenuList');
+        host.innerHTML = menus.length ? menus.map(menu => {
+          const starter=recipes.find(r=>r.id===menu.starterId), main=recipes.find(r=>r.id===menu.mainId), dessert=recipes.find(r=>r.id===menu.dessertId);
+          return `<article class="saved-menu-card"><div class="saved-menu-head"><h4>${esc(menu.name)}</h4><button class="icon-btn" type="button" data-delete-menu="${menu.id}" aria-label="Supprimer">×</button></div><div class="saved-menu-items">${starter?`<span>Entrée · ${esc(starter.title)}</span>`:''}${main?`<span>Plat · ${esc(main.title)}</span>`:''}${dessert?`<span>Dessert · ${esc(dessert.title)}</span>`:''}</div><div class="saved-menu-actions"><button class="btn btn-light" type="button" data-menu-clair="${menu.id}">Envoyer à Clair Courses</button></div></article>`;
+        }).join('') : '<div class="empty-state"><h3>Aucun menu enregistré</h3><p>Créez votre premier menu avec les listes ci-dessus.</p></div>';
+        $$('[data-delete-menu]',host).forEach(btn=>btn.addEventListener('click',()=>deleteSavedMenu(btn.dataset.deleteMenu)));
+        $$('[data-menu-clair]',host).forEach(btn=>btn.addEventListener('click',()=>sendMenuToClair(btn.dataset.menuClair)));
+      }
+
+      async function saveMenu() {
+        const name=$('#menuName').value.trim();
+        const starterId=$('#menuStarter').value, mainId=$('#menuMain').value, dessertId=$('#menuDessert').value;
+        if (!name) { showToast('Donnez un nom au menu'); $('#menuName').focus(); return; }
+        if (!starterId && !mainId && !dessertId) { showToast('Choisissez au moins une recette'); return; }
+        settings.savedMenus = [...(settings.savedMenus||[]), {id:uid(),name,starterId,mainId,dessertId,createdAt:new Date().toISOString()}];
+        await put('settings',{key:'savedMenus',value:settings.savedMenus});
+        $('#menuName').value=''; renderMenus(); showToast('Menu enregistré');
+      }
+
+      async function deleteSavedMenu(id) {
+        settings.savedMenus=(settings.savedMenus||[]).filter(m=>m.id!==id);
+        await put('settings',{key:'savedMenus',value:settings.savedMenus}); renderMenus(); showToast('Menu supprimé');
+      }
+
+      function sendMenuToClair(id) {
+        const menu=(settings.savedMenus||[]).find(m=>m.id===id); if(!menu) return;
+        const chosen=[menu.starterId,menu.mainId,menu.dessertId].map(x=>recipes.find(r=>r.id===x)).filter(Boolean);
+        const fakePlans=chosen.map((r,i)=>({id:`menu-${i}`,date:todayISO(),meal:'Menu',recipeId:r.id,persons:r.persons||2}));
+        const text=buildClairListFromPlans(fakePlans);
+        if(!text){showToast('Aucun ingrédient à envoyer');return;}
+        openClairModal(text);
+      }
+
       function renderHome() {
         $('#metricRecipes').textContent = recipes.length;
         $('#metricFavorites').textContent = recipes.filter(r => r.favorite).length;
@@ -1652,6 +1809,7 @@
         }).join('');
         renderMealIdeas();
         renderSuggestion();
+        renderSmartShelves();
       }
 
       function renderSuggestion(forceNew = false) {
@@ -3547,7 +3705,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.9</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2.0</p>`);
       }
 
       function printPlan() {
@@ -3560,14 +3718,14 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.1.9</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2.0</p>`);
       }
 
       function renderSettings() {
         $('#clairUrl').value = settings.clairUrl || '';
         $('#pantryProducts').value = normalizePantryProducts(settings.pantryProducts).join('\n');
         const photoCount = recipes.filter(r => r.photo).length;
-        $('#storageSummary').textContent = `${recipes.length} recette${recipes.length > 1 ? 's' : ''}, ${photoCount} photo${photoCount > 1 ? 's' : ''} et ${plans.filter(p=>p.recipeId).length} repas planifié${plans.filter(p=>p.recipeId).length > 1 ? 's' : ''}.`;
+        $('#storageSummary').textContent = `${recipes.length} recette${recipes.length > 1 ? 's' : ''}, ${photoCount} photo${photoCount > 1 ? 's' : ''}, ${(settings.savedMenus||[]).length} menu${(settings.savedMenus||[]).length>1?'s':''} et ${plans.filter(p=>p.recipeId).length} repas planifié${plans.filter(p=>p.recipeId).length > 1 ? 's' : ''}.`;
 
         const status = $('#backupStatus');
         const lastBackup = settings.lastBackupAt ? new Date(settings.lastBackupAt) : null;
@@ -3598,7 +3756,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.1.9', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.2.0', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -3623,6 +3781,7 @@
           settings = { clairUrl: DEFAULT_CLAIR_URL, pantryProducts: [...DEFAULT_PANTRY_PRODUCTS], seeded: true, ...(data.settings || {}) };
           if (!settings.clairUrl) settings.clairUrl = DEFAULT_CLAIR_URL;
           settings.pantryProducts = normalizePantryProducts(settings.pantryProducts);
+        if (!Array.isArray(settings.savedMenus)) settings.savedMenus = [];
           for (const [key,value] of Object.entries(settings)) await put('settings', { key, value });
           await loadData(); renderAll(); navigate('home'); showToast('Sauvegarde restaurée');
         } catch (err) { alert(`Impossible de restaurer ce fichier : ${err.message}`); }
@@ -3632,12 +3791,12 @@
         if (!confirm('Effacer définitivement toutes les recettes, photos et le planning ?')) return;
         if (!confirm('Cette action est irréversible sans sauvegarde. Confirmer ?')) return;
         await clearStore('recipes'); await clearStore('plans'); await clearStore('settings');
-        recipes = []; plans = []; settings = { clairUrl: DEFAULT_CLAIR_URL, pantryProducts: [...DEFAULT_PANTRY_PRODUCTS], seeded: true };
+        recipes = []; plans = []; settings = { clairUrl: DEFAULT_CLAIR_URL, pantryProducts: [...DEFAULT_PANTRY_PRODUCTS], savedMenus: [], seeded: true };
         await put('settings', { key: 'seeded', value: true });
         renderAll(); navigate('home'); showToast('Carnet effacé');
       }
 
-      function renderAll() { renderHome(); renderRecipes(); renderPlanner(); renderSettings(); }
+      function renderAll() { renderHome(); renderRecipes(); renderPlanner(); renderMenus(); renderSettings(); }
 
       function bindEvents() {
         document.addEventListener('click', event => {
@@ -3829,6 +3988,7 @@
         $('#copyClairBtn').addEventListener('click', () => copyClair(false));
         $('#openClairBtn').addEventListener('click', () => copyClair(true));
         $('#saveSettingsBtn').addEventListener('click', saveSettings);
+        $('#saveMenuBtn').addEventListener('click', saveMenu);
         $('#exportBtn').addEventListener('click', exportBackup);
         $('#importInput').addEventListener('change', event => { const file = event.target.files?.[0]; if (file) importBackup(file); event.target.value=''; });
         $('#eraseBtn').addEventListener('click', eraseAll);
