@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEzElEQVR42u3dMW8TZxwH4BcwAxJRqwgaEIqUIUMXhg5sjFH7EVgqFZj7HSK+Q2dgYMlHALF27pCFgSESsqygKKIKUtcOjizn7Duf7y6+e9/3+S0kTpzId8/9/u85Z3Pj/tMnQVpnd39v+sGXzyfJPKib9qvAcb2ZFcasQuAQzSFwiMBh2QGHwCFwCByWHXAIHAKHwCFwiMAhcDibhUPgEDgEDhluRr381uN3r6cf3B7dqnmXre0Hw9yCH189W7jt2+W/Oz/W+Ql//P0NjissxFghAw4y4CADDjLEqewwMv7wPlMcaiNeH5qDDzj4gCP2fJ98hUOW59/jf4bjAw4+4DBf4OADjvQnyxB8wCFwGC5wpDdZevQBh8AhcFh5wCFwCBwyzMkCh5RmlNWjffTrb4VbBnv9Jhy9mVj8EiU5jpUKGQ2+DY7sZPCRHY4GO5uPLHA03s18JI6j5Q7mI5cFqcDR8XGvPDSH5ISjwyNeeWgOgUPgEDgEDoFD4BA4ek2H1+y4/EdzSE44Ojni1YbmkPxwtDzu1UbizdF4B5ORxVhpsJvJyGjNsdbOJiO7BWnNXU7GYrJ4xdt0x1dcvBOLjO2de2t9//npGRxSF9NaXODIl8tKKHDElHXHRPUYmn217MfCkRempVzKlMCRL5dFKAUlcIBSqgQOKVXir7LXm4PDo7iUzM8dOK5dRlw+ZkTOT8/g2ERnHBweRUdEc2x0mkTnA47uWVQgiMuHs5X18vOL5wu33Qkh/LX3X819f3B49PHVMzjSNnElf57cCSGEF88/vXlbc+gMn4ixsprFShnNvn/4IwaOVoXR8o4D9wFH9zKS8QFHZzIuxpNuecGRgoyL8WRRRgI+Rrv7eyGEL59PmGhfFRfjydajh8k8wMvm2N3fmyqROsd6RVWkVB5XnueY+VAkNatiPil1xiWOqYNCbZg19VmkZ6LYHBVEclaSW1VUjZWlRAq3ZAIlz6qowlHY/UuXqGlDqX5L62Ys6vy1JRocNZWU3R6pmAoW+VTFGjiW7u+VZ7wxnhKXyWjPIt7aCA3+ZL8WlEgzfV11++cnopYRWl7PsXSCRC1m/uX2n968beMjdhnhOi72iXHNUfYWDI19JCAjuBKs5m6uTyQNFnA0aYIyJSmZgCPflUT9uJ5D4BA4BA6BQ+AQp7KbSOE1hjG+8YHm2ISMEMPrUeHoRwYfcKwWwIexInAIHJ2n7KIN/9MKHJIrjurnM2ZfHX94P98ThU+lkHSeBCt7I7ZFN0DkOFYWHXiGVHPQoDlyyg+Pf4FDNIfAIcnMFDgEDoEj7Zly9+FPcJChOcRYkU5qY/MzBQ4DpVccj39/acfHKENzxCGjl5myIRzKI0YZm2sOPpayGOY06WGs8NFgkdFjbYQQbtx/+mSTv+/43ev5T2+PbtW849b2g9wWnv3K6AFHgUgmOBqMj95l9IZjab5Pvho3w5ExrFPZgWwR22GW0QC3S7YVMrTD46Zt5FHH0RyLWyr5FhnykTCKZdslpiSKdhzltjW3d+5NPzg/PbP4jW/NIXD0k1lhzCpE4BA4BA6BQ+AQOJywwCFwCBwCh2WHwCFwCBwmCxwCh8BhssAhcKQR5QFH6WQROAQOy1I4BA7lAYfTFjictsSS/wFuG8ZlYwQrCAAAAABJRU5ErkJggg==">
-  <title>Mon carnet de cuisine — V2.2.0</title>
+  <title>Mon carnet de cuisine — V2.2.1</title>
   <style>
     :root {
       --ink: #17211e;
@@ -128,7 +128,10 @@
     .recipe-image { height: 170px; background: linear-gradient(140deg, #d8c3a9, #9cae9f); position: relative; overflow: hidden; }
     .recipe-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .recipe-placeholder { width: 100%; height: 100%; display: grid; place-items: center; font-size: 46px; background: radial-gradient(circle at 70% 20%, rgba(255,255,255,.5), transparent 28%), linear-gradient(145deg, #d9c5ae, #a9b7a9); }
-    .fav-badge { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.9); display: grid; place-items: center; color: var(--copper); box-shadow: 0 5px 14px rgba(0,0,0,.12); }
+    .fav-badge, .card-fav-btn { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.94); display: grid; place-items: center; color: var(--copper); box-shadow: 0 5px 14px rgba(0,0,0,.14); border: 0; font-size: 23px; line-height: 1; z-index: 3; }
+    .card-fav-btn { cursor: pointer; }
+    .card-fav-btn[aria-pressed="false"] { color: #857c74; }
+    .card-fav-btn:active { transform: scale(.94); }
     .recipe-body { padding: 16px; }
     .recipe-body h4 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: 20px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .tags { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -683,7 +686,7 @@
           <button class="chip" type="button" data-quick-filter="airfryer">Air fryer</button>
           <button class="chip" type="button" data-quick-filter="plancha">Plancha</button>
           <button class="chip" type="button" data-quick-filter="quick">Rapide</button>
-          <button class="chip" type="button" data-quick-filter="favorites">♥ Favoris</button>
+          <button class="chip" type="button" data-quick-filter="favorites">⭐ Favoris</button>
         </div>
         <div class="category-filter-group">
           <div class="filter-label">Catégorie</div>
@@ -1725,11 +1728,11 @@
         const recent = [...recipes].filter(r => r.lastCookedAt)
           .sort((a,b) => String(b.lastCookedAt).localeCompare(String(a.lastCookedAt))).slice(0,3);
         const sections = [
-          ['Mes favoris', 'Vos recettes que vous aimez retrouver', favorites, r => '♥ Favorite'],
-          ['Les plus cuisinées', 'Celles qui reviennent naturellement', mostCooked, r => `${r.cookHistory.length} fois`],
-          ['Dernièrement cuisinées', 'Pour les retrouver sans chercher', recent, r => r.lastCookedAt ? formatDay(r.lastCookedAt.slice(0,10)) : '']
-        ].filter(x => x[2].length);
-        host.innerHTML = sections.map(([title,sub,list,label]) => `<section class="smart-shelf"><div class="smart-shelf-head"><div><h3>${title}</h3><p>${sub}</p></div></div><div class="mini-recipe-row">${list.map(r => miniRecipeCard(r,label(r))).join('')}</div></section>`).join('');
+          ['⭐ Mes favoris', 'Touchez l’étoile d’une recette pour la retrouver ici', favorites, r => '⭐ Favori', 'Aucun favori pour le moment'],
+          ['Les plus cuisinées', 'Celles qui reviennent naturellement', mostCooked, r => `${r.cookHistory.length} fois`, 'Aucune recette cuisinée pour le moment'],
+          ['Dernières utilisées', 'Pour les retrouver sans chercher', recent, r => r.lastCookedAt ? formatDay(r.lastCookedAt.slice(0,10)) : '', 'Aucune recette utilisée pour le moment']
+        ];
+        host.innerHTML = sections.map(([title,sub,list,label,empty]) => `<section class="smart-shelf"><div class="smart-shelf-head"><div><h3>${title}</h3><p>${sub}</p></div></div>${list.length ? `<div class="mini-recipe-row">${list.map(r => miniRecipeCard(r,label(r))).join('')}</div>` : `<div class="empty-state"><p>${empty}</p></div>`}</section>`).join('');
         $$('[data-mini-recipe]', host).forEach(card => card.addEventListener('click', () => { previousView='home'; renderDetail(card.dataset.miniRecipe); }));
       }
 
@@ -1824,7 +1827,7 @@
         }
         const r = recipes.find(x => x.id === suggestionId);
         target.innerHTML = `<article class="recipe-card" data-recipe-id="${r.id}">
-          <div class="recipe-image">${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}${r.favorite ? '<div class="fav-badge">♥</div>' : ''}</div>
+          <div class="recipe-image">${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}<button class="card-fav-btn" type="button" data-toggle-favorite="${r.id}" aria-label="${r.favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}" aria-pressed="${r.favorite ? 'true' : 'false'}">${r.favorite ? '★' : '☆'}</button></div>
           <div class="recipe-body"><h4>${esc(r.title)}</h4><div class="tags">${categoryTag(r)}<span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.device)}</span></div><div class="recipe-meta"><span>${durationCardLabel(r)}</span><span>${r.persons} pers.</span></div></div>
         </article>`;
       }
@@ -1903,7 +1906,7 @@
           return;
         }
         grid.innerHTML = shown.map(r => `<article class="recipe-card" data-recipe-id="${r.id}">
-          <div class="recipe-image">${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}" loading="lazy" decoding="async">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}${r.favorite ? '<div class="fav-badge">♥</div>' : ''}</div>
+          <div class="recipe-image">${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}" loading="lazy" decoding="async">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}<button class="card-fav-btn" type="button" data-toggle-favorite="${r.id}" aria-label="${r.favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}" aria-pressed="${r.favorite ? 'true' : 'false'}">${r.favorite ? '★' : '☆'}</button></div>
           <div class="recipe-body"><h4>${esc(r.title)}</h4><div class="tags">${categoryTag(r)}<span class="tag">${esc(r.season)}</span><span class="tag">${esc(r.device)}</span></div><div class="recipe-meta"><span>${recipeTotalDuration(r) ? durationCardLabel(r) : esc(r.type)}</span><span>${r.persons} pers.</span></div></div>
         </article>`).join('');
       }
@@ -1934,7 +1937,7 @@
           <div class="detail-hero">
             ${r.photo ? `<img src="${r.photo}" alt="${esc(r.title)}">` : `<div class="recipe-placeholder">${iconFor(r)}</div>`}
             <button class="icon-btn detail-back" type="button" id="detailBackBtn" aria-label="Retour à la liste des recettes">← <span>Retour</span></button>
-            <button class="icon-btn detail-fav" type="button" id="detailFavBtn" aria-label="Favori">${r.favorite ? '♥' : '♡'}</button>
+            <button class="icon-btn detail-fav" type="button" id="detailFavBtn" aria-label="Favori">${r.favorite ? '★' : '☆'}</button>
           </div>
           <article class="detail-sheet">
             <p class="eyebrow" style="color:var(--copper);opacity:1">${esc(r.source || 'Recette personnelle')}</p>
@@ -1979,7 +1982,7 @@
           const target = ['home', 'recipes', 'planner', 'settings'].includes(previousView) ? previousView : 'recipes';
           navigate(target);
         });
-        $('#detailFavBtn').addEventListener('click', async () => { r.favorite = !r.favorite; r.updatedAt = new Date().toISOString(); await put('recipes', r); sortRecipes(); renderDetail(r.id); showToast(r.favorite ? 'Ajoutée aux favorites' : 'Retirée des favorites'); });
+        $('#detailFavBtn').addEventListener('click', async () => { r.favorite = !r.favorite; r.updatedAt = new Date().toISOString(); await put('recipes', r); sortRecipes(); renderDetail(r.id); showToast(r.favorite ? 'Ajoutée aux favoris' : 'Retirée des favoris'); });
         const changeDetailPersons = delta => setSelectedPersons(r, selectedPersonsFor(r) + delta);
         $('#detailPersonsMinus').addEventListener('click', () => changeDetailPersons(-1));
         $('#detailPersonsPlus').addEventListener('click', () => changeDetailPersons(1));
@@ -3705,7 +3708,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2.0</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2.1</p>`);
       }
 
       function printPlan() {
@@ -3718,7 +3721,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2.0</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2.1</p>`);
       }
 
       function renderSettings() {
@@ -3756,7 +3759,7 @@
       function exportBackup() {
         const exportedAt = new Date().toISOString();
         const exportedSettings = { ...settings, lastBackupAt: exportedAt };
-        const payload = { app: 'Mon carnet de cuisine', version: '2.2.0', exportedAt, recipes, plans, settings: exportedSettings };
+        const payload = { app: 'Mon carnet de cuisine', version: '2.2.1', exportedAt, recipes, plans, settings: exportedSettings };
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -3799,11 +3802,27 @@
       function renderAll() { renderHome(); renderRecipes(); renderPlanner(); renderMenus(); renderSettings(); }
 
       function bindEvents() {
-        document.addEventListener('click', event => {
+        document.addEventListener('click', async event => {
           const searchTrigger = event.target.closest('[data-open-search]');
           if (searchTrigger) { openRecipeSearch(); return; }
           const go = event.target.closest('[data-go]');
           if (go) { navigate(go.dataset.go, { days: go.dataset.days }); return; }
+          const favoriteButton = event.target.closest('[data-toggle-favorite]');
+          if (favoriteButton) {
+            event.preventDefault();
+            event.stopPropagation();
+            const recipe = recipes.find(item => item.id === favoriteButton.dataset.toggleFavorite);
+            if (recipe) {
+              recipe.favorite = !recipe.favorite;
+              recipe.updatedAt = new Date().toISOString();
+              await put('recipes', recipe);
+              sortRecipes();
+              renderHome();
+              renderRecipes();
+              showToast(recipe.favorite ? 'Ajoutée aux favoris' : 'Retirée des favoris');
+            }
+            return;
+          }
           const card = event.target.closest('[data-recipe-id]');
           if (card) { renderDetail(card.dataset.recipeId); return; }
           const meal = event.target.closest('[data-home-meal]');
