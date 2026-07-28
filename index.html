@@ -46,8 +46,8 @@
         `https://cdn.jsdelivr.net/gh/Ferdinand373/Mon-carnet-de-cuisine@${STABLE_COMMIT}/index.html`,
         `https://raw.githubusercontent.com/Ferdinand373/Mon-carnet-de-cuisine/${STABLE_COMMIT}/index.html`
       ];
-      const SOURCE_CACHE = `mon-carnet-stable-source-${STABLE_COMMIT}`;
-      const SOURCE_KEY = new Request('./source-stable-v215.html');
+      const SOURCE_CACHE = `mon-carnet-stable-source-${STABLE_COMMIT}-home-v216`;
+      const SOURCE_KEY = new Request('./source-stable-v215-home-v216.html');
 
       const status = document.getElementById('status');
       const loader = document.getElementById('loader');
@@ -62,6 +62,61 @@
           && html.includes('init();')
           && !html.includes('data-v216-repair')
           && !html.includes('FIX_SCRIPT_B64');
+      }
+
+      function replaceRequired(html, before, after, label) {
+        if (!html.includes(before)) {
+          throw new Error(`Correction impossible : ${label} introuvable`);
+        }
+        return html.replace(before, after);
+      }
+
+      function patchHomeMeals(html) {
+        let patched = html;
+
+        patched = replaceRequired(
+          patched,
+          '<div><h3>Ce soir et demain</h3><p>Touchez un repas pour choisir ou modifier sa recette</p></div>',
+          '<div><h3>Repas à venir</h3><p>Touchez un repas pour choisir ou modifier sa recette</p></div>',
+          'titre des repas'
+        );
+
+        patched = replaceRequired(
+          patched,
+          `      const mealMomentLabel = (date, meal) => {
+        const today = todayISO();
+        if (date === today && meal === 'soir') return 'Ce soir';`,
+          `      const mealMomentLabel = (date, meal) => {
+        const today = todayISO();
+        if (date === today && meal === 'midi') return 'Ce midi';
+        if (date === today && meal === 'soir') return 'Ce soir';`,
+          'libellé de ce midi'
+        );
+
+        patched = replaceRequired(
+          patched,
+          `        const today = todayISO();
+        const upcoming = [
+          { date: today, meal: 'soir' },
+          { date: addDays(today, 1), meal: 'midi' },
+          { date: addDays(today, 1), meal: 'soir' },
+          { date: addDays(today, 2), meal: 'midi' },
+          { date: addDays(today, 2), meal: 'soir' }
+        ].map(item => ({ ...item, plan: plans.find(p => p.date === item.date && p.meal === item.meal) }));`,
+          `        const today = todayISO();
+        const beforeLunchEnd = new Date().getHours() < 14;
+        const upcoming = [
+          ...(beforeLunchEnd ? [{ date: today, meal: 'midi' }] : []),
+          { date: today, meal: 'soir' },
+          { date: addDays(today, 1), meal: 'midi' },
+          { date: addDays(today, 1), meal: 'soir' },
+          { date: addDays(today, 2), meal: 'midi' },
+          { date: addDays(today, 2), meal: 'soir' }
+        ].map(item => ({ ...item, plan: plans.find(p => p.date === item.date && p.meal === item.meal) }));`,
+          'liste des repas de l’accueil'
+        );
+
+        return patched;
       }
 
       async function installCleanWorker() {
@@ -130,14 +185,15 @@
           return;
         }
 
+        const patchedHtml = patchHomeMeals(html);
         status.textContent = 'Votre carnet est prêt.';
         document.open();
-        document.write(html);
+        document.write(patchedHtml);
         document.close();
       }
 
-      boot().catch(() => {
-        showFailure('Rechargez cette page une fois. Vos recettes ne sont pas supprimées.');
+      boot().catch(error => {
+        showFailure(error?.message || 'Rechargez cette page une fois. Vos recettes ne sont pas supprimées.');
       });
     })();
   </script>
