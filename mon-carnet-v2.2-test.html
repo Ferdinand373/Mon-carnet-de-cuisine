@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#153c35">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mon carnet">
+  <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
+  <title>Mon carnet de cuisine — V2.2 test</title>
+  <style>
+    :root { color-scheme: light; --forest:#153c35; --paper:#f6f1e8; --ink:#17211e; --muted:#68736f; --copper:#b67745; }
+    * { box-sizing:border-box; }
+    html, body { min-height:100%; }
+    body {
+      margin:0; display:grid; place-items:center; padding:28px;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink); background:linear-gradient(180deg,#fbf8f2,var(--paper));
+    }
+    .boot { width:min(520px,100%); text-align:center; padding:30px 24px; border-radius:28px; background:rgba(255,255,255,.78); box-shadow:0 18px 45px rgba(35,42,39,.12); }
+    .mark { width:62px; height:62px; margin:0 auto 18px; border-radius:19px; display:grid; place-items:center; background:var(--forest); color:white; font-size:30px; }
+    h1 { margin:0 0 10px; font-family:Georgia,"Times New Roman",serif; font-size:29px; font-weight:500; }
+    p { margin:0; color:var(--muted); line-height:1.55; }
+    .loader { width:42px; height:42px; margin:24px auto 0; border:4px solid rgba(21,60,53,.15); border-top-color:var(--copper); border-radius:50%; animation:spin .85s linear infinite; }
+    .error { display:none; margin-top:20px; padding:14px; border-radius:14px; background:#f3e1dc; color:#6f2f2a; text-align:left; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <main class="boot" aria-live="polite">
+    <div class="mark">🍽️</div>
+    <h1>Mon carnet de cuisine</h1>
+    <p id="status">Ouverture de la V2.2…</p>
+    <div class="loader" id="loader" aria-hidden="true"></div>
+    <div class="error" id="error"></div>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const STABLE_COMMIT = '09f78f59465a6812f16200db8c57bb9a67b252e6';
+      const SOURCES = [
+        `https://cdn.jsdelivr.net/gh/Ferdinand373/Mon-carnet-de-cuisine@${STABLE_COMMIT}/index.html`,
+        `https://raw.githubusercontent.com/Ferdinand373/Mon-carnet-de-cuisine/${STABLE_COMMIT}/index.html`
+      ];
+      const SOURCE_CACHE = `mon-carnet-stable-source-${STABLE_COMMIT}-v22-copy-paste`;
+      const SOURCE_KEY = new Request('./source-stable-v215-v22-copy-paste.html');
+
+      const status = document.getElementById('status');
+      const loader = document.getElementById('loader');
+      const errorBox = document.getElementById('error');
+
+      function isValidSource(html) {
+        return typeof html === 'string'
+          && html.length > 50000
+          && html.includes('<!doctype html>')
+          && html.includes("const DB_NAME = 'mon-carnet-cuisine-v1'")
+          && html.includes('function printRecipe')
+          && html.includes('function copyClair')
+          && html.includes('init();')
+          && !html.includes('data-v22-copy-paste');
+      }
+
+      function replaceRequired(html, before, after, label) {
+        if (!html.includes(before)) {
+          throw new Error(`Correction impossible : ${label} introuvable`);
+        }
+        return html.replace(before, after);
+      }
+
+      function patchHomeMeals(html) {
+        let patched = html;
+
+        patched = replaceRequired(
+          patched,
+          '<div><h3>Ce soir et demain</h3><p>Touchez un repas pour choisir ou modifier sa recette</p></div>',
+          '<div><h3>Repas à venir</h3><p>Touchez un repas pour choisir ou modifier sa recette</p></div>',
+          'titre des repas'
+        );
+
+        patched = replaceRequired(
+          patched,
+          `      const mealMomentLabel = (date, meal) => {
+        const today = todayISO();
+        if (date === today && meal === 'soir') return 'Ce soir';`,
+          `      const mealMomentLabel = (date, meal) => {
+        const today = todayISO();
+        if (date === today && meal === 'midi') return 'Ce midi';
+        if (date === today && meal === 'soir') return 'Ce soir';`,
+          'libellé de ce midi'
+        );
+
+        patched = replaceRequired(
+          patched,
+          `        const today = todayISO();
+        const upcoming = [
+          { date: today, meal: 'soir' },
+          { date: addDays(today, 1), meal: 'midi' },
+          { date: addDays(today, 1), meal: 'soir' },
+          { date: addDays(today, 2), meal: 'midi' },
+          { date: addDays(today, 2), meal: 'soir' }
+        ].map(item => ({ ...item, plan: plans.find(p => p.date === item.date && p.meal === item.meal) }));`,
+          `        const today = todayISO();
+        const beforeLunchEnd = new Date().getHours() < 14;
+        const upcoming = [
+          ...(beforeLunchEnd ? [{ date: today, meal: 'midi' }] : []),
+          { date: today, meal: 'soir' },
+          { date: addDays(today, 1), meal: 'midi' },
+          { date: addDays(today, 1), meal: 'soir' },
+          { date: addDays(today, 2), meal: 'midi' },
+          { date: addDays(today, 2), meal: 'soir' }
+        ].map(item => ({ ...item, plan: plans.find(p => p.date === item.date && p.meal === item.meal) }));`,
+          'liste des repas de l’accueil'
+        );
+
+        return patched;
+      }
+
+      function patchCopyPasteV22(html) {
+        let patched = html;
+
+        if (!patched.includes('V2.1.5')) {
+          throw new Error('Correction impossible : version source introuvable');
+        }
+        patched = patched.replaceAll('V2.1.5', 'V2.2');
+
+        patched = replaceRequired(
+          patched,
+          '<p>L’adresse est déjà enregistrée. Le bouton « Envoyer à Clair Courses » transmet directement les ingrédients à l’application, sans utiliser le presse-papiers. Modifiez cette adresse seulement si votre lien change.</p>',
+          '<p>Le bouton « Copier les courses » prépare les ingrédients et les place dans le presse-papiers. Ouvrez ensuite Clair Courses et utilisez « Coller une liste ».</p>',
+          'explication du transfert'
+        );
+
+        patched = replaceRequired(
+          patched,
+          '<div class="field">\n            <label for="clairUrl">Adresse de Clair Courses</label>\n            <input id="clairUrl" type="url" placeholder="https://ferdinand373.github.io/clair-courses/">\n          </div>',
+          '<div class="field" hidden aria-hidden="true">\n            <label for="clairUrl">Adresse de Clair Courses</label>\n            <input id="clairUrl" type="url" placeholder="https://ferdinand373.github.io/clair-courses/">\n          </div>',
+          'ancienne adresse Clair Courses'
+        );
+
+        patched = replaceRequired(
+          patched,
+          '<button class="btn btn-copper" id="sendHomeMealsBtn" type="button">Envoyer les repas prévus à Clair Courses</button>',
+          '<button class="btn btn-copper" id="sendHomeMealsBtn" type="button">Copier les courses des repas prévus</button>',
+          'bouton des repas prévus'
+        );
+
+        patched = replaceRequired(
+          patched,
+          '<button class="btn btn-copper" type="button" id="detailClairBtn">Envoyer à Clair Courses</button>',
+          '<button class="btn btn-copper" type="button" id="detailClairBtn">Copier les courses</button>',
+          'bouton de la recette'
+        );
+
+        patched = replaceRequired(
+          patched,
+          '<div><h3 id="clairTitle">Liste pour Clair Courses</h3><p>Un article par ligne, prêt à être transmis directement.</p></div>',
+          '<div><h3 id="clairTitle">Courses à copier</h3><p>Vérifiez la sélection, puis copiez-la pour la coller dans Clair Courses.</p></div>',
+          'titre de la fenêtre de courses'
+        );
+
+        patched = replaceRequired(
+          patched,
+          'Vérifiez les articles avant l’envoi.',
+          'Vérifiez les articles avant de les copier.',
+          'résumé avant copie'
+        );
+
+        patched = replaceRequired(
+          patched,
+          'aria-label="Ingrédients à envoyer"',
+          'aria-label="Ingrédients à copier"',
+          'libellé de la liste à copier'
+        );
+
+        patched = replaceRequired(
+          patched,
+          '<button class="btn btn-copper" id="openClairBtn" type="button">Envoyer à Clair Courses</button>',
+          '<button class="btn btn-copper" id="openClairBtn" type="button" hidden aria-hidden="true">Ancien transfert direct désactivé</button>',
+          'ancien bouton de transfert direct'
+        );
+
+        patched = replaceRequired(
+          patched,
+          "`${selected.length} article${selected.length > 1 ? 's' : ''} ${selected.length > 1 ? 'seront envoyés' : 'sera envoyé'}</div>`",
+          "`${selected.length} article${selected.length > 1 ? 's' : ''} ${selected.length > 1 ? 'seront copiés' : 'sera copié'}</div>`",
+          'résumé du nombre d’articles'
+        );
+
+        patched = replaceRequired(
+          patched,
+          '<body>',
+          '<body data-v22-copy-paste="true">',
+          'marqueur V2.2'
+        );
+
+        return patched;
+      }
+
+      async function installCleanWorker() {
+        if (!("serviceWorker" in navigator) || location.protocol === 'file:') return;
+        try {
+          const registration = await navigator.serviceWorker.register('./sw.js');
+          await registration.update();
+        } catch (_) {
+          // Le carnet reste utilisable même si le mode hors connexion est indisponible.
+        }
+      }
+
+      async function fetchStableSource() {
+        let lastError = null;
+        for (const url of SOURCES) {
+          try {
+            const response = await fetch(url, { cache: 'no-store', mode: 'cors' });
+            if (!response.ok) throw new Error(`Réponse ${response.status}`);
+            const html = await response.text();
+            if (!isValidSource(html)) throw new Error('Source reçue incomplète');
+            return html;
+          } catch (error) {
+            lastError = error;
+          }
+        }
+        throw lastError || new Error('Source stable inaccessible');
+      }
+
+      async function readSavedSource() {
+        if (!("caches" in window)) return null;
+        const cache = await caches.open(SOURCE_CACHE);
+        const saved = await cache.match(SOURCE_KEY);
+        if (!saved) return null;
+        const html = await saved.text();
+        return isValidSource(html) ? html : null;
+      }
+
+      async function saveSource(html) {
+        if (!("caches" in window)) return;
+        const cache = await caches.open(SOURCE_CACHE);
+        await cache.put(SOURCE_KEY, new Response(html, {
+          headers: { 'content-type': 'text/html; charset=utf-8' }
+        }));
+      }
+
+      function showFailure(message) {
+        loader.style.display = 'none';
+        status.textContent = 'La V2.2 n’a pas pu s’ouvrir.';
+        errorBox.style.display = 'block';
+        errorBox.textContent = message;
+      }
+
+      async function boot() {
+        await installCleanWorker();
+
+        let html = null;
+        try {
+          html = await fetchStableSource();
+          await saveSource(html);
+        } catch (_) {
+          html = await readSavedSource();
+        }
+
+        if (!html) {
+          showFailure('Une connexion est nécessaire lors de la toute première ouverture. Vos recettes restent intactes sur l’iPhone.');
+          return;
+        }
+
+        const patchedHtml = patchCopyPasteV22(patchHomeMeals(html));
+        status.textContent = 'La V2.2 est prête.';
+        document.open();
+        document.write(patchedHtml);
+        document.close();
+      }
+
+      boot().catch(error => {
+        showFailure(error?.message || 'Rechargez cette page une fois. Vos recettes ne sont pas supprimées.');
+      });
+    })();
+  </script>
+</body>
+</html>
