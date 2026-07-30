@@ -2956,6 +2956,58 @@
         };
       }
 
+
+      function shoppingPurchaseUnitLine(value) {
+        const original = String(value || '').trim();
+        const folded = foldText(original);
+        if (!original) return original;
+
+        if (/\bketchup\b/.test(folded)) return '1 flacon de ketchup';
+        if (/\bcapres?\b/.test(folded)) return '1 pot de câpres';
+        if (/\bmoutarde\b/.test(folded)) return '1 pot de moutarde';
+        if (/\bmayonnaise\b|\bmayo\b/.test(folded)) return '1 pot de mayonnaise';
+        if (/\bconcentre de tomates?\b/.test(folded)) return '1 tube de concentré de tomates';
+        if (/\bpesto\b/.test(folded)) return '1 pot de pesto';
+        if (/\bcornichons?\b/.test(folded)) return '1 bocal de cornichons';
+        if (/\bolives?\b/.test(folded)) return '1 bocal d’olives';
+        if (/\bjus de veau\b/.test(folded)) return '1 pot de jus de veau';
+        if (/\bcreme fraiche\b/.test(folded)) return '1 pot de crème fraîche';
+        if (/\bcreme liquide\b|\bcreme entiere\b/.test(folded)) return '1 brique de crème liquide';
+
+        const countables = [
+          [/\bcitrons? verts?\b/, 'citron vert', 'citrons verts'],
+          [/\bcitrons?\b/, 'citron', 'citrons'],
+          [/\bechalotes?\b/, 'échalote', 'échalotes'],
+          [/\boignons? rouges?\b/, 'oignon rouge', 'oignons rouges'],
+          [/\boignons?\b/, 'oignon', 'oignons'],
+          [/\bpoivrons?\b/, 'poivron', 'poivrons'],
+          [/\bconcombres?\b/, 'concombre', 'concombres'],
+          [/\bcourgettes?\b/, 'courgette', 'courgettes'],
+          [/\baubergines?\b/, 'aubergine', 'aubergines'],
+          [/\bavocats?\b/, 'avocat', 'avocats']
+        ];
+
+        const normalized = original
+          .replace(/½/g, '1/2').replace(/¼/g, '1/4').replace(/¾/g, '3/4')
+          .replace(/⅓/g, '1/3').replace(/⅔/g, '2/3');
+        const normalizedFolded = foldText(normalized);
+
+        for (const [pattern, singular, plural] of countables) {
+          if (!pattern.test(normalizedFolded)) continue;
+          const match = normalizedFolded.match(/(?:^|\s)(\d+\s*\/\s*\d+|\d+(?:[.,]\d+)?)\s+/);
+          if (!match) return original;
+          const token = match[1].replace(/\s/g, '').replace(',', '.');
+          let amount = token.includes('/')
+            ? (() => { const [a,b] = token.split('/').map(Number); return b ? a / b : 0; })()
+            : Number(token);
+          if (!Number.isFinite(amount) || amount <= 0) return original;
+          const quantity = Math.max(1, Math.ceil(amount));
+          return `${quantity} ${quantity > 1 ? plural : singular}`;
+        }
+
+        return original;
+      }
+
       function buildClairReviewRowsFromPlans(chosen) {
         const groups = new Map();
         const plain = new Map();
@@ -3015,7 +3067,13 @@
         for (const [key, item] of plain) {
           if (!groups.has(key)) rows.push({ text: item.text, anomalies: [] });
         }
-        return rows;
+        return rows.map(row => {
+          const convertedText = shoppingPurchaseUnitLine(row.text);
+          const convertedChoices = Array.isArray(row.choices)
+            ? row.choices.map(shoppingPurchaseUnitLine)
+            : row.choices;
+          return { ...row, text: convertedText, choices: convertedChoices };
+        });
       }
 
       function buildClairListFromPlans(chosen) {
@@ -3298,7 +3356,7 @@
 
       function printRecipe(r, persons = selectedPersonsFor(r)) {
         const chosen = clampPersons(persons, r.persons || 1);
-        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2</p>`);
+        printWindow(r.title, `<h1>${esc(r.title)}</h1><div class="meta">${esc(r.source)} · ${esc(r.season)} · ${esc(r.device)} · ${chosen} personne${chosen > 1 ? 's' : ''}${chosen !== r.persons ? ` · adaptée depuis ${r.persons}` : ''}${durationPrintText(r) ? ` · ${durationPrintText(r)}` : ''}</div><div class="grid"><section><h2>Ingrédients</h2><ul>${scaledIngredientLines(r, chosen).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section><h2>Préparation</h2><ol>${lines(r.steps).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${r.notes ? `<div class="note"><strong>Notes</strong><br>${esc(r.notes).replace(/\n/g,'<br>')}</div>` : ''}</section></div><p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2 corrigée</p>`);
       }
 
       function printPlan() {
@@ -3311,7 +3369,7 @@
           }).join('');
           return `<section class="day"><h2>${esc(formatDay(date))}</h2>${rows}</section>`;
         }).join('');
-        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2</p>`);
+        printWindow('Planning des repas', `<h1>Planning des repas</h1><div class="meta">Du ${esc(formatDay(start))} — ${plannerDays} jours</div>${days}<p style="margin-top:35px;color:#777;font-size:12px">Mon carnet de cuisine — V2.2 corrigée</p>`);
       }
 
       function renderSettings() {
