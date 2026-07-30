@@ -50,7 +50,7 @@
         `https://cdn.jsdelivr.net/gh/Ferdinand373/mon-carnet-test@${SOURCE_COMMIT}/mon-carnet-core.js`,
         `https://raw.githubusercontent.com/Ferdinand373/mon-carnet-test/${SOURCE_COMMIT}/mon-carnet-core.js`
       ];
-      const SOURCE_CACHE = 'mon-carnet-v22-final-source-46ad43d';
+      const SOURCE_CACHE = 'mon-carnet-v22-final-source-46ad43d-r2';
       const SOURCE_KEY = new Request('./source-v22-final.html');
 
       const status = document.getElementById('status');
@@ -158,6 +158,27 @@
           'moteur du carnet'
         );
 
+        // Sécurité finale : aucun transfert direct ne doit subsister.
+        patched = patched
+          .replace(/<button[^>]*id=["']openClairBtn["'][^>]*>[\s\S]*?<\/button>/gi, '')
+          .replace(/\$\(['"]#openClairBtn['"]\)\.addEventListener\([\s\S]*?\);?/g, '')
+          .replaceAll('Copier à Clair Courses', 'Copier la liste');
+
+        const copyPasteGuard = `<script>
+          (() => {
+            const removeDirectTransfer = () => {
+              document.getElementById('openClairBtn')?.remove();
+              document.querySelectorAll('button').forEach(button => {
+                if (/copier\s+à\s+clair\s+courses/i.test(button.textContent || '')) button.remove();
+              });
+            };
+            removeDirectTransfer();
+            document.addEventListener('DOMContentLoaded', removeDirectTransfer, { once: true });
+            new MutationObserver(removeDirectTransfer).observe(document.documentElement, { childList: true, subtree: true });
+          })();
+        <\/script>`;
+        patched = patched.replace('</body>', copyPasteGuard + '</body>');
+
         return patched;
       }
 
@@ -195,7 +216,7 @@
       async function installWorker() {
         if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
         try {
-          const registration = await navigator.serviceWorker.register('./sw.js');
+          const registration = await navigator.serviceWorker.register('./sw.js?v=2.2-r2');
           await registration.update();
         } catch (_) {}
       }
