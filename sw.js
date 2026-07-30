@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-carnet-cuisine-stable-2026-07-28-home-v216';
+const CACHE_NAME = 'mon-carnet-cuisine-v2-2-final-copy-paste';
 const CORE_FILES = ['./', './index.html', './mon-carnet-v17.png'];
 
 self.addEventListener('install', event => {
@@ -29,7 +29,6 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
-
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 

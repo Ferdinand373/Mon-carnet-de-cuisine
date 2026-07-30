@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="Mon carnet">
   <link rel="apple-touch-icon" sizes="180x180" href="./mon-carnet-v17.png">
   <link rel="icon" type="image/png" sizes="180x180" href="./mon-carnet-v17.png">
-  <title>Mon carnet de cuisine — version stabilisée</title>
+  <title>Mon carnet de cuisine — V2.2 finale</title>
   <style>
     :root { color-scheme: light; --forest:#153c35; --paper:#f6f1e8; --ink:#17211e; --muted:#68736f; --copper:#b67745; }
     * { box-sizing:border-box; }
@@ -20,7 +20,7 @@
       color:var(--ink); background:linear-gradient(180deg,#fbf8f2,var(--paper));
     }
     .boot { width:min(520px,100%); text-align:center; padding:30px 24px; border-radius:28px; background:rgba(255,255,255,.78); box-shadow:0 18px 45px rgba(35,42,39,.12); }
-    .mark { width:62px; height:62px; margin:0 auto 18px; border-radius:19px; display:grid; place-items:center; background:var(--forest); color:white; font-size:30px; }
+    .mark { width:62px; height:62px; margin:0 auto 18px; border-radius:19px; display:grid; place-items:center; background:var(--forest); color:white; font-size:26px; font-weight:750; }
     h1 { margin:0 0 10px; font-family:Georgia,"Times New Roman",serif; font-size:29px; font-weight:500; }
     p { margin:0; color:var(--muted); line-height:1.55; }
     .loader { width:42px; height:42px; margin:24px auto 0; border:4px solid rgba(21,60,53,.15); border-top-color:var(--copper); border-radius:50%; animation:spin .85s linear infinite; }
@@ -30,9 +30,9 @@
 </head>
 <body>
   <main class="boot" aria-live="polite">
-    <div class="mark">🍽️</div>
+    <div class="mark">MC</div>
     <h1>Mon carnet de cuisine</h1>
-    <p id="status">Ouverture de votre carnet stabilisé…</p>
+    <p id="status">Ouverture de la version finale V2.2…</p>
     <div class="loader" id="loader" aria-hidden="true"></div>
     <div class="error" id="error"></div>
   </main>
@@ -41,123 +41,178 @@
     (() => {
       'use strict';
 
-      const STABLE_COMMIT = '09f78f59465a6812f16200db8c57bb9a67b252e6';
-      const SOURCES = [
-        `https://cdn.jsdelivr.net/gh/Ferdinand373/Mon-carnet-de-cuisine@${STABLE_COMMIT}/index.html`,
-        `https://raw.githubusercontent.com/Ferdinand373/Mon-carnet-de-cuisine/${STABLE_COMMIT}/index.html`
+      const SOURCE_COMMIT = '46ad43d1b4fd741e84b9d2268349753d9e81f536';
+      const INDEX_SOURCES = [
+        `https://cdn.jsdelivr.net/gh/Ferdinand373/mon-carnet-test@${SOURCE_COMMIT}/index.html`,
+        `https://raw.githubusercontent.com/Ferdinand373/mon-carnet-test/${SOURCE_COMMIT}/index.html`
       ];
-      const SOURCE_CACHE = `mon-carnet-stable-source-${STABLE_COMMIT}-home-v216`;
-      const SOURCE_KEY = new Request('./source-stable-v215-home-v216.html');
+      const CORE_SOURCES = [
+        `https://cdn.jsdelivr.net/gh/Ferdinand373/mon-carnet-test@${SOURCE_COMMIT}/mon-carnet-core.js`,
+        `https://raw.githubusercontent.com/Ferdinand373/mon-carnet-test/${SOURCE_COMMIT}/mon-carnet-core.js`
+      ];
+      const SOURCE_CACHE = 'mon-carnet-v22-final-source-46ad43d';
+      const SOURCE_KEY = new Request('./source-v22-final.html');
 
       const status = document.getElementById('status');
       const loader = document.getElementById('loader');
       const errorBox = document.getElementById('error');
 
-      function isValidSource(html) {
-        return typeof html === 'string'
-          && html.length > 50000
-          && html.includes('<!doctype html>')
-          && html.includes("const DB_NAME = 'mon-carnet-cuisine-v1'")
-          && html.includes('function printRecipe')
-          && html.includes('init();')
-          && !html.includes('data-v216-repair')
-          && !html.includes('FIX_SCRIPT_B64');
+      function replaceRequired(text, before, after, label) {
+        if (!text.includes(before)) throw new Error(`Correction impossible : ${label} introuvable`);
+        return text.replace(before, after);
       }
 
-      function replaceRequired(html, before, after, label) {
-        if (!html.includes(before)) {
-          throw new Error(`Correction impossible : ${label} introuvable`);
-        }
-        return html.replace(before, after);
+      function replaceBlock(text, startMarker, endMarker, replacement, label) {
+        const start = text.indexOf(startMarker);
+        const end = text.indexOf(endMarker, start + startMarker.length);
+        if (start < 0 || end < 0) throw new Error(`Correction impossible : ${label} introuvable`);
+        return text.slice(0, start) + replacement + '\n\n      ' + text.slice(end);
       }
 
-      function patchHomeMeals(html) {
+      function patchSource(html, coreJs) {
         let patched = html;
 
+        patched = patched
+          .replaceAll('V2.1.6 TEST', 'V2.2 FINALE')
+          .replaceAll('VERSION DE TEST · V2.1.6', 'VERSION FINALE · V2.2')
+          .replaceAll('Mon carnet de cuisine — V2.1.6', 'Mon carnet de cuisine — V2.2')
+          .replaceAll('Mon carnet de cuisine — V2.1.6 TEST', 'Mon carnet de cuisine — V2.2 finale')
+          .replaceAll("https://ferdinand373.github.io/clair-courses-test/", "https://ferdinand373.github.io/clair-courses/")
+          .replaceAll('Envoyer les repas prévus à Clair Courses', 'Préparer la liste pour Clair Courses')
+          .replaceAll('Envoyer le planning à Clair Courses', 'Préparer la liste pour Clair Courses')
+          .replaceAll('sera envoyé', 'sera copié')
+          .replaceAll('seront envoyés', 'seront copiés')
+          .replaceAll('Ne pas envoyer', 'Ne pas copier')
+          .replaceAll('Envoyer', 'Copier');
+
         patched = replaceRequired(
           patched,
-          '<div><h3>Ce soir et demain</h3><p>Touchez un repas pour choisir ou modifier sa recette</p></div>',
-          '<div><h3>Repas à venir</h3><p>Touchez un repas pour choisir ou modifier sa recette</p></div>',
-          'titre des repas'
+          '<div><h3 id="clairTitle">Liste pour Clair Courses</h3><p>Un article par ligne, prêt à être transmis directement.</p></div>',
+          '<div><h3 id="clairTitle">Liste pour Clair Courses</h3><p>Un article par ligne. Copiez la liste, puis collez-la dans Clair Courses.</p></div>',
+          'texte du copier-coller'
         );
 
         patched = replaceRequired(
           patched,
-          `      const mealMomentLabel = (date, meal) => {
-        const today = todayISO();
-        if (date === today && meal === 'soir') return 'Ce soir';`,
-          `      const mealMomentLabel = (date, meal) => {
-        const today = todayISO();
-        if (date === today && meal === 'midi') return 'Ce midi';
-        if (date === today && meal === 'soir') return 'Ce soir';`,
-          'libellé de ce midi'
+          '<button class="btn btn-primary" id="copyClairBtn" type="button">Copier la liste</button>\n        <button class="btn btn-copper" id="openClairBtn" type="button">Copier à Clair Courses</button>',
+          '<button class="btn btn-primary" id="copyClairBtn" type="button">Copier la liste</button>',
+          'bouton de transfert direct'
         );
 
+        patched = patched.replace(
+          "        $('#openClairBtn').addEventListener('click', () => copyClair(true));\n",
+          ''
+        );
+
+        patched = patched.replace(
+          "        showToast(ok ? 'Liste copiée' : 'Sélectionnez puis copiez la liste');",
+          "        showToast(ok ? 'Liste copiée · ouvrez Clair Courses puis collez-la' : 'Sélectionnez puis copiez la liste');"
+        );
+
+        const simpleRowsFunction = `function buildClairReviewRowsFromPlans(chosen) {
+        const rows = [];
+        for (const plan of chosen) {
+          const recipe = recipes.find(item => item.id === plan.recipeId);
+          if (!recipe) continue;
+          const chosenPersons = clampPersons(plan.persons || recipe.persons || 1, recipe.persons || 1);
+          for (const originalLine of scaledIngredientLines(recipe, chosenPersons)) {
+            let text = String(originalLine || '').trim();
+            if (!text) continue;
+
+            const folded = foldText(text);
+            const spoonMeasure = /\\b(?:c\\.?\\s*a\\s*(?:c|s)|cuilleres?\\s+a\\s+(?:cafe|soupe))\\b/.test(folded);
+            if (spoonMeasure && /\\bcapres?\\b/.test(folded)) text = '1 pot de câpres';
+            if (spoonMeasure && /\\bjus de veau\\b/.test(folded)) text = '1 pot de jus de veau';
+            if (/\\b(?:cl|ml)\\b/.test(folded) && /\\bcreme liquide\\b/.test(folded)) text = '1 brique de crème liquide';
+
+            rows.push({
+              text,
+              purchaseLabel: text,
+              productKey: foldText(text),
+              displayName: text,
+              exactQuantity: null,
+              exactUnit: '',
+              aisle: defaultAisleForProduct(text),
+              sources: [{ recipeId: recipe.id, recipeTitle: recipe.title, rawText: originalLine }],
+              anomalies: []
+            });
+          }
+        }
+        return rows;
+      }`;
+
+        patched = replaceBlock(
+          patched,
+          'function buildClairReviewRowsFromPlans(chosen) {',
+          'function buildClairListFromPlans(chosen) {',
+          simpleRowsFunction,
+          'préparation de la liste brute'
+        );
+
+        const coreTag = '<script src="./mon-carnet-core.js"><' + '/script>';
+        const safeCore = coreJs.replace(new RegExp('<' + '/script', 'gi'), '<\\/script');
         patched = replaceRequired(
           patched,
-          `        const today = todayISO();
-        const upcoming = [
-          { date: today, meal: 'soir' },
-          { date: addDays(today, 1), meal: 'midi' },
-          { date: addDays(today, 1), meal: 'soir' },
-          { date: addDays(today, 2), meal: 'midi' },
-          { date: addDays(today, 2), meal: 'soir' }
-        ].map(item => ({ ...item, plan: plans.find(p => p.date === item.date && p.meal === item.meal) }));`,
-          `        const today = todayISO();
-        const beforeLunchEnd = new Date().getHours() < 14;
-        const upcoming = [
-          ...(beforeLunchEnd ? [{ date: today, meal: 'midi' }] : []),
-          { date: today, meal: 'soir' },
-          { date: addDays(today, 1), meal: 'midi' },
-          { date: addDays(today, 1), meal: 'soir' },
-          { date: addDays(today, 2), meal: 'midi' },
-          { date: addDays(today, 2), meal: 'soir' }
-        ].map(item => ({ ...item, plan: plans.find(p => p.date === item.date && p.meal === item.meal) }));`,
-          'liste des repas de l’accueil'
+          coreTag,
+          '<script>' + safeCore + '<' + '/script>',
+          'moteur du carnet'
         );
 
         return patched;
       }
 
-      async function installCleanWorker() {
-        if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-        try {
-          const registration = await navigator.serviceWorker.register('./sw.js');
-          await registration.update();
-        } catch (_) {
-          // Le carnet reste utilisable même si le mode hors connexion est indisponible.
-        }
+      function isValidIndex(text) {
+        return typeof text === 'string'
+          && text.length > 100000
+          && text.includes("const DB_NAME = 'mon-carnet-cuisine-v1'")
+          && text.includes('function buildClairReviewRowsFromPlans')
+          && text.includes('init();');
       }
 
-      async function fetchStableSource() {
+      function isValidCore(text) {
+        return typeof text === 'string'
+          && text.length > 10000
+          && text.includes('consolidateIngredientSet')
+          && text.includes('normalizeKitchenUnits');
+      }
+
+      async function fetchFirst(urls, validator) {
         let lastError = null;
-        for (const url of SOURCES) {
+        for (const url of urls) {
           try {
             const response = await fetch(url, { cache: 'no-store', mode: 'cors' });
             if (!response.ok) throw new Error(`Réponse ${response.status}`);
-            const html = await response.text();
-            if (!isValidSource(html)) throw new Error('Source reçue incomplète');
-            return html;
+            const text = await response.text();
+            if (!validator(text)) throw new Error('Fichier reçu incomplet');
+            return text;
           } catch (error) {
             lastError = error;
           }
         }
-        throw lastError || new Error('Source stable inaccessible');
+        throw lastError || new Error('Source inaccessible');
+      }
+
+      async function installWorker() {
+        if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+        try {
+          const registration = await navigator.serviceWorker.register('./sw.js');
+          await registration.update();
+        } catch (_) {}
       }
 
       async function readSavedSource() {
         if (!('caches' in window)) return null;
         const cache = await caches.open(SOURCE_CACHE);
-        const saved = await cache.match(SOURCE_KEY);
-        if (!saved) return null;
-        const html = await saved.text();
-        return isValidSource(html) ? html : null;
+        const response = await cache.match(SOURCE_KEY);
+        if (!response) return null;
+        const text = await response.text();
+        return text.includes('VERSION FINALE · V2.2') ? text : null;
       }
 
-      async function saveSource(html) {
+      async function saveSource(text) {
         if (!('caches' in window)) return;
         const cache = await caches.open(SOURCE_CACHE);
-        await cache.put(SOURCE_KEY, new Response(html, {
+        await cache.put(SOURCE_KEY, new Response(text, {
           headers: { 'content-type': 'text/html; charset=utf-8' }
         }));
       }
@@ -170,25 +225,28 @@
       }
 
       async function boot() {
-        await installCleanWorker();
+        await installWorker();
+        let finalHtml = null;
 
-        let html = null;
         try {
-          html = await fetchStableSource();
-          await saveSource(html);
+          const [indexHtml, coreJs] = await Promise.all([
+            fetchFirst(INDEX_SOURCES, isValidIndex),
+            fetchFirst(CORE_SOURCES, isValidCore)
+          ]);
+          finalHtml = patchSource(indexHtml, coreJs);
+          await saveSource(finalHtml);
         } catch (_) {
-          html = await readSavedSource();
+          finalHtml = await readSavedSource();
         }
 
-        if (!html) {
-          showFailure('Une connexion est nécessaire lors de la toute première ouverture. Vos recettes restent intactes sur l’iPhone.');
+        if (!finalHtml) {
+          showFailure('Une connexion est nécessaire lors de la première ouverture. Vos recettes déjà présentes restent intactes.');
           return;
         }
 
-        const patchedHtml = patchHomeMeals(html);
         status.textContent = 'Votre carnet est prêt.';
         document.open();
-        document.write(patchedHtml);
+        document.write(finalHtml);
         document.close();
       }
 
