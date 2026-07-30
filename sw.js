@@ -1,64 +1,9 @@
-const CACHE_NAME = 'mon-carnet-cuisine-v2-2-1-zeste-r5';
-const CORE_FILES = ['./mon-carnet-v17.png'];
-
-function patchIndexHtml(html = '') {
-  let patched = String(html || '');
-
-  patched = patched
-    .replace(
-      '<title>Mon carnet de cuisine — V2.2 finale</title>',
-      '<title>Mon carnet de cuisine — V2.2.1 corrigée</title>'
-    )
-    .replace(
-      '<small>VERSION FINALE · V2.2</small>',
-      '<small>VERSION CORRIGÉE · V2.2.1</small>'
-    );
-
-  const purchaseAnchor = "        if (/\\bketchup\\b/.test(folded)) return '1 flacon de ketchup';";
-  const zestRules = [
-    "        if (/\\bzestes?\\b.*\\bcitrons? verts?\\b|\\bcitrons? verts?\\b.*\\bzestes?\\b/.test(folded)) return '1 citron vert';",
-    "        if (/\\bzestes?\\b.*\\bcitrons?\\b|\\bcitrons?\\b.*\\bzestes?\\b/.test(folded)) return '1 citron';"
-  ].join('\n');
-
-  if (!patched.includes("return '1 citron';\n        if (/\\bketchup\\b/") && patched.includes(purchaseAnchor)) {
-    patched = patched.replace(purchaseAnchor, `${zestRules}\n${purchaseAnchor}`);
-  }
-
-  return patched;
-}
-
-async function patchedHtmlResponse(response) {
-  if (!response || !response.ok) return response;
-  const contentType = response.headers.get('content-type') || '';
-  if (!contentType.includes('text/html')) return response;
-
-  const html = await response.text();
-  const headers = new Headers(response.headers);
-  headers.delete('content-length');
-  headers.set('cache-control', 'no-store');
-
-  return new Response(patchIndexHtml(html), {
-    status: response.status,
-    statusText: response.statusText,
-    headers
-  });
-}
-
-async function cachePatchedIndex(cache) {
-  try {
-    const response = await fetch(new Request('./index.html', { cache: 'reload' }));
-    const patched = await patchedHtmlResponse(response);
-    if (patched && patched.ok) {
-      await cache.put('./index.html', patched.clone());
-      await cache.put('./', patched.clone());
-    }
-  } catch (_) {}
-}
+const CACHE_NAME = 'mon-carnet-cuisine-v2-3-final-r1';
+const CORE_FILES = ['./', './index.html', './mon-carnet-v17.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    await cachePatchedIndex(cache);
     for (const path of CORE_FILES) {
       try {
         const response = await fetch(new Request(path, { cache: 'reload' }));
@@ -89,13 +34,12 @@ self.addEventListener('fetch', event => {
     event.respondWith((async () => {
       try {
         const response = await fetch(request, { cache: 'no-store' });
-        const patched = await patchedHtmlResponse(response);
-        if (patched && patched.ok) {
+        if (response.ok) {
           const cache = await caches.open(CACHE_NAME);
-          await cache.put('./index.html', patched.clone());
-          await cache.put('./', patched.clone());
+          await cache.put('./index.html', response.clone());
+          await cache.put('./', response.clone());
         }
-        return patched;
+        return response;
       } catch (_) {
         return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
       }
