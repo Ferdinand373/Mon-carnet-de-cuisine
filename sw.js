@@ -1,7 +1,7 @@
-const CACHE_NAME = 'mon-carnet-cuisine-v2-3-5-1-startup-light-1';
+const CACHE_NAME = 'mon-carnet-cuisine-v2-4-presentation-1';
 const STABLE_CACHE_PREFIX = 'mon-carnet-cuisine-';
 const APP_SHELL = ['./', './index.html', './mon-carnet-v17.png', './search-enhancement.js'];
-const SEARCH_SCRIPT = '<script src="./search-enhancement.js?v=2.3.5.1-startup-light-1"></script>';
+const SEARCH_SCRIPT = '<script src="./search-enhancement.js?v=2.4-presentation-1"></script>';
 
 function optimizeStartup(html) {
   let optimized = html;
