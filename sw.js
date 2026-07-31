@@ -1,7 +1,17 @@
-const CACHE_NAME = 'mon-carnet-cuisine-v2-4-presentation-1';
+const CACHE_NAME = 'mon-carnet-cuisine-v2-4-temp-check-1';
 const STABLE_CACHE_PREFIX = 'mon-carnet-cuisine-';
-const APP_SHELL = ['./', './index.html', './mon-carnet-v17.png', './search-enhancement.js'];
-const SEARCH_SCRIPT = '<script src="./search-enhancement.js?v=2.4-presentation-1"></script>';
+const APP_SHELL = [
+  './',
+  './index.html',
+  './mon-carnet-v17.png',
+  './search-enhancement.js',
+  './temporary-correction-link.js',
+  './correction-securisee.html'
+];
+const SEARCH_SCRIPT =
+  '<script src="./search-enhancement.js?v=2.4-presentation-1"></script>';
+const TEMPORARY_SCRIPT =
+  '<script src="./temporary-correction-link.js?v=2.4-temp-check-1"></script>';
 
 function optimizeStartup(html) {
   let optimized = html;
@@ -19,27 +29,35 @@ function optimizeStartup(html) {
   return optimized;
 }
 
-function injectSearchScript(html) {
+function injectAppScripts(html) {
   let enhanced = optimizeStartup(html);
-
-  if (enhanced.includes('search-enhancement.js')) return enhanced;
-
   const lower = enhanced.toLowerCase();
   const closingBody = lower.lastIndexOf('</body>');
 
-  if (closingBody < 0) return `${enhanced}\n${SEARCH_SCRIPT}`;
+  let scripts = '';
 
-  return `${enhanced.slice(0, closingBody)}${SEARCH_SCRIPT}\n${enhanced.slice(closingBody)}`;
+  if (!enhanced.includes('search-enhancement.js')) {
+    scripts += SEARCH_SCRIPT;
+  }
+
+  if (!enhanced.includes('temporary-correction-link.js')) {
+    scripts += TEMPORARY_SCRIPT;
+  }
+
+  if (!scripts) return enhanced;
+  if (closingBody < 0) return `${enhanced}\n${scripts}`;
+
+  return `${enhanced.slice(0, closingBody)}${scripts}\n${enhanced.slice(closingBody)}`;
 }
 
-function withSearchEnhancement(response) {
+function withAppEnhancements(response) {
   if (!response || !response.ok) return response;
 
   const type = response.headers.get('content-type') || '';
   if (!type.includes('text/html')) return response;
 
   return response.text().then(html => {
-    const enhanced = injectSearchScript(html);
+    const enhanced = injectAppScripts(html);
     const headers = new Headers(response.headers);
     headers.delete('content-length');
 
@@ -54,7 +72,7 @@ function withSearchEnhancement(response) {
 async function fetchEnhancedPage(request) {
   try {
     const fresh = await fetch(request, { cache: 'no-store' });
-    const enhanced = await withSearchEnhancement(fresh);
+    const enhanced = await withAppEnhancements(fresh);
 
     if (enhanced && enhanced.ok) {
       const cache = await caches.open(CACHE_NAME);
@@ -81,7 +99,7 @@ self.addEventListener('install', event => {
 
         const pathname = new URL(response.url).pathname;
         const stored = /(?:^|\/)index\.html$/.test(pathname) || url === './'
-          ? await withSearchEnhancement(response)
+          ? await withAppEnhancements(response)
           : response;
 
         await cache.put(url, stored);
@@ -113,12 +131,31 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
+  if (/\/correction-securisee\.html$/.test(url.pathname)) {
+    event.respondWith((async () => {
+      try {
+        const fresh = await fetch(request, { cache: 'no-store' });
+
+        if (fresh.ok) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put('./correction-securisee.html', fresh.clone());
+        }
+
+        return fresh;
+      } catch (_) {
+        return (await caches.match('./correction-securisee.html')) ||
+          Response.error();
+      }
+    })());
+    return;
+  }
+
   if (request.mode === 'navigate' || /\/index\.html$/.test(url.pathname)) {
     event.respondWith(fetchEnhancedPage(request));
     return;
   }
 
-  if (/\/search-enhancement\.js$/.test(url.pathname)) {
+  if (/\/(?:search-enhancement|temporary-correction-link)\.js$/.test(url.pathname)) {
     event.respondWith((async () => {
       try {
         const fresh = await fetch(request, { cache: 'no-store' });
@@ -133,7 +170,6 @@ self.addEventListener('fetch', event => {
         return (await caches.match(request)) || Response.error();
       }
     })());
-
     return;
   }
 
