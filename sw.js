@@ -1,4 +1,4 @@
-const CACHE_NAME = "mon-carnet-cuisine-v2-3-3";
+const CACHE_NAME = "mon-carnet-cuisine-v2-3-4";
 const APP_SHELL = ["./", "./index.html", "./mon-carnet-v17.png"];
 
 self.addEventListener("install", event => {
@@ -29,7 +29,6 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   const request = event.request;
   if (request.method !== "GET") return;
-
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
@@ -44,9 +43,7 @@ self.addEventListener("fetch", event => {
         }
         return fresh;
       } catch (_) {
-        return (await caches.match("./index.html"))
-          || (await caches.match("./"))
-          || Response.error();
+        return (await caches.match("./index.html")) || (await caches.match("./")) || Response.error();
       }
     })());
     return;
@@ -55,7 +52,6 @@ self.addEventListener("fetch", event => {
   event.respondWith((async () => {
     const cached = await caches.match(request);
     if (cached) return cached;
-
     const fresh = await fetch(request);
     if (fresh.ok) {
       const cache = await caches.open(CACHE_NAME);
