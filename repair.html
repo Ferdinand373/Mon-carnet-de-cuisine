@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Recherche iPhone avec photos</title>
+  <title>Mise à jour Mon Carnet V2.3.5</title>
   <style>
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f6f1e8;color:#17211e;margin:0;padding:30px}
     main{max-width:620px;margin:40px auto;background:#fffdf8;border:1px solid rgba(23,33,30,.12);border-radius:22px;padding:26px;box-shadow:0 12px 36px rgba(35,42,39,.12)}
@@ -15,11 +15,11 @@
   </style>
 </head>
 <body>
-  <!-- search-enhancement.js : empêche l'injection sur cette page -->
+  <!-- search-enhancement.js : empêche l'injection sur cette page de mise à jour -->
   <main>
-    <h1>Recherche iPhone avec photos</h1>
-    <p id="status">Installation du chargement progressif des photos…</p>
-    <p><a id="openApp" href="./" hidden>Ouvrir Mon Carnet Test</a></p>
+    <h1>Mise à jour de Mon Carnet</h1>
+    <p id="status">Installation de la recherche fluide avec photos…</p>
+    <p><a id="openApp" href="./" hidden>Ouvrir Mon Carnet</a></p>
   </main>
 
   <script>
@@ -32,10 +32,11 @@
           throw new Error('Service worker indisponible');
         }
 
+        const appBase = new URL('./', window.location.href).href;
         const registrations = await navigator.serviceWorker.getRegistrations();
 
         for (const registration of registrations) {
-          if (registration.scope.includes('/mon-carnet-test/')) {
+          if (registration.scope === appBase || registration.scope.startsWith(appBase)) {
             await registration.unregister();
           }
         }
@@ -45,13 +46,13 @@
 
           await Promise.all(
             names
-              .filter(name => name.startsWith('mon-carnet-test-'))
+              .filter(name => name.startsWith('mon-carnet-cuisine-'))
               .map(name => caches.delete(name))
           );
         }
 
         const registration = await navigator.serviceWorker.register(
-          './sw.js?v=search-iphone-v5-photos',
+          './sw.js?v=2.3.5-search-photos-1',
           { scope: './' }
         );
 
@@ -59,15 +60,15 @@
         await navigator.serviceWorker.ready;
 
         status.className = 'ok';
-        status.textContent = 'Photos installées. Mon Carnet Test va se rouvrir.';
+        status.textContent = 'Mise à jour terminée. Mon Carnet V2.3.5 va se rouvrir.';
         openApp.hidden = false;
 
         window.setTimeout(() => {
-          window.location.replace('./?iphone-test=5-photos');
+          window.location.replace('./?updated=2.3.5-search-photos');
         }, 1200);
       } catch (error) {
         status.className = 'error';
-        status.textContent = `L’installation n’a pas abouti : ${error.message}`;
+        status.textContent = `La mise à jour n’a pas abouti : ${error.message}`;
         openApp.hidden = false;
       }
     })();

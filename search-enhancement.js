@@ -873,8 +873,8 @@
 
   function start() {
     const versionLabel = document.querySelector('.brand small');
-    if (versionLabel) versionLabel.textContent = 'VERSION · TEST IPHONE 4 PHOTOS';
-    document.title = 'Mon carnet de cuisine — Test iPhone avec photos';
+    if (versionLabel) versionLabel.textContent = 'VERSION · V2.3.5';
+    document.title = 'Mon carnet de cuisine — V2.3.5';
 
     const search = $('#recipeSearch');
     const grid = $('#recipeGrid');
@@ -899,7 +899,7 @@
         recipeIndexPromise = null;
         prewarmSearchIndex();
       },
-      version: '1.0.4-iphone-photos'
+      version: '2.3.5-search-photos'
     };
   }
 

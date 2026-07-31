@@ -1,7 +1,7 @@
-const CACHE_NAME = 'mon-carnet-test-search-iphone-v5-photos';
-const TEST_CACHE_PREFIX = 'mon-carnet-test-';
+const CACHE_NAME = 'mon-carnet-cuisine-v2-3-5-search-photos-1';
+const STABLE_CACHE_PREFIX = 'mon-carnet-cuisine-';
 const APP_SHELL = ['./', './index.html', './mon-carnet-v17.png', './search-enhancement.js'];
-const SEARCH_SCRIPT = '<script src="./search-enhancement.js?v=1.0.4-iphone-photos"></script>';
+const SEARCH_SCRIPT = '<script src="./search-enhancement.js?v=2.3.5-search-photos-1"></script>';
 
 function injectSearchScript(html) {
   if (html.includes('search-enhancement.js')) return html;
@@ -80,7 +80,7 @@ self.addEventListener('activate', event => {
 
     await Promise.all(
       names
-        .filter(name => name.startsWith(TEST_CACHE_PREFIX) && name !== CACHE_NAME)
+        .filter(name => name.startsWith(STABLE_CACHE_PREFIX) && name !== CACHE_NAME)
         .map(name => caches.delete(name))
     );
 
