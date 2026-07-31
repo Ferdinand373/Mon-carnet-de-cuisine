@@ -3,15 +3,17 @@
 
   const CARD_ID = 'temporaryCorrectionCard';
 
-  function openSecureCheck() {
-    window.location.href = './correction-securisee.html?source=mon-carnet-v2-4';
+  function openSecureCorrection() {
+    window.location.href = './correction-securisee.html?source=mon-carnet-v2-4-apply';
   }
 
   function installTemporaryCard() {
     const settingsView = document.querySelector('#view-settings');
     const grid = settingsView?.querySelector('.settings-grid');
+    if (!grid) return;
 
-    if (!grid || document.getElementById(CARD_ID)) return;
+    const previous = document.getElementById(CARD_ID);
+    if (previous) previous.remove();
 
     const card = document.createElement('div');
     card.className = 'setting-card';
@@ -19,22 +21,21 @@
     card.innerHTML = `
       <h3>Correction sécurisée</h3>
       <p>
-        Contrôle temporaire en lecture seule. Il vérifie les durées mal placées
-        dans le stockage utilisé par l’icône de l’écran d’accueil.
+        Outil temporaire réservé aux 57 lignes de durée déjà contrôlées.
+        Les cinq conflits et les ingrédients ordinaires resteront intacts.
       </p>
-      <div style="padding:12px 14px;border-radius:15px;background:#eef3ef;color:#153c35;font-size:13px;line-height:1.45;margin:14px 0;">
-        🔒 Aucune recette ne peut être modifiée pendant cette étape.
+      <div style="padding:12px 14px;border-radius:15px;background:#fff3dc;color:#76501c;font-size:13px;line-height:1.45;margin:14px 0;">
+        🔐 La correction reste bloquée jusqu’au nouveau contrôle des quatre compteurs,
+        à la confirmation de la sauvegarde et à la saisie de la phrase de sécurité.
       </div>
-      <button class="btn btn-light" id="openTemporaryCorrectionCheck" type="button">
-        Ouvrir le contrôle sécurisé
+      <button class="btn btn-light" id="openTemporaryCorrection" type="button">
+        Ouvrir la correction sécurisée
       </button>
     `;
 
     grid.appendChild(card);
-
-    card
-      .querySelector('#openTemporaryCorrectionCheck')
-      ?.addEventListener('click', openSecureCheck);
+    card.querySelector('#openTemporaryCorrection')
+      ?.addEventListener('click', openSecureCorrection);
   }
 
   function scheduleInstall() {
@@ -50,13 +51,10 @@
     scheduleInstall();
   }
 
-  const observer = new MutationObserver(() => installTemporaryCard());
-  observer.observe(document.documentElement, { childList: true, subtree: true });
-
   document.addEventListener('click', event => {
     if (event.target.closest('[data-go="settings"]')) {
-      window.setTimeout(installTemporaryCard, 50);
-      window.setTimeout(installTemporaryCard, 300);
+      window.setTimeout(installTemporaryCard, 60);
+      window.setTimeout(installTemporaryCard, 320);
     }
   });
 })();

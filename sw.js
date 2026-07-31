@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-carnet-cuisine-v2-4-temp-check-1';
+const CACHE_NAME = 'mon-carnet-cuisine-v2-4-temp-apply-1';
 const STABLE_CACHE_PREFIX = 'mon-carnet-cuisine-';
 const APP_SHELL = [
   './',
@@ -11,7 +11,7 @@ const APP_SHELL = [
 const SEARCH_SCRIPT =
   '<script src="./search-enhancement.js?v=2.4-presentation-1"></script>';
 const TEMPORARY_SCRIPT =
-  '<script src="./temporary-correction-link.js?v=2.4-temp-check-1"></script>';
+  '<script src="./temporary-correction-link.js?v=2.4-temp-apply-1"></script>';
 
 function optimizeStartup(html) {
   let optimized = html;
