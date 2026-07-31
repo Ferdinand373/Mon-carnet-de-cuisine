@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#153c35">
+  <title>Contrôle sécurisé — Mon Carnet V2.4</title>
+  <!-- Page autonome : search-enhancement.js et temporary-correction-link.js non injectés ici. -->
+  <style>
+    :root{
+      --ink:#17211e;--muted:#68736f;--paper:#f6f1e8;--card:#fffdf8;
+      --forest:#153c35;--line:rgba(23,33,30,.13);--ok:#17633f;
+      --warn:#8a5b16;--bad:#8b3c35;--soft:#eef3ef
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100vh;
+      padding:calc(20px + env(safe-area-inset-top)) 16px calc(30px + env(safe-area-inset-bottom));
+      color:var(--ink);background:linear-gradient(180deg,#fbf8f2,var(--paper));
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+    }
+    main{max-width:720px;margin:0 auto}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:25px;
+      padding:21px;box-shadow:0 12px 34px rgba(35,42,39,.10)
+    }
+    .version{
+      color:var(--muted);font-size:12px;font-weight:760;letter-spacing:.06em;
+      text-transform:uppercase;margin-bottom:14px
+    }
+    h1{
+      margin:0 0 11px;font-family:Georgia,serif;font-weight:500;
+      font-size:31px;line-height:1.08
+    }
+    p{margin:0 0 16px;color:var(--muted);font-size:16px;line-height:1.5}
+    .safe,.warning,.success{
+      padding:14px;border-radius:17px;font-weight:770;line-height:1.43;margin-bottom:16px
+    }
+    .safe{background:var(--soft);color:var(--forest)}
+    .warning{background:#fff3dc;color:var(--warn)}
+    .success{background:#e9f5ed;color:var(--ok)}
+    button,a.button{
+      display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;
+      border:0;border-radius:17px;padding:14px 18px;background:var(--forest);
+      color:#fff;font-size:18px;font-weight:820;text-decoration:none;text-align:center
+    }
+    button:disabled{opacity:.45}
+    a.button.secondary{
+      margin-top:11px;background:#fff;color:var(--forest);border:1px solid var(--line)
+    }
+    #status{
+      margin-top:16px;padding:14px;border-radius:16px;background:#f1eee8;line-height:1.45
+    }
+    #status:empty{display:none}
+    .result{display:none;margin-top:18px}
+    .result.show{display:block}
+    .headline{
+      padding:16px;border-radius:18px;background:#e9f5ed;color:var(--ok);
+      font-weight:850;font-size:19px;line-height:1.35
+    }
+    .headline.bad{background:#f9e7e5;color:var(--bad)}
+    .metrics{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px
+    }
+    .metric{
+      min-width:0;padding:13px;border:1px solid var(--line);border-radius:16px;background:#fff
+    }
+    .metric strong{display:block;color:var(--forest);font-size:25px;line-height:1}
+    .metric span{display:block;margin-top:5px;color:var(--muted);font-size:12px;line-height:1.25}
+    .rule{
+      margin-top:15px;padding:14px;border-radius:16px;background:#f3eee5;
+      color:var(--muted);font-size:14px;line-height:1.48
+    }
+    .spinner{
+      display:inline-block;width:18px;height:18px;border:3px solid rgba(21,60,53,.2);
+      border-top-color:var(--forest);border-radius:50%;vertical-align:-3px;margin-right:8px;
+      animation:spin .8s linear infinite
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .foot{margin-top:17px;font-size:13px}
+  </style>
+</head>
+<body>
+<main>
+  <section class="card">
+    <div class="version">Mon Carnet V2.4 · contrôle temporaire</div>
+    <h1>Contrôle depuis l’écran d’accueil</h1>
+    <p>
+      Cette page vérifie uniquement le stockage de l’application actuellement ouverte.
+      Elle ne contient aucun mécanisme de correction.
+    </p>
+
+    <div class="safe">
+      🔒 Lecture seule : aucune recette, photo, durée ou préférence ne peut être modifiée.
+    </div>
+
+    <div id="contextMessage"></div>
+
+    <button id="scanBtn" type="button" disabled>Analyser les recettes</button>
+    <div id="status" role="status" aria-live="polite"></div>
+
+    <section class="result" id="result">
+      <div class="headline" id="headline"></div>
+      <div class="metrics">
+        <div class="metric"><strong id="recipeCount">0</strong><span>recettes analysées</span></div>
+        <div class="metric"><strong id="affectedCount">0</strong><span>recettes concernées</span></div>
+        <div class="metric"><strong id="safeCount">0</strong><span>corrections sûres repérées</span></div>
+        <div class="metric"><strong id="conflictCount">0</strong><span>conflits conservés</span></div>
+      </div>
+      <div class="rule">
+        Résultat attendu dans le stockage de l’icône avant correction :
+        <strong>270 recettes, 57 corrections sûres et 5 conflits</strong>.
+        Aucun bouton d’application n’est présent.
+      </div>
+    </section>
+
+    <a class="button secondary" href="./?retour-controle=1">Retour à Mon Carnet</a>
+
+    <p class="foot">
+      Ce contrôle utilise exclusivement une transaction IndexedDB « readonly ».
+    </p>
+  </section>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  const DB_NAME = 'mon-carnet-cuisine-v1';
+  const STORE_NAME = 'recipes';
+
+  const scanBtn = document.getElementById('scanBtn');
+  const status = document.getElementById('status');
+  const result = document.getElementById('result');
+  const headline = document.getElementById('headline');
+  const contextMessage = document.getElementById('contextMessage');
+  const recipeCount = document.getElementById('recipeCount');
+  const affectedCount = document.getElementById('affectedCount');
+  const safeCount = document.getElementById('safeCount');
+  const conflictCount = document.getElementById('conflictCount');
+
+  const standalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  if (standalone) {
+    contextMessage.className = 'success';
+    contextMessage.textContent =
+      '✅ Cette page est ouverte depuis l’icône Mon Carnet. Le bon stockage peut être contrôlé.';
+    scanBtn.disabled = false;
+  } else {
+    contextMessage.className = 'warning';
+    contextMessage.textContent =
+      '⚠️ Cette page est ouverte dans Safari. Fermez-la et utilisez Réglages → Correction sécurisée depuis l’icône Mon Carnet.';
+  }
+
+  function normalize(value = '') {
+    return String(value)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[’']/g, "'")
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function cleanPrefix(value = '') {
+    return String(value)
+      .replace(/^\s*(?:[-–—•▪◦*]|\d{1,3}[.)-])\s*/, '')
+      .trim();
+  }
+
+  function parseMinutes(value = '') {
+    const text = normalize(value)
+      .replace(/(\d)\s*h\s*(\d)/g, '$1 h $2')
+      .replace(/(\d)\s*min\b/g, '$1 min');
+
+    if (/^(?:aucune|sans cuisson|zero|0\s*(?:min|minute|minutes)?)$/.test(text)) {
+      return { minutes: 0, none: true };
+    }
+
+    let hours = 0;
+    let minutes = 0;
+    let found = false;
+
+    const hourMatch = text.match(/(\d+(?:[.,]\d+)?)\s*(?:h|heure|heures)\b/);
+    if (hourMatch) {
+      hours = Number(hourMatch[1].replace(',', '.'));
+      found = Number.isFinite(hours);
+    }
+
+    const minuteMatch = text.match(/(\d+)\s*(?:min|minute|minutes)\b/);
+    if (minuteMatch) {
+      minutes = Number(minuteMatch[1]);
+      found = true;
+    } else if (hourMatch) {
+      const afterHour = text.slice((hourMatch.index || 0) + hourMatch[0].length);
+      const bareMinutes = afterHour.match(/^\s*(\d{1,2})\b/);
+      if (bareMinutes) minutes = Number(bareMinutes[1]);
+    }
+
+    if (!found) return null;
+    return { minutes: Math.round(hours * 60 + minutes), none: false };
+  }
+
+  function durationLabel(label = '') {
+    const normalized = normalize(label).replace(/\s*:\s*$/, '');
+
+    if (/^(?:preparation|prep)$/.test(normalized)) return 'prepDuration';
+    if (/^cuisson$/.test(normalized)) return 'cookDuration';
+    if (/^marinade$/.test(normalized)) return 'marinadeDuration';
+
+    if (/^(?:total|duree totale|duree|temps)$/.test(normalized)) {
+      return 'duration';
+    }
+
+    return null;
+  }
+
+  function classifyCandidate(recipe, rawLine) {
+    const cleaned = cleanPrefix(rawLine);
+    const normalized = normalize(cleaned);
+    if (!normalized) return null;
+
+    if (/^(?:temps|duree|duree totale|total)\s*:?\s*$/.test(normalized)) {
+      return { state: 'safe' };
+    }
+
+    const match = cleaned.match(
+      /^(Temps|Durée(?:\s+totale)?|Total|Préparation|Prep|Cuisson|Marinade)\s*:\s*(.+)$/i
+    );
+    if (!match) return null;
+
+    const field = durationLabel(match[1]);
+    const parsed = parseMinutes(match[2]);
+    if (!field || !parsed) return null;
+
+    const existing = Math.max(0, Number(recipe[field]) || 0);
+
+    if (parsed.none) return { state: 'safe' };
+    if (parsed.minutes <= 0) return null;
+    if (!existing || existing === parsed.minutes) return { state: 'safe' };
+
+    return { state: 'conflict' };
+  }
+
+  function scanReadOnly() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME);
+
+      request.onerror = () => reject(
+        request.error || new Error('Ouverture du carnet impossible.')
+      );
+
+      request.onsuccess = () => {
+        const db = request.result;
+        let recipes = 0;
+        let safe = 0;
+        let conflicts = 0;
+        const affected = new Set();
+
+        try {
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.close();
+            reject(new Error('La liste des recettes est introuvable.'));
+            return;
+          }
+
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const cursorRequest = tx.objectStore(STORE_NAME).openCursor();
+
+          cursorRequest.onerror = () => reject(
+            cursorRequest.error || new Error('Lecture interrompue.')
+          );
+
+          cursorRequest.onsuccess = event => {
+            const cursor = event.target.result;
+            if (!cursor) return;
+
+            const recipe = cursor.value || {};
+            recipes += 1;
+
+            String(recipe.ingredients || '').split(/\r?\n/).forEach(rawLine => {
+              const finding = classifyCandidate(recipe, rawLine);
+              if (!finding) return;
+
+              affected.add(String(recipe.id ?? cursor.primaryKey));
+
+              if (finding.state === 'safe') safe += 1;
+              if (finding.state === 'conflict') conflicts += 1;
+            });
+
+            cursor.continue();
+          };
+
+          tx.oncomplete = () => {
+            db.close();
+            resolve({
+              recipes,
+              affected: affected.size,
+              safe,
+              conflicts
+            });
+          };
+
+          tx.onabort = () => {
+            db.close();
+            reject(tx.error || new Error('Lecture interrompue.'));
+          };
+        } catch (error) {
+          db.close();
+          reject(error);
+        }
+      };
+    });
+  }
+
+  scanBtn.addEventListener('click', async () => {
+    if (!standalone) return;
+
+    scanBtn.disabled = true;
+    result.classList.remove('show');
+    status.innerHTML =
+      '<span class="spinner"></span>Analyse en lecture seule du stockage de l’icône…';
+
+    try {
+      const data = await scanReadOnly();
+
+      recipeCount.textContent = String(data.recipes);
+      affectedCount.textContent = String(data.affected);
+      safeCount.textContent = String(data.safe);
+      conflictCount.textContent = String(data.conflicts);
+
+      const expected =
+        data.recipes === 270 &&
+        data.safe === 57 &&
+        data.conflicts === 5;
+
+      headline.className = expected ? 'headline' : 'headline bad';
+      headline.textContent = expected
+        ? '✅ Le stockage de l’écran d’accueil est identifié et conforme.'
+        : '⚠️ Le résultat diffère du contrôle attendu. Aucune correction ne doit être préparée.';
+
+      status.textContent = '';
+      result.classList.add('show');
+    } catch (error) {
+      status.textContent = `Le contrôle n’a pas abouti : ${error.message}`;
+    } finally {
+      scanBtn.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
