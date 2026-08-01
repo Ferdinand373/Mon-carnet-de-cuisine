@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-carnet-cuisine-v2-4-6-final-1';
+const CACHE_NAME = 'mon-carnet-cuisine-v2-4-8-final-1';
 const STABLE_CACHE_PREFIX = 'mon-carnet-cuisine-';
 const APP_SHELL = [
   './',
