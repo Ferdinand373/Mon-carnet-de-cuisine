@@ -1,383 +1,182 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#153c35">
-<title>Mon Carnet V2.4.6</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f6f4ed">
+<title>Clair Courses TEST V11.2</title>
 <style>
-:root{--paper:#f6f1e8;--ink:#17211e;--muted:#68736f;--card:#fffdf8;--line:rgba(23,33,30,.13);--bad:#8b3c35}
-*{box-sizing:border-box}
-html,body{min-height:100%;margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.boot{display:grid;min-height:100vh;place-items:center;padding:24px}
-.card{width:min(590px,100%);padding:24px;border:1px solid var(--line);border-radius:24px;background:var(--card);box-shadow:0 16px 46px rgba(35,42,39,.12);text-align:center}
-strong{display:block;font-size:1.35rem} p{color:var(--muted);line-height:1.5}
-.error strong{color:var(--bad)} pre{white-space:pre-wrap;text-align:left;padding:12px;border-radius:14px;background:#f1ebe2;font-size:12px}
+html,body{min-height:100%;margin:0;background:#f6f4ed;color:#203128;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.boot{display:grid;min-height:100vh;place-items:center;padding:24px;text-align:center}
+.boot strong{font-size:1.35rem}.boot p{color:#66736b;line-height:1.45}
 </style>
 </head>
 <body>
-<div class="boot" id="boot"><div class="card"><strong>Mon Carnet V2.4.6</strong><p>Contrôle et ouverture de la version finale…</p></div></div>
+<div class="boot" id="boot"><div><strong>Clair Courses TEST V11.2</strong><p>Ouverture de la coque V11.2 séparée de la version stable…</p></div></div>
 <script>
-(async () => {
+(async()=>{
 'use strict';
 
-const BASE_COMMIT = '37d94ca01fb1694a131c1e452b2da56ba739c8e9';
-const OFFICIAL_CLAIR_URL = 'https://ferdinand373.github.io/clair-courses/';
-const OFFICIAL_ASSET_BASE = 'https://ferdinand373.github.io/Mon-carnet-de-cuisine/';
-const SOURCES = [
-  `https://cdn.jsdelivr.net/gh/Ferdinand373/Mon-carnet-de-cuisine@${BASE_COMMIT}/index.html?v=246-final`,
-  `https://raw.githubusercontent.com/Ferdinand373/Mon-carnet-de-cuisine/${BASE_COMMIT}/index.html?v=246-final`
+const COMMIT='acb52ba8f4b1f9d78f2c3f55c2d3d6362342bca0';
+const CACHE_KEY='clairCourses.shell.v11.2.test.clean';
+const SOURCES=[
+  `https://cdn.jsdelivr.net/gh/Ferdinand373/clair-courses@${COMMIT}/index.html?v=112-test-clean`,
+  `https://raw.githubusercontent.com/Ferdinand373/clair-courses/${COMMIT}/index.html?v=112-test-clean`
 ];
-const SOURCE_CACHE_NAME = 'mon-carnet-source-v2-4-6';
-const SOURCE_CACHE_URL = new URL('./__mon_carnet_source_v246__.html', window.location.href).href;
 
-async function readCachedSource() {
-  if (!('caches' in window)) return '';
-  try {
-    const cache = await caches.open(SOURCE_CACHE_NAME);
-    const response = await cache.match(SOURCE_CACHE_URL);
-    return response ? await response.text() : '';
-  } catch (_) {
-    return '';
-  }
-}
-
-async function rememberSource(source) {
-  if (!source || !('caches' in window)) return;
-  try {
-    const cache = await caches.open(SOURCE_CACHE_NAME);
-    await cache.put(
-      SOURCE_CACHE_URL,
-      new Response(source, {
-        headers: {
-          'content-type': 'text/html; charset=utf-8',
-          'cache-control': 'no-store'
-        }
-      })
-    );
-  } catch (_) {}
-}
-
-
-function patchSource(input) {
-  let source = String(input || '');
-  const checks = [];
-
-  const requireMarker = (label, marker) => {
-    const ok = source.includes(marker);
-    checks.push({ label, ok });
-    return ok;
-  };
-
-  const insertAfter = (label, marker, addition, fromIndex = 0) => {
-    const index = source.indexOf(marker, fromIndex);
-    if (index < 0) {
-      checks.push({ label, ok: false });
-      return -1;
-    }
-    const position = index + marker.length;
-    source = source.slice(0, position) + addition + source.slice(position);
-    checks.push({ label, ok: true });
-    return position + addition.length;
-  };
-
-  const replaceExact = (label, marker, replacement, fromIndex = 0) => {
-    const index = source.indexOf(marker, fromIndex);
-    if (index < 0) {
-      checks.push({ label, ok: false });
-      return -1;
-    }
-    source = source.slice(0, index) + replacement + source.slice(index + marker.length);
-    checks.push({ label, ok: true });
-    return index + replacement.length;
-  };
-
-  /* Identification nette de la version finale. */
-  source = source
-    .replaceAll('Mon carnet de cuisine — V2.3.4', 'Mon carnet de cuisine — V2.4.6')
-    .replaceAll('Collection personnelle · V2.3.4', 'VERSION STABILISÉE · V2.4.6')
-    .replaceAll('VERSION STABILISÉE · V2.3.5', 'VERSION STABILISÉE · V2.4.6')
-    .replaceAll('VERSION · TEST IPHONE 7.2 TITRES CORRIGÉS', 'VERSION STABILISÉE · V2.4.6');
-
-  /* Clair Courses officiel uniquement. */
-  source = source.replaceAll(
-    'https://ferdinand373.github.io/clair-courses-test/',
-    OFFICIAL_CLAIR_URL
-  );
-  source = source.replace(
-    /const DEFAULT_CLAIR_URL\s*=\s*['"][^'"]*clair-courses[^'"]*['"];/,
-    `const DEFAULT_CLAIR_URL = '${OFFICIAL_CLAIR_URL}';`
-  );
-  source = source.replaceAll(
-    'const configured = (settings.clairUrl || DEFAULT_CLAIR_URL).trim();',
-    'const configured = DEFAULT_CLAIR_URL;'
-  );
-  source = source.replaceAll(
-    "$('#clairUrl').value = settings.clairUrl || '';",
-    "$('#clairUrl').value = DEFAULT_CLAIR_URL;"
-  );
-
-  /* Ne jamais charger les compléments depuis l’ancien dépôt de test. */
-  source = source.replace(
-    /<script([^>]*?)src=["']\.\/([^"']+)["']([^>]*)><\/script>/gi,
-    (_match, before, file, after) =>
-      `<script${before}src="${OFFICIAL_ASSET_BASE}${file}"${after}><\/script>`
-  );
-
-  /* Mise à jour fiable de l’application installée sur le téléphone. */
-  source = source.replaceAll(
-    "navigator.serviceWorker.register('./sw.js?v=2.3.4').catch(() => {});",
-    "navigator.serviceWorker.register('./sw.js?v=2.4.6').catch(() => {});"
-  );
-
-  /* 1. Titre de la planification sur l’accueil. */
-  replaceExact(
-    'titre de la planification',
-    '<h3>Ce soir et demain</h3>',
-    '<h3 id="homeUpcomingTitle">Ce midi, ce soir et demain</h3>'
-  );
-
-  /* 2. Ajout de Ce midi dans renderHome sans dépendre des espaces du fichier. */
-  const renderHomeIndex = source.indexOf('function renderHome()');
-  if (renderHomeIndex < 0) {
-    checks.push({ label: 'fonction renderHome', ok: false });
-  } else {
-    checks.push({ label: 'fonction renderHome', ok: true });
-
-    const upcomingStart = source.indexOf('const upcoming = [', renderHomeIndex);
-    const upcomingBoundary = upcomingStart < 0
-      ? -1
-      : source.indexOf('const firstPlanned =', upcomingStart);
-
-    if (upcomingStart < 0 || upcomingBoundary < 0) {
-      checks.push({ label: 'bloc upcoming de l’accueil', ok: false });
-    } else {
-      const replacement = `const showTodayLunch = new Date().getHours() < 14;
-        const upcoming = [
-          ...(showTodayLunch ? [{ date: today, meal: 'midi' }] : []),
-          { date: today, meal: 'soir' },
-          { date: addDays(today, 1), meal: 'midi' },
-          { date: addDays(today, 1), meal: 'soir' },
-          { date: addDays(today, 2), meal: 'midi' },
-          { date: addDays(today, 2), meal: 'soir' }
-        ].map(item => ({
-          ...item,
-          plan: plans.find(p => p.date === item.date && p.meal === item.meal)
-        }));
-        const homeUpcomingTitle = $('#homeUpcomingTitle');
-        if (homeUpcomingTitle) {
-          homeUpcomingTitle.textContent = showTodayLunch
-            ? 'Ce midi, ce soir et demain'
-            : 'Ce soir et demain';
-        }
-        if (showTodayLunch && !window.__mcLunchCutoffTimer) {
-          const now = new Date();
-          const cutoff = new Date(now);
-          cutoff.setHours(14, 0, 0, 0);
-          window.__mcLunchCutoffTimer = window.setTimeout(() => {
-            window.__mcLunchCutoffTimer = null;
-            renderHome();
-          }, Math.max(1000, cutoff.getTime() - now.getTime()));
-        }`;
-
-      source = source.slice(0, upcomingStart)
-        + replacement
-        + '\n        '
-        + source.slice(upcomingBoundary);
-      checks.push({ label: 'bloc upcoming de l’accueil', ok: true });
-    }
-  }
-
-
-  /* 3. Inclure Ce midi dans l’envoi d’accueil vers Clair Courses avant 14 h. */
-  const homeMealPlansStart = source.indexOf('function homeMealPlans()');
-  const homeMealPlansEnd = homeMealPlansStart < 0
-    ? -1
-    : source.indexOf('function recipeClairText(', homeMealPlansStart);
-
-  if (homeMealPlansStart < 0 || homeMealPlansEnd < 0) {
-    checks.push({ label: 'fonction homeMealPlans', ok: false });
-  } else {
-    const correctedHomeMealPlans = `function homeMealPlans() {
-        const today = todayISO();
-        const showTodayLunch = new Date().getHours() < 14;
-        const slots = [
-          ...(showTodayLunch ? [{ date: today, meal: 'midi' }] : []),
-          { date: today, meal: 'soir' },
-          { date: addDays(today, 1), meal: 'midi' },
-          { date: addDays(today, 1), meal: 'soir' },
-          { date: addDays(today, 2), meal: 'midi' },
-          { date: addDays(today, 2), meal: 'soir' }
-        ];
-        return slots.map(slot => getPlan(slot.date, slot.meal)).filter(p => p?.recipeId);
+let html='';
+for(const url of SOURCES){
+  try{
+    const r=await fetch(url,{cache:'no-store'});
+    if(r.ok){
+      const t=await r.text();
+      if(t.includes('const APP_VERSION=1009;')){
+        html=t;
+        try{localStorage.setItem(CACHE_KEY,t)}catch{}
+        break;
       }
-
-      `;
-    source = source.slice(0, homeMealPlansStart)
-      + correctedHomeMealPlans
-      + source.slice(homeMealPlansEnd);
-    checks.push({ label: 'fonction homeMealPlans', ok: true });
-  }
-
-  source = source.replace(
-    "if (!text) { showToast('Aucun repas n’est prévu ce soir ou demain'); return; }",
-    "if (!text) { showToast(new Date().getHours() < 14 ? 'Aucun repas n’est prévu ce midi, ce soir ou demain' : 'Aucun repas n’est prévu ce soir ou demain'); return; }"
-  );
-
-  /* 3. Bouton Ce midi dans “Prévoir ce repas”. */
-  if (!source.includes('data-schedule-slot="today-lunch"')) {
-    replaceExact(
-      'bouton Ce midi',
-      '<button class="btn btn-primary" type="button" data-schedule-slot="today-evening">Ce soir</button>',
-      '<button class="btn btn-primary" type="button" data-schedule-slot="today-lunch">Ce midi</button>\n        <button class="btn btn-primary" type="button" data-schedule-slot="today-evening">Ce soir</button>'
-    );
-  } else {
-    checks.push({ label: 'bouton Ce midi', ok: true });
-  }
-
-  /* 4. Conversion du créneau Ce midi en date + repas. */
-  const slotFunctionIndex = source.indexOf('function slotToDateMeal(slot)');
-  if (slotFunctionIndex < 0) {
-    checks.push({ label: 'fonction slotToDateMeal', ok: false });
-  } else if (!source.includes("slot === 'today-lunch'", slotFunctionIndex)) {
-    insertAfter(
-      'créneau today-lunch',
-      'const today = todayISO();',
-      "\n        if (slot === 'today-lunch') return { date: today, meal: 'midi' };",
-      slotFunctionIndex
-    );
-  } else {
-    checks.push({ label: 'créneau today-lunch', ok: true });
-  }
-
-  /* 5. Masquage du bouton à partir de 14 h. */
-  const openScheduleIndex = source.indexOf('function openScheduleChoice(');
-  if (openScheduleIndex < 0) {
-    checks.push({ label: 'fonction openScheduleChoice', ok: false });
-  } else if (!source.includes('todayLunchButton.hidden', openScheduleIndex)) {
-    insertAfter(
-      'masquage à 14 h',
-      "$('#customSchedulePanel').classList.remove('open');",
-      `
-        const todayLunchButton = document.querySelector('[data-schedule-slot="today-lunch"]');
-        if (todayLunchButton) todayLunchButton.hidden = new Date().getHours() >= 14;`,
-      openScheduleIndex
-    );
-  } else {
-    checks.push({ label: 'masquage à 14 h', ok: true });
-  }
-
-
-  /* Utiliser le format texte #mc= réellement accepté par Clair Courses officiel. */
-  const clairBridgeStart = source.indexOf('function clairBridgeUrl(');
-  const clairBridgeEnd = clairBridgeStart < 0
-    ? -1
-    : source.indexOf('async function copyAndOpenClair(', clairBridgeStart);
-
-  if (clairBridgeStart < 0 || clairBridgeEnd < 0) {
-    checks.push({ label: 'pont vers Clair Courses', ok: false });
-  } else {
-    const correctedClairBridge = `function clairBridgeUrl(text) {
-        const configured = DEFAULT_CLAIR_URL;
-        const cleanBase = configured
-          .replace(/[?#].*$/, '')
-          .replace(/(?:index\\.html|import\\.html)$/i, '')
-          .replace(/\\/?$/, '/');
-        const target = new URL(\`\${cleanBase}import.html\`, window.location.href);
-        target.hash = \`mc=\${encodeURIComponent(text)}\`;
-        return target.toString();
-      }
-
-      `;
-    source = source.slice(0, clairBridgeStart)
-      + correctedClairBridge
-      + source.slice(clairBridgeEnd);
-    checks.push({ label: 'pont vers Clair Courses', ok: true });
-  }
-
-  /* Recherche améliorée et identité finale. */
-  const marker = `
-<script src="${OFFICIAL_ASSET_BASE}search-enhancement.js?v=2.4.6"><\/script>
-<script>
-(() => {
-  const applyFinalIdentity = () => {
-    document.title = 'Mon Carnet V2.4.6';
-    const version = document.querySelector('.brand small');
-    if (version) version.textContent = 'VERSION STABILISÉE · V2.4.6';
-  };
-  applyFinalIdentity();
-  window.setTimeout(applyFinalIdentity, 300);
-  window.setTimeout(applyFinalIdentity, 1200);
-})();
-<\/script>`;
-
-  const bodyEnd = source.lastIndexOf('</body>');
-  if (bodyEnd < 0) {
-    checks.push({ label: 'fin du document', ok: false });
-  } else {
-    source = source.slice(0, bodyEnd) + marker + '\n' + source.slice(bodyEnd);
-    checks.push({ label: 'fin du document', ok: true });
-  }
-
-  const requiredMarkers = [
-    "showTodayLunch = new Date().getHours() < 14",
-    'data-schedule-slot="today-lunch"',
-    "slot === 'today-lunch'",
-    'todayLunchButton.hidden',
-    'function homeMealPlans()',
-    "showTodayLunch ? [{ date: today, meal: 'midi' }]",
-    "target.hash = `mc=${encodeURIComponent(text)}`",
-    OFFICIAL_CLAIR_URL,
-    'VERSION STABILISÉE · V2.4.6'
-  ];
-
-  for (const marker of requiredMarkers) {
-    checks.push({ label: `marqueur ${marker}`, ok: source.includes(marker) });
-  }
-
-  const failed = checks.filter(item => !item.ok);
-  return { source, checks, failed };
-}
-
-
-const stop = (message, details = '') => {
-  const boot = document.getElementById('boot');
-  boot.classList.add('error');
-  boot.innerHTML = `<div class="card"><strong>Ouverture interrompue sans risque</strong><p>${message}</p>${details ? `<pre>${details}</pre>` : ''}</div>`;
-};
-
-let original = '';
-for (const url of SOURCES) {
-  try {
-    const response = await fetch(url, { cache: 'no-store' });
-    if (!response.ok) continue;
-    const sourceText = await response.text();
-    if (sourceText.includes('function renderHome()') && sourceText.includes('mon-carnet-cuisine-v1')) {
-      original = sourceText;
-      await rememberSource(sourceText);
-      break;
     }
-  } catch (_) {}
+  }catch{}
 }
 
-if (!original) original = await readCachedSource();
-
-if (!original) {
-  stop('Le moteur de Mon Carnet n’a pas pu être chargé. Ouvre une première fois l’application avec une connexion internet.');
+if(!html){
+  try{html=localStorage.getItem(CACHE_KEY)||''}catch{}
+}
+if(!html){
+  document.getElementById('boot').innerHTML=
+    '<div><strong>Clair Courses ne peut pas s’ouvrir.</strong><p>Vérifiez la connexion, puis rechargez la page.</p></div>';
   return;
 }
 
-const result = patchSource(original);
-if (result.failed.length) {
-  stop(
-    'Une correction ne correspond pas au fichier officiel. Aucune version incomplète ne sera ouverte.',
-    result.failed.map(item => `Correction non appliquée : ${item.label}`).join('\n')
-  );
-  return;
+/* Isolement complet du test : aucune ancienne liste V10.9 n'est relue. */
+html=html.replaceAll('clairCourses.state','clairCourses.test.v112.state');
+html=html.replaceAll('Clair Courses — V10.9','Clair Courses TEST — V11.2');
+
+/* Protection existante de « Mes produits » */
+const protection=`
+const PRODUCTS_SHADOW_KEY="clairCourses.test.v112.products.secours";
+function recoverSavedProducts(){
+  try{
+    const value=JSON.parse(localStorage.getItem(PRODUCTS_SHADOW_KEY)||"[]");
+    return Array.isArray(value)?value.map(makeProduct).filter(Boolean):[];
+  }catch{return []}
 }
+`;
+
+html=html.replace(
+  'let state=loadState();',
+  protection+`
+let state=loadState();
+{
+  const recovered=recoverSavedProducts();
+  if(recovered.length>state.products.length){
+    state.products=uniqueProducts([...recovered,...state.products]);
+  }
+}`
+);
+
+html=html.replace(
+  'function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify({appVersion:APP_VERSION,release:APP_RELEASE,items:state.items,products:state.products,favorites:state.products}))}',
+  'function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify({appVersion:APP_VERSION,release:APP_RELEASE,items:state.items,products:state.products,favorites:state.products}));try{localStorage.setItem(PRODUCTS_SHADOW_KEY,JSON.stringify(state.products))}catch{}}'
+);
+
+/* 1. Titres de recette à ne jamais importer comme articles */
+html=html.replace(
+  'const NON_ARTICLE_HEADINGS=new Set(["liste","courses","liste des courses","liste de courses","a acheter","achats"]);',
+  'const NON_ARTICLE_HEADINGS=new Set(["liste","courses","liste des courses","liste de courses","a acheter","achats","le poisson","la viande","les legumes","les légumes","le beurre blanc","la sauce","la garniture","l accompagnement","accompagnement"]);'
+);
+
+/* 2. Regroupement par produit réel, sans tenir compte des précisions secondaires */
+html=html.replace(
+  'function productKey(value){const n=normalize(value);return NAME_ALIASES[n]||n}',
+  `function productKey(value){
+    let n=normalize(value)
+      .replace(/\\([^)]*\\)/g," ")
+      .replace(/^(?:le|la|les|un|une|des)\\s+/," ")
+      .replace(/\\s+/g," ")
+      .trim();
+
+    if(/\\bbeurre\\b/.test(n)) return "beurre";
+    if(/\\blieu jaune\\b/.test(n)&&/\\bpaves?\\b/.test(n)) return "pave lieu jaune";
+    if(/\\btomates?\\b/.test(n)&&/\\banciennes?\\b/.test(n)) return "tomate ancienne";
+    if(/\\bechalotes?\\b/.test(n)) return "echalote";
+    if(/\\bharicots? verts?\\b/.test(n)) return "haricot vert";
+    if(/\\bpommes? de terre\\b/.test(n)) return "pomme de terre";
+    if(/\\bvin blanc\\b/.test(n)) return "vin blanc";
+    if(/\\bfleur de sel\\b/.test(n)) return "fleur de sel";
+    if(/\\bpoivre(?: du moulin)?\\b/.test(n)) return "poivre";
+    return NAME_ALIASES[n]||n;
+  }`
+);
+
+/* 3. Classement prioritaire des produits visibles dans les tests */
+html=html.replace(
+  'function classify(label){\n    for(const aisle of CLASSIFICATION_ORDER){if((KEYWORDS[aisle]||[]).some(word=>hasSemanticKeyword(label,word)))return aisle}\n    return "Divers";\n  }',
+  `function classify(label){
+    const n=normalize(label);
+    if(/\\b(?:echalote|echalotes|haricot vert|haricots verts|tomate|tomates|pomme de terre|pommes de terre|ail)\\b/.test(n))return "Fruits et légumes";
+    if(/\\b(?:lieu jaune|poisson|saumon|cabillaud|dorade|thon)\\b/.test(n))return "Poissonnerie";
+    if(/\\b(?:beurre|creme|crème|lait|fromage)\\b/.test(n))return "Crèmerie";
+    if(/\\b(?:vin blanc|muscadet|vin rouge|cidre|biere|bière)\\b/.test(n))return "Boissons";
+    if(/\\b(?:huile d olive|vinaigre|fleur de sel|sel|poivre)\\b/.test(n))return "Épicerie";
+    for(const aisle of CLASSIFICATION_ORDER){
+      if((KEYWORDS[aisle]||[]).some(word=>hasSemanticKeyword(label,word)))return aisle;
+    }
+    return "Divers";
+  }`
+);
+
+
+/* 4. Afficher le conditionnement d'achat pour le vin, tout en gardant
+      la quantité exacte de la recette en mémoire pour les regroupements. */
+html=html.replace('function renderItems(){','function renderItemsBase(){');
+
+html=html.replace(
+  'function renderProducts(){',
+  `function purchaseDisplayQuantity(item){
+    const exact=clean(item?.quantity,80);
+    const parsed=parseQuantity(exact);
+    const name=normalize(item?.name);
+    if(parsed&&parsed.kind==="volume"&&/(?:^| )(?:vin|muscadet)(?: |$)/.test(name)){
+      const bottles=Math.max(1,Math.ceil(parsed.base/750));
+      return \`${"${bottles}"} bouteille${"${bottles>1?\"s\":\"\"}"}\`;
+    }
+    return exact;
+  }
+  function withPurchaseQuantities(callback){
+    const originals=state.items.map(item=>[item,item.quantity]);
+    for(const [item] of originals)item.quantity=purchaseDisplayQuantity(item);
+    try{return callback()}
+    finally{for(const [item,quantity] of originals)item.quantity=quantity}
+  }
+  function renderItems(){return withPurchaseQuantities(()=>renderItemsBase())}
+  function renderProducts(){`
+);
+
+html=html.replace('function buildShareText(){','function buildShareTextBase(){');
+
+html=html.replace(
+  '  async function shareList(){',
+  `  function buildShareText(){return withPurchaseQuantities(()=>buildShareTextBase())}
+  async function shareList(){`
+);
+
+/* Identification claire de la coque V11.2 de test */
+html=html.replace(
+  '</body>',
+  `<script>
+  (()=>{try{
+    const title=document.querySelector('h1');
+    if(title)title.textContent='Clair Courses TEST';
+    const tagline=document.querySelector('.tagline');
+    if(tagline)tagline.textContent='Essai séparé de la version stable';
+    const badge=document.querySelector('.version-pill');
+    if(badge)badge.textContent='V11.2 TEST';
+    document.title='Clair Courses TEST V11.2';
+  }catch{}})();
+  <\/script></body>`
+);
 
 document.open();
-document.write(result.source);
+document.write(html);
 document.close();
 })();
 </script>

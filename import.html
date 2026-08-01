@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f6f4ed">
+<title>Import vers Clair Courses TEST V11.2</title>
+<style>
+:root{--bg:#f6f4ed;--surface:#fffefa;--text:#203128;--muted:#66736b;--accent:#2f6b4f;--line:#d9ded7}
+*{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;color:var(--text);background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{width:min(440px,100%);padding:26px;border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:0 16px 45px rgba(36,61,48,.12);text-align:center}
+.icon{font-size:42px}h1{margin:12px 0 8px;font-size:1.45rem}p{margin:0;color:var(--muted);line-height:1.5}.status{margin-top:14px;color:var(--accent);font-weight:800}a{display:inline-flex;min-height:48px;margin-top:18px;padding:0 18px;align-items:center;justify-content:center;border-radius:13px;color:#fff;background:var(--accent);font-weight:850;text-decoration:none}
+</style></head>
+<body><main><div class="icon">🛒</div><h1>Clair Courses TEST V11.2</h1><p id="message">Réception de la liste depuis Mon Carnet…</p><div class="status" id="status">Import en cours</div><a id="openButton" href="./" hidden>Ouvrir Clair Courses</a></main>
+<script>
+(()=>{"use strict";
+const STORAGE="clairCourses.test.v112.state",HISTORY="clairCourses.test.v112.importHistory.v1",PREFIX="monCarnet.clairCourses.transfer.v1:";
+const AISLES=["Eau","Épicerie","Fruits et légumes","Boucherie","Charcuterie","Poissonnerie","Boulangerie","Conserves","Crèmerie","Surgelés","Boissons","Hygiène","Maison","Divers"];
+const $=id=>document.getElementById(id),clean=(v,n=220)=>String(v??"").replace(/\s+/g," ").trim().slice(0,n);
+const norm=v=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[’']/g," ").replace(/[^a-z0-9]+/g," ").trim();
+const cap=v=>{const s=clean(v,140);return s?s[0].toUpperCase()+s.slice(1):""};
+const json=(v,d=null)=>{try{return JSON.parse(v)}catch{return d}};
+const uid=p=>`${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
+function productKey(v){
+ let n=norm(v).replace(/^(?:petits?|grands?|gros|grosses?)\s+/,"").replace(/^(?:bocal|bocaux|pot|pots|flacon|flacons|bouteille|bouteilles|boite|boites|barquette|barquettes|sachet|sachets|botte|bottes|tube|tubes)\s+(?:de|d)\s+/,"");
+ if(/\bcapres?\b/.test(n))return"capre";if(/\bcornichons?\b/.test(n))return"cornichon";if(/\bcitrons?\b/.test(n))return"citron";
+ if(/\bpommes?\s+de\s+terre\b/.test(n))return n.replace(/\bpommes?\s+de\s+terre\b/,"pomme de terre");
+ if(/\btomates?\s+cerises?\b/.test(n))return"tomate cerise";if(/\btomates?\s+concassees?\b/.test(n))return"tomate concassee";
+ if(/\bcourgettes?\b/.test(n))return n.replace(/\bcourgettes?\b/,"courgette");if(/\boeufs?\b/.test(n))return n.replace(/\boeufs?\b/,"oeuf");
+ return n.replace(/\b([a-z]{4,})s\b/g,"$1");
+}
+function aisle(name,qty=""){
+ const n=norm(`${name} ${qty}`);
+ if(/\b(?:jus|fond)\s+de\s+veau\b|\bfumet\s+de\s+poisson\b|\bfond\s+de\s+volaille\b/.test(n))return"Épicerie";
+ if(/\b(?:boite|boites|conserve)\b/.test(n)&&/\b(?:thon|sardines?|tomates?|mais|petits? pois|haricots?|champignons?)\b/.test(n))return"Conserves";
+ if(/\b(?:surgele|surgeles|glace)\b/.test(n))return"Surgelés";
+ if(/\b(?:cidre|biere|vin rouge|vin blanc|muscadet|limonade|soda|sirop)\b/.test(n))return"Boissons";
+ if(/\b(?:cabillaud|saumon|poisson|dorade|daurade|truite|maquereau|moule|crevette|lieu jaune|thon frais)\b/.test(n))return"Poissonnerie";
+ if(/\b(?:jambon|lardon|bacon|chorizo|andouillette|saucisson|pate|terrine)\b/.test(n))return"Charcuterie";
+ if(/\b(?:boeuf|porc|veau|agneau|poulet|dinde|canard|steak|escalope|bavette|filet mignon|saucisse|merguez)\b/.test(n))return"Boucherie";
+ if(/\b(?:beurre|creme|lait|fromage|yaourt|oeuf|parmesan|mozzarella)\b/.test(n))return"Crèmerie";
+ if(/\b(?:pain|baguette|brioche|pate feuilletee)\b/.test(n))return"Boulangerie";
+ if(/\b(?:ketchup|moutarde|mayonnaise|capre|cornichon|huile|vinaigre|farine|sucre|riz|pates|semoule|chapelure|panko|paprika|curry|cumin|bouillon|sauce|concentre de tomate)\b/.test(n))return"Épicerie";
+ if(/\b(?:ail|aubergine|avocat|carotte|celeri|champignon|chou|concombre|courgette|echalote|epinard|haricot vert|navet|oignon|poireau|poivron|pomme de terre|radis|salade|tomate|citron|orange|pomme|poire|banane|fraise|melon|raisin)\b/.test(n))return"Fruits et légumes";
+ return"Divers";
+}
+function citrus(line){
+ let m=line.match(/^(?:le\s+)?(?:jus|zeste)\s+de\s+(\d+(?:[.,]\d+)?)\s+(?:petits?|grands?|gros|grosses?)?\s*(citrons?|oranges?|pamplemousses?|clémentines?|mandarines?)\b/i);
+ if(!m)m=line.match(/^(\d+(?:[.,]\d+)?)\s+(?:jus|zestes?)\s+(?:de|d[’'])\s*(citrons?|oranges?|pamplemousses?|clémentines?|mandarines?)\b/i);
+ if(m)return{name:cap(m[2]),quantity:m[1],aisle:"Fruits et légumes",productKey:productKey(m[2])};
+ m=line.match(/^(?:le\s+)?(?:jus|zeste)\s+d[’']un(?:e)?\s+(citron|orange|pamplemousse|clémentine|mandarine)\b/i);
+ return m?{name:cap(m[1]),quantity:"1",aisle:"Fruits et légumes",productKey:productKey(m[1])}:null;
+}
+function packageSpoon(name){
+ const n=norm(name);
+ if(/\bcapres?\b/.test(n))return["Câpres","1 petit bocal","Épicerie","capre"];
+ if(/\bcornichons?\b/.test(n))return["Cornichons","1 petit bocal","Épicerie","cornichon"];
+ if(/\bketchup\b/.test(n))return["Ketchup","1 flacon","Épicerie","ketchup"];
+ if(/\bmoutarde\b/.test(n))return["Moutarde","1 pot","Épicerie","moutarde"];
+ if(/\bmayonnaise\b/.test(n))return["Mayonnaise","1 pot","Épicerie","mayonnaise"];
+ if(/\bconcentre\s+de\s+tomate\b/.test(n))return["Concentré de tomate","1 tube","Épicerie","concentre de tomate"];
+ if(/\b(?:sauce soja|mirin|vinaigre|huile)\b/.test(n))return[cap(name),"1 bouteille","Épicerie",productKey(name)];
+ if(/\b(?:farine|sucre|chapelure|panko|riz|semoule|pates)\b/.test(n))return[cap(name),"1 paquet","Épicerie",productKey(name)];
+ if(/\b(?:paprika|curry|cumin|curcuma|cannelle|muscade|epice)\b/.test(n))return[cap(name),"1 pot","Épicerie",productKey(name)];
+ return null;
+}
+function tidy(v){return cap(clean(v,140).replace(/^\s*(?:du|de la|des|le|la|les|un|une)\s+/i,"").replace(/^\s*d[’']\s*/i,"").replace(/\s+(?:haché|hachée|émincé|émincée|coupé|coupée|rincé|rincée|égoutté|égouttée|pelé|pelée)\s*$/i,"").replace(/[.,;:]+$/,""))}
+function parseLine(raw,current=""){
+ let line=clean(String(raw).replace(/^\s*[-•·▪▫◦‣⁃–—*✓✔☐☑]+\s*/,"").replace(/\*\*/g,""));if(!line)return null;
+ const cit=citrus(line);if(cit)return cit;
+ const sp=line.match(/^(\d+(?:[.,]\d+)?|[½⅓⅔¼¾⅛⅜⅝⅞])\s*(?:c\.?\s*[àa]\s*[sc]\.?|c\.?\s*[àa]\s*(?:soupe|caf[ée])|cuill[èe]res?\s+[àa]\s+(?:soupe|caf[ée]))\s*(?:de\s+|d[’']\s*)?(.+)$/i);
+ if(sp){const p=packageSpoon(tidy(sp[2]));if(p)return{name:p[0],quantity:p[1],aisle:p[2],productKey:p[3]}}
+ let name=line,quantity="",m=line.match(/^(.+?)\s+(?:—|–)\s+(.+)$/);
+ if(m){name=m[1];quantity=m[2]}else{
+  m=line.match(/^(\d+(?:[.,]\d+)?\s*(?:(?:petit(?:e|es|s)?|grand(?:e|es|s)?)\s+)?(?:gousses?|t[eê]tes?|bâtons?|batons?|bo[iî]tes?|bocaux|bocal|paquets?|filets?|flacons?|tubes?|bouteilles?|pots?|tranches?|pi[eè]ces?|barquettes?|sachets?|[eé]pis?|bouquets?|bottes?|kg|cl|ml|g|l))\b\s*(?:de\s+|d[’']\s*)?(.+)$/i);
+  if(m){quantity=m[1];name=m[2]}else{m=line.match(/^(\d+(?:[.,]\d+)?)\s+(.+)$/);if(m){quantity=m[1];name=m[2]}}
+ }
+ name=tidy(name);if(!name)return null;let a=aisle(name,quantity);if(a==="Divers"&&AISLES.includes(current))a=current;
+ return{name,quantity:clean(quantity,80),aisle:a,productKey:productKey(name)};
+}
+function parseText(text){let current="",rows=[];for(const raw of String(text||"").split(/\r?\n/)){const n=norm(raw);if(AISLES.some(a=>norm(a)===n)){current=AISLES.find(a=>norm(a)===n);continue}const r=parseLine(raw,current);if(r)rows.push(r)}return rows}
+function contractRows(c){
+ if(!c||Number(c.schemaVersion)!==1||!Array.isArray(c.items))return[];
+ return c.items.filter(i=>i&&i.selected!==false).map(i=>{
+  const purchase=clean(i.purchaseLabel||i.text||""),parsed=parseLine(purchase,i.aisle||"");let name=clean(i.displayName||parsed?.name||i.productKey||"",140),q=parsed?.quantity||"",a=parsed?.aisle||"Divers",k=clean(i.productKey||"",140)||productKey(name);
+  const cit=citrus(purchase)||citrus(name);if(cit){name=cit.name;q=cit.quantity;a=cit.aisle;k=cit.productKey}else{
+   const spoon=/\bc a (?:s|c|soupe|cafe)\b/.test(norm(i.exactUnit))||/^\s*(?:\d|[½⅓⅔¼¾⅛⅜⅝⅞]).*(?:c\.?\s*[àa]\s*[sc]|cuill[èe]re)/i.test(purchase);
+   if(spoon){const p=packageSpoon(name||parsed?.name||purchase);if(p){name=p[0];q=p[1];a=p[2];k=p[3]}}
+  }
+  if(!q&&i.exactQuantity!=null&&i.exactQuantity!==""){const u=clean(i.exactUnit||"",40);q=`${String(i.exactQuantity).replace(".",",")}${u&&u!=="unité"?` ${u}`:""}`}
+  const n=norm(`${purchase} ${name} ${q}`);if(/\b(?:jus|fond)\s+de\s+veau\b|\bfumet\s+de\s+poisson\b/.test(n))a="Épicerie";else if(/\b(?:boite|boites|conserve)\b/.test(n)&&/\b(?:thon|sardines?|tomates?|mais|petits? pois|haricots?)\b/.test(n))a="Conserves";else if(AISLES.includes(i.aisle)&&i.aisle!=="Divers")a=i.aisle;
+  return{name:tidy(name),quantity:clean(q,80),aisle:a==="Divers"?aisle(name,q):a,productKey:k||productKey(name)}
+ }).filter(r=>r.name)
+}
+function fingerprint(v){let h=0x811c9dc5;for(const ch of String(v)){h^=ch.charCodeAt(0);h=Math.imul(h,0x01000193)}return`fnv1a:${(h>>>0).toString(16).padStart(8,"0")}`}
+function readContract(){
+ const p=new URLSearchParams(location.search),token=String(p.get("transfer")||"").replace(/[^a-zA-Z0-9._-]/g,"");
+ if(token){const key=`${PREFIX}${token}`,stored=json(localStorage.getItem(key)||"null");try{localStorage.removeItem(key)}catch{}const value=stored?.payload||stored;if(value&&(!stored?.expiresAt||Number(stored.expiresAt)>=Date.now()))return value}
+ if(location.hash.startsWith("#mcjson="))return json(decodeURIComponent(location.hash.slice(8)));return null
+}
+function returnUrl(){const r=new URLSearchParams(location.search).get("return");if(!r)return"./";try{const u=new URL(r,location.href);return u.origin===location.origin?u.toString():"./"}catch{return"./"}}
+function duplicate(fp,ms){if(!fp)return false;const now=Date.now(),h=(json(localStorage.getItem(HISTORY)||"[]",[])||[]).filter(x=>now-Number(x.at||0)<604800000),yes=h.some(x=>x.fingerprint===fp&&now-Number(x.at||0)<ms);if(!yes){h.unshift({fingerprint:fp,at:now});try{localStorage.setItem(HISTORY,JSON.stringify(h.slice(0,40)))}catch{}}return yes}
+function merge(a,b,structured){a=clean(a,80);b=clean(b,80);if(!a)return b;if(!b)return a;if(!structured&&norm(a)===norm(b))return a;const x=a.match(/^(\d+(?:[.,]\d+)?)\s*(.*)$/),y=b.match(/^(\d+(?:[.,]\d+)?)\s*(.*)$/);if(x&&y&&norm(x[2])===norm(y[2]))return`${String(Number(x[1].replace(",","."))+Number(y[1].replace(",","."))).replace(".",",")}${x[2]?` ${x[2]}`:""}`;return norm(a)===norm(b)?`2 × ${a}`:`${a} + ${b}`}
+function apply(rows,structured){
+ let raw=json(localStorage.getItem(STORAGE)||"{}",{})||{},src=raw.state||raw,state={...src,version:src.version||1009,appVersion:src.appVersion||1009,items:Array.isArray(src.items)?src.items:[],products:Array.isArray(src.products)?src.products:[],updatedAt:Date.now()},added=0,merged=0,reactivated=0;
+ for(const r of rows){const k=r.productKey||productKey(r.name),e=state.items.find(i=>(i.productKey||productKey(i.name))===k);if(!e){state.items.push({id:uid("item"),name:r.name,quantity:r.quantity,aisle:r.aisle,productKey:k,checked:false,createdAt:Date.now()+added++});continue}if(e.checked){Object.assign(e,{checked:false,name:r.name,quantity:r.quantity||e.quantity,aisle:r.aisle,productKey:k,createdAt:Date.now()+reactivated++});continue}const q=merge(e.quantity,r.quantity,structured);if(q!==e.quantity){e.quantity=q;merged++}e.name=r.name;e.aisle=r.aisle;e.productKey=k}
+ state.updatedAt=Date.now();localStorage.setItem(STORAGE,JSON.stringify(state));return{added,merged,reactivated}
+}
+try{
+ const c=readContract(),legacy=!c&&location.hash.startsWith("#mc=")?decodeURIComponent(location.hash.slice(4)):"",rows=c?contractRows(c):parseText(legacy);if(!rows.length)throw Error("Aucun article reconnu");
+ const fp=c?(c.contentFingerprint||fingerprint(JSON.stringify(c.items))):fingerprint(legacy),dup=duplicate(fp,c?600000:90000),r=dup?{added:0,merged:0,reactivated:0}:apply(rows,!!c);
+ $("message").textContent=dup?"Cette liste a déjà été reçue. Aucun doublon n’a été ajouté.":"La liste a bien été ajoutée à Clair Courses.";
+ $("status").textContent=dup?"Liste déjà importée":[r.added?`${r.added} ajouté${r.added>1?"s":""}`:"",r.merged?`${r.merged} regroupé${r.merged>1?"s":""}`:"",r.reactivated?`${r.reactivated} réactivé${r.reactivated>1?"s":""}`:""].filter(Boolean).join(" · ")||"Liste reçue";
+ history.replaceState(null,"",location.pathname);setTimeout(()=>location.replace(returnUrl()),900)
+}catch(e){$("message").textContent="L’import direct n’a pas pu être terminé.";$("status").textContent=e?.message||"Erreur d’import";$("openButton").hidden=false}
+})();
+</script></body></html>
